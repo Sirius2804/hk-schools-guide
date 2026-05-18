@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>香港直資及私立小學全攻略 2025/26</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1714;--ink-mid:#4a4540;--ink-light:#8a847e;--cream:#faf8f4;--paper:#f0ece4;--accent:#c4462a;--accent-light:#f5e8e4;--gold:#b8882a;--gold-light:#f5f0e4;--teal:#1e6b6b;--teal-light:#e4f0f0;--border:rgba(26,23,20,0.12);--radius:4px;--radius-lg:10px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);font-size:14px;line-height:1.6;}
+h1,h2,h3,h4{font-family:'Noto Serif TC',serif;}
+.masthead{background:var(--ink);color:var(--cream);padding:2.5rem 2rem 2rem;}
+.masthead-eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-family:'DM Sans',sans-serif;font-weight:500;}
+.masthead h1{font-size:24px;font-weight:700;line-height:1.2;margin-bottom:8px;}
+.masthead-sub{font-size:13px;color:rgba(250,248,244,0.65);}
+.masthead-stats{display:flex;gap:2rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.1);flex-wrap:wrap;}
+.mstat-val{font-size:20px;font-weight:600;font-family:'Noto Serif TC',serif;}
+.mstat-lbl{font-size:10px;color:rgba(250,248,244,0.5);text-transform:uppercase;letter-spacing:0.1em;margin-top:2px;}
+.nav-bar{background:var(--paper);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.nav-inner{display:flex;overflow-x:auto;padding:0 1.5rem;gap:0;}
+.nav-tab{padding:12px 16px;font-size:12px;font-weight:500;cursor:pointer;border:none;border-bottom:2px solid transparent;color:var(--ink-light);white-space:nowrap;background:none;transition:all 0.2s;}
+.nav-tab:hover{color:var(--ink);}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.section{display:none;padding:1.5rem;max-width:1200px;}
+.section.active{display:block;}
+.section-head{display:flex;align-items:baseline;gap:10px;margin-bottom:1.25rem;}
+.section-head h2{font-size:17px;font-weight:700;}
+.scount{font-size:11px;color:var(--ink-light);background:var(--paper);border:1px solid var(--border);border-radius:20px;padding:2px 10px;}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center;}
+.filter-row select,.filter-row input[type=text]{font-size:12px;padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);background:white;color:var(--ink);font-family:'DM Sans',sans-serif;}
+.filter-row input[type=text]{min-width:160px;}
+.rcount{font-size:11px;color:var(--ink-light);margin-left:auto;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px;}
+.school-card{background:white;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.1rem;cursor:pointer;transition:border-color 0.15s;position:relative;}
+.school-card:hover{border-color:rgba(196,70,42,0.35);}
+.school-card.expanded{border-color:var(--accent);}
+.card-stripe{position:absolute;top:0;left:0;width:3px;height:100%;border-radius:var(--radius-lg) 0 0 var(--radius-lg);}
+.s-dss{background:var(--teal);}
+.s-pri{background:var(--gold);}
+.card-name{font-family:'Noto Serif TC',serif;font-size:14px;font-weight:600;color:var(--ink);padding-left:8px;line-height:1.3;margin-bottom:4px;}
+.card-eng{font-size:11px;color:var(--ink-light);padding-left:8px;margin-bottom:8px;}
+.badges{display:flex;gap:4px;flex-wrap:wrap;padding-left:8px;margin-bottom:10px;}
+.badge{font-size:10px;padding:2px 7px;border-radius:3px;font-weight:500;}
+.b-dss{background:var(--teal-light);color:var(--teal);}
+.b-pri{background:var(--gold-light);color:var(--gold);}
+.b-boy{background:#e8f0f5;color:#1a4a6b;}
+.b-girl{background:#f5e8f0;color:#6b1a4a;}
+.b-coed{background:var(--paper);color:var(--ink-mid);}
+.b-rel{background:#f5f0e4;color:#5a4820;}
+.b-thru{background:#e8f5e8;color:#1a5a1a;}
+.card-fee{font-size:20px;font-family:'Noto Serif TC',serif;font-weight:700;color:var(--ink);padding-left:8px;}
+.card-fee span{font-size:11px;font-weight:400;color:var(--ink-light);font-family:'DM Sans',sans-serif;}
+.card-addr{font-size:11px;color:var(--ink-light);padding-left:8px;margin-top:4px;}
+.card-ratio{font-size:11px;color:var(--accent);font-weight:500;padding-left:8px;margin-top:3px;}
+.card-detail{display:none;border-top:1px solid var(--border);margin-top:10px;padding-top:10px;padding-left:8px;}
+.card-detail.show{display:block;}
+.det-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px;}
+.det-stat{background:var(--paper);border-radius:var(--radius);padding:7px 9px;}
+.det-label{font-size:10px;color:var(--ink-light);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;}
+.det-val{font-size:13px;font-weight:600;color:var(--ink);}
+.fac-list{font-size:11px;color:var(--ink-mid);margin-bottom:8px;}
+.fac-list span{display:inline-block;background:var(--paper);border-radius:3px;padding:1px 6px;margin:2px 2px 2px 0;border:1px solid var(--border);}
+.ipreview{background:var(--accent-light);border-radius:var(--radius);padding:7px 9px;font-size:12px;color:var(--accent);margin-bottom:7px;}
+.card-note{font-size:11px;color:var(--ink-light);margin-bottom:8px;}
+.card-cta{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.card-cta button{font-size:11px;padding:6px 12px;background:var(--ink);color:var(--cream);border:none;border-radius:var(--radius);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;}
+/* Interview drawer */
+.iv-drawer{margin-top:10px;border-top:1px solid var(--border);padding-top:10px;}
+.iv-drawer-head{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-light);margin-bottom:8px;font-weight:600;}
+.yr-tabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap;}
+.yr-tab{font-size:10px;padding:3px 10px;border-radius:20px;cursor:pointer;border:1px solid var(--border);background:white;color:var(--ink-mid);font-family:'DM Sans',sans-serif;font-weight:500;}
+.yr-tab.on{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+.yr-panel{display:none;}
+.yr-panel.on{display:block;}
+.iv-lbl{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-light);margin:8px 0 4px;font-weight:600;}
+.iv-q{font-size:11px;color:var(--ink);padding:4px 0;border-bottom:1px solid var(--border);display:flex;gap:6px;align-items:flex-start;line-height:1.5;}
+.iv-q:last-child{border-bottom:none;}
+.iv-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:5px;}
+.iv-note{font-size:11px;color:var(--ink-mid);background:var(--paper);border-left:2px solid var(--gold);padding:5px 8px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:5px;line-height:1.5;}
+.iv-tip{font-size:11px;color:var(--ink-mid);background:#e4f0f0;border-left:2px solid var(--teal);padding:5px 8px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:4px;line-height:1.5;}
+.iv-red{font-size:11px;color:var(--accent);background:var(--accent-light);border-left:2px solid var(--accent);padding:5px 8px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:4px;line-height:1.5;}
+.crit-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.crit-lbl{font-size:10px;color:var(--ink-mid);width:105px;flex-shrink:0;}
+.crit-bar-w{flex:1;background:var(--paper);border-radius:3px;height:5px;}
+.crit-bar{height:100%;border-radius:3px;background:var(--accent);}
+.crit-pct{font-size:10px;font-weight:600;color:var(--ink);width:26px;text-align:right;flex-shrink:0;}
+/* Compare */
+.compare-wrap{overflow-x:auto;margin-top:4px;}
+.ctable{width:100%;border-collapse:collapse;font-size:12px;min-width:800px;}
+.ctable th{background:var(--ink);color:var(--cream);padding:10px 11px;text-align:left;font-weight:500;font-size:11px;white-space:nowrap;}
+.ctable td{padding:9px 11px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.ctable tr:hover td{background:var(--paper);}
+.school-nm{font-family:'Noto Serif TC',serif;font-weight:600;font-size:12px;min-width:120px;}
+.fee-nm{font-weight:600;}
+.bar-w{display:flex;align-items:center;gap:5px;}
+.cbar{height:6px;border-radius:3px;min-width:2px;}
+/* Interview page */
+.icard{background:white;border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:1rem;overflow:hidden;}
+.iheader{display:flex;align-items:flex-start;gap:10px;padding:1.1rem 1.1rem 0.9rem;border-bottom:1px solid var(--border);}
+.rbadge{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;flex-shrink:0;}
+.rb1{background:var(--ink);color:var(--cream);}
+.rb2{background:var(--accent);color:white;}
+.rb3{background:var(--gold);color:white;}
+.rb4{background:var(--teal);color:white;}
+.rb5{background:var(--ink-mid);color:white;}
+.rb6{background:#6b1a4a;color:white;}
+.rb7{background:#1a4a6b;color:white;}
+.rb8{background:#3a6b1a;color:white;}
+.rb9{background:#4a2a6b;color:white;}
+.rb10{background:#6b3a2a;color:white;}
+.rb11{background:#2a6b4a;color:white;}
+.rb12{background:#6b6b2a;color:white;}
+.rb13{background:#2a4a6b;color:white;}
+.ischool-name{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;}
+.isub{font-size:11px;color:var(--ink-light);margin-top:2px;}
+.imeta{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px;}
+.ibody{padding:1.1rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+@media(max-width:600px){.ibody{grid-template-columns:1fr;}}
+
+/* ── Mobile Layout (≤768px) ── */
+@media(max-width:768px){
+  /* Masthead */
+  .masthead{padding:1.25rem 1rem 1rem;}
+  .masthead h1{font-size:20px;}
+  .masthead-sub{font-size:12px;}
+  .masthead-stats{gap:1rem;margin-top:1rem;padding-top:1rem;}
+  .mstat-val{font-size:17px;}
+  .mstat-lbl{font-size:9px;}
+
+  /* Nav — smaller tabs, keep horizontal scroll */
+  .nav-tab{padding:10px 13px;font-size:11px;}
+
+  /* Sections */
+  .section{padding:1rem 0.9rem;}
+  .section-head h2{font-size:15px;}
+
+  /* Filter row — stack vertically */
+  .filter-row{flex-direction:column;gap:6px;}
+  .filter-row select,.filter-row input[type=text]{width:100%;font-size:13px;padding:9px 10px;}
+  .rcount{margin-left:0;font-size:12px;}
+
+  /* Cards — single column */
+  .cards-grid{grid-template-columns:1fr;gap:8px;}
+  .school-card{padding:0.9rem 1rem;}
+  .card-name{font-size:15px;}
+  .card-fee{font-size:22px;}
+  .det-grid{grid-template-columns:repeat(2,1fr);gap:6px;}
+  .card-cta button{width:100%;padding:9px 12px;font-size:12px;}
+
+  /* Interview section */
+  .iheader{gap:8px;padding:0.9rem 0.9rem 0.75rem;}
+  .rbadge{width:32px;height:32px;font-size:13px;}
+  .ischool-name{font-size:14px;}
+  .ibody{padding:0.9rem;grid-template-columns:1fr;gap:1rem;}
+
+  /* Criteria bars — narrower label */
+  .crit-lbl{width:90px;font-size:9px;}
+  .slabel{width:80px;font-size:10px;}
+
+  /* Tips grid — single column */
+  .tips-grid{grid-template-columns:1fr;}
+  .tcard{padding:0.9rem;}
+
+  /* Timeline */
+  .tlrow{gap:7px;}
+  .tlmonth{min-width:38px;font-size:10px;}
+
+  /* Compare table — already scrollable, tweak font */
+  .ctable{font-size:11px;}
+  .ctable th,.ctable td{padding:7px 8px;white-space:nowrap;}
+  .compare-wrap{-webkit-overflow-scrolling:touch;}
+
+  /* Year tabs */
+  .yr-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;}
+  .yr-tab{flex-shrink:0;}
+
+  /* Interview drawer */
+  .iv-lbl{font-size:9px;}
+  .iv-q{font-size:11px;}
+}
+
+/* Swipe hint — mobile only */
+.swipe-hint{font-size:11px;color:var(--ink-light);text-align:center;padding:5px 0 8px;display:none;}
+@media(max-width:768px){.swipe-hint{display:block!important;}}
+
+/* ── Extra small (≤400px) ── */
+@media(max-width:400px){
+  .masthead h1{font-size:17px;}
+  .mstat-val{font-size:15px;}
+  .det-grid{grid-template-columns:1fr;}
+  .badges{gap:3px;}
+  .badge{font-size:9px;padding:2px 5px;}
+}
+.icol h4{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-light);margin-bottom:9px;font-family:'DM Sans',sans-serif;}
+.step-r{display:flex;gap:7px;margin-bottom:7px;}
+.step-c{width:19px;height:19px;border-radius:50%;background:var(--paper);border:1px solid var(--border);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-t{font-size:12px;color:var(--ink);line-height:1.5;}
+.qrow{display:flex;gap:5px;padding:5px 0;border-bottom:1px solid var(--border);}
+.qrow:last-child{border-bottom:none;}
+.qtag{font-size:10px;padding:1px 6px;border-radius:2px;font-weight:600;white-space:nowrap;align-self:flex-start;margin-top:1px;}
+.ql{background:var(--teal-light);color:var(--teal);}
+.tipbox{background:var(--paper);border-left:3px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0;padding:7px 9px;margin-bottom:5px;font-size:11px;color:var(--ink-mid);}
+.tipbox.acc{border-left-color:var(--accent);background:var(--accent-light);color:var(--accent);}
+.srow{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.slabel{font-size:11px;color:var(--ink-mid);width:95px;flex-shrink:0;}
+.sbar-w{flex:1;background:var(--paper);border-radius:3px;height:7px;overflow:hidden;}
+.sbar{height:100%;border-radius:3px;background:var(--accent);}
+.spct{font-size:11px;font-weight:600;color:var(--ink);width:28px;text-align:right;flex-shrink:0;}
+/* Tips */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;}
+.tcard{background:white;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem;}
+.thead{display:flex;align-items:center;gap:9px;margin-bottom:11px;}
+.ticon{width:34px;height:34px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.ttitle{font-family:'Noto Serif TC',serif;font-size:14px;font-weight:700;}
+.titem{font-size:12px;color:var(--ink);padding:5px 0;border-bottom:1px solid var(--border);line-height:1.5;display:flex;gap:5px;align-items:flex-start;}
+.titem:last-child{border-bottom:none;}
+.tdot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px;}
+.tlrow{display:flex;gap:9px;margin-bottom:9px;}
+.tlmonth{font-size:11px;font-weight:600;color:var(--teal);min-width:45px;padding-top:1px;}
+.tldc{display:flex;flex-direction:column;align-items:center;}
+.tldot{width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+.tlline{width:1px;flex:1;background:var(--border);margin:3px 0;}
+.tltext{font-size:12px;color:var(--ink);line-height:1.5;}
+/* ── Mock Interview Modal ── */
+#mock-modal{display:none;position:fixed;inset:0;background:rgba(26,23,20,0.6);z-index:10000;align-items:center;justify-content:center;padding:16px;}
+#mock-modal.open{display:flex;}
+#mock-box{background:#fff;border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+#mock-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--ink);color:var(--cream);border-radius:12px 12px 0 0;}
+#mock-head h3{font-size:15px;font-family:'Noto Serif TC',serif;}
+#mock-close{background:none;border:none;color:var(--cream);font-size:20px;cursor:pointer;padding:0 4px;line-height:1;}
+#mock-body{padding:20px;overflow-y:auto;flex:1;}
+#mock-loading{text-align:center;padding:40px 20px;color:var(--ink-mid);}
+#mock-loading .spin{display:inline-block;width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.mock-q-block{margin-bottom:14px;padding:12px 14px;background:var(--cream);border-radius:8px;border-left:3px solid var(--teal);}
+.mock-q-num{font-size:10px;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;}
+.mock-q-text{font-size:13px;color:var(--ink);line-height:1.6;}
+.mock-q-hint{font-size:11px;color:var(--ink-light);margin-top:4px;font-style:italic;}
+.mock-section{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--accent-light);}
+.mock-gen-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--teal),#155555);color:white;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;margin-top:10px;transition:opacity 0.2s;}
+.mock-gen-btn:hover{opacity:0.88;}
+.mock-gen-btn:disabled{opacity:0.5;cursor:not-allowed;}
+#mock-footer{padding:12px 20px;border-top:1px solid var(--border);background:var(--paper);display:flex;gap:8px;justify-content:flex-end;border-radius:0 0 12px 12px;}
+#mock-footer button{font-size:12px;padding:6px 14px;border-radius:5px;cursor:pointer;border:1px solid var(--border);background:white;color:var(--ink);}
+#mock-footer .btn-regen{background:var(--teal);color:white;border-color:var(--teal);}
+@media(max-width:600px){#mock-box{max-height:95vh;border-radius:10px 10px 0 0;position:fixed;bottom:0;left:0;right:0;max-width:100%;}}
+/* ── Copy Protection ── */
+body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+.protect-blur *{filter:blur(8px) !important;transition:filter 0.2s;}
+#wm-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;}
+#wm-overlay::before{content:'香港直資私立小學全攻略 · 版權所有';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:16px;color:rgba(180,140,60,0.10);white-space:nowrap;font-family:'Noto Serif TC',serif;letter-spacing:0.15em;}
+#wm-overlay::after{content:'香港直資私立小學全攻略 · 版權所有';position:absolute;top:25%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:14px;color:rgba(180,140,60,0.07);white-space:nowrap;font-family:'Noto Serif TC',serif;letter-spacing:0.15em;}
+</style>
+</head>
+<body>
+<div class="masthead">
+  <div class="masthead-eyebrow">Hong Kong Primary Schools · 2025/26</div>
+  <h1>直資及私立小學全攻略</h1>
+  <div class="masthead-sub">全港 21 間直資 + 多間私立 · 學費、師資、設施、收生、面試資訊完整比較</div>
+  <div class="masthead-stats">
+    <div class="mstat"><div class="mstat-val">41</div><div class="mstat-lbl">學校總數</div></div>
+    <div class="mstat"><div class="mstat-val">$7,370</div><div class="mstat-lbl">最低年學費</div></div>
+    <div class="mstat"><div class="mstat-val">$304,500</div><div class="mstat-lbl">最高年學費</div></div>
+    <div class="mstat"><div class="mstat-val">27:1</div><div class="mstat-lbl">最激競爭</div></div>
+  </div>
+</div>
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showSec('schools',this)">學校資料庫</button>
+    <button class="nav-tab" onclick="showSec('compare',this)">比較表</button>
+    <button class="nav-tab" onclick="showSec('interview',this)">面試攻略</button>
+    <button class="nav-tab" onclick="showSec('tips',this)">備戰貼士</button>
+  </div>
+</nav>
+<section id="schools" class="section active">
+  <div class="section-head"><h2>學校資料庫</h2><span class="scount" id="sc"></span></div>
+  <div class="filter-row">
+    <input id="srch" type="text" placeholder="搜尋學校名稱…" oninput="applyFilter()">
+    <select onchange="applyFilter()"><option value="">全部類型</option><option>直資</option><option>私立</option></select>
+    <select onchange="applyFilter()"><option value="">全部地區</option><option>港島</option><option>九龍</option><option>新界</option></select>
+    <select onchange="applyFilter()"><option value="">全部性別</option><option>男女</option><option>男校</option><option>女校</option></select>
+    <select onchange="applyFilter()"><option value="">全部升中</option><option>一條龍</option><option>直屬</option></select>
+    <select id="srt" onchange="applyFilter()"><option value="fd">學費高→低</option><option value="fa">學費低→高</option><option value="r">競爭最激烈</option></select>
+    <span class="rcount" id="rc"></span>
+  </div>
+  <div class="cards-grid" id="cg"></div>
+</section>
+<section id="compare" class="section">
+  <div class="section-head"><h2>熱門學校比較表</h2></div>
+  <div class="swipe-hint">← 左右滑動查看完整比較表</div>
+  <div class="compare-wrap"><table class="ctable"><thead><tr><th>學校</th><th>類型</th><th>年學費</th><th>學費視覺化</th><th>小一學額</th><th>年報考人數</th><th>競爭比例</th><th>全校教師</th><th>師資學歷</th><th>班級數</th><th>校園㎡</th><th>升中</th><th>主要設施</th></tr></thead><tbody id="ctbody"></tbody></table></div>
+</section>
+<section id="interview" class="section">
+  <div class="section-head"><h2>熱門學校面試攻略</h2><span class="scount">2022年後實體面試資料</span></div>
+  <div id="ilist"></div>
+</section>
+<section id="tips" class="section">
+  <div class="section-head"><h2>備戰貼士</h2></div>
+  <div class="tips-grid">
+    <div class="tcard"><div class="thead"><div class="ticon" style="background:#f5e8e4;">📅</div><div class="ttitle">報名時間表</div></div>
+      <div class="tlrow"><div class="tlmonth">1–4月</div><div class="tldc"><div class="tldot"></div><div class="tlline"></div></div><div class="tltext">弘立、音小等最早期學校開放報名</div></div>
+      <div class="tlrow"><div class="tlmonth">5–8月</div><div class="tldc"><div class="tldot"></div><div class="tlline"></div></div><div class="tltext">大多數學校簡介會及收表（培正、男拔、SPCC等）</div></div>
+      <div class="tlrow"><div class="tlmonth">9–10月</div><div class="tldc"><div class="tldot"></div><div class="tlline"></div></div><div class="tltext">第一輪面試（個人或小組）全面展開</div></div>
+      <div class="tlrow"><div class="tlmonth">11月</div><div class="tldc"><div class="tldot"></div><div class="tlline"></div></div><div class="tltext">第二輪親子面試 / 見校長環節</div></div>
+      <div class="tlrow"><div class="tlmonth">11–12月</div><div class="tldc"><div class="tldot"></div></div><div class="tltext">取錄通知公佈；私立學位可同時保留官津派位資格</div></div>
+    </div>
+    <div class="tcard"><div class="thead"><div class="ticon" style="background:#e4f0f0;">👶</div><div class="ttitle">面試前準備</div></div>
+      <div class="titem"><div class="tdot"></div>練習自我介紹：中、英、普通話各一版，30秒內完成</div>
+      <div class="titem"><div class="tdot"></div>預備喜愛圖書（男拔、培正要求面試時帶書）</div>
+      <div class="titem"><div class="tdot"></div>整理Portfolio：獎項+興趣班，最多2版A4（SPCC建議）</div>
+      <div class="titem"><div class="tdot"></div>訓練手眼協調：摺紙、拼圖、綁鞋帶（女拔評核自理）</div>
+      <div class="titem"><div class="tdot"></div>蔡繼有需帶畫畫文具：鉛筆、擦膠、12色顏色筆</div>
+    </div>
+    <div class="tcard"><div class="thead"><div class="ticon" style="background:#e8f5e8;">✅</div><div class="ttitle">面試當日表現</div></div>
+      <div class="titem"><div class="tdot"></div>主動問好、衣著整齊，留下有禮印象</div>
+      <div class="titem"><div class="tdot"></div>保持眼神接觸，不怕陌生人，表現自信</div>
+      <div class="titem"><div class="tdot"></div>遇難題先想一想，嘗試回答，坦言不懂好過沉默</div>
+      <div class="titem"><div class="tdot"></div>小組活動積極參與，尊重他人，展現合作精神</div>
+      <div class="titem"><div class="tdot"></div>2大禁忌（男拔）：過度操練失自然；沉默不回應</div>
+    </div>
+    <div class="tcard"><div class="thead"><div class="ticon" style="background:#f5f0e4;">⚖️</div><div class="ttitle">直資 vs 私立</div></div>
+      <div class="titem"><div class="tdot"></div>直資享政府津貼，學費較低（$7k–$86k），多設減免</div>
+      <div class="titem"><div class="tdot"></div>私立接受學位後仍可參加官津統一派位（一腳踏兩船）</div>
+      <div class="titem"><div class="tdot"></div>一條龍學校免升中壓力，直升優質中學（12年保障）</div>
+      <div class="titem"><div class="tdot"></div>部分私立設IB（蔡繼有、弘立、VSA），適合計劃國際升學</div>
+    </div>
+    <div class="tcard"><div class="thead"><div class="ticon" style="background:#e8e8f5;">📝</div><div class="ttitle">常見面試題分類</div></div>
+      <div class="tipbox">🗣 語文：自我介紹、朗讀中英文短句（幼稚園課本程度）</div>
+      <div class="tipbox">🧠 邏輯：圖案規律、數量比較、物件分類</div>
+      <div class="tipbox">🌱 生活：健康食物、節日習俗、天氣、交通工具</div>
+      <div class="tipbox">👨‍👩‍👧 社交：介紹家人、喜愛活動、好朋友</div>
+      <div class="tipbox">🎨 創意：看圖說故事、自由畫畫、情景問答</div>
+      <div class="tipbox acc">自理能力（女拔）：收拾書包、綁鞋帶、手眼協調</div>
+    </div>
+    <div class="tcard"><div class="thead"><div class="ticon" style="background:#f5e8e4;">💡</div><div class="ttitle">各校重視關鍵字</div></div>
+      <div class="titem"><div class="tdot"></div><strong>SPCC：</strong>品德、溝通力、國際視野</div>
+      <div class="titem"><div class="tdot"></div><strong>男拔附小：</strong>思維靈活、真性情、自信</div>
+      <div class="titem"><div class="tdot"></div><strong>女拔小學：</strong>自理能力、手眼協調、自立</div>
+      <div class="titem"><div class="tdot"></div><strong>培正小學：</strong>有禮、合群、主動、語文</div>
+      <div class="titem"><div class="tdot"></div><strong>SPC小學：</strong>4C—溝通、批判、創造、合作</div>
+      <div class="titem"><div class="tdot"></div><strong>蔡繼有：</strong>雙語均衡、藝術創意、獨立思考</div>
+    </div>
+  </div>
+</section>
+<script>
+const S=[
+/* ── 直資 21 間 ── */
+{id:'spcc',name:'聖保羅男女中學附屬小學',eng:'SPCCPS',type:'直資',region:'港島',gender:'男女',fee:82300,addr:'黃竹坑南風徑11號',religion:'基督教',through:'一條龍',places:150,applicants:4050,ratio:27,teachers:80,qual:'100%碩士+',classes:30,area:16000,founded:1915,principal:'張慧純女士',fac:['泳池','劍擊室','STEM室','禮堂','舞蹈室','農圃','蝴蝶園'],iRounds:2,iLang:'廣東話',notes:'學費全額減免計劃'},
+{id:'dbs',name:'拔萃男書院附屬小學',eng:'DBSPD',type:'直資',region:'九龍',gender:'男校',fee:58190,addr:'旺角亞皆老街131號',religion:'基督教',through:'一條龍',places:150,applicants:4000,ratio:27,teachers:null,qual:'—',classes:30,area:10977,founded:2004,principal:'鄭基恩先生',fac:['圖書館','禮堂','體育館','STEM室','多媒體室'],iRounds:3,iLang:'英語',notes:'設學費全免計劃；5–6年級設精英班'},
+{id:'hkugaps',name:'港大同學會小學',eng:'HKUGAPS',type:'直資',region:'港島',gender:'男女',fee:37880,addr:'柴灣怡盛街9號',religion:'無',through:'一條龍',places:null,applicants:6000,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','STEM室','操場'],iRounds:2,iLang:'廣東話/英語',notes:'一條龍升讀港大同學會書院'},
+{id:'spcps',name:'聖保羅書院小學',eng:'SPC Primary',type:'直資',region:'港島',gender:'男校',fee:32000,addr:'域多利道777號',religion:'基督教',through:'直屬',places:null,applicants:2400,ratio:21,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'麥志豪先生',fac:['圖書館','禮堂','操場','語言室'],iRounds:3,iLang:'英語+廣東話',notes:'三環面試；設獎學金'},
+{id:'yingwa',name:'英華小學',eng:'Ying Wa Primary',type:'直資',region:'九龍',gender:'男校',fee:19000,addr:'深水埗英華街3號',religion:'基督教',through:'一條龍',places:null,applicants:4000,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','電腦室','操場'],iRounds:3,iLang:'廣東話/英語',notes:'直資學費減免計劃'},
+{id:'logos',name:'香港華人基督教聯會真道書院',eng:'Logos Academy',type:'直資',region:'新界',gender:'男女',fee:28600,addr:'將軍澳嶺光街5號',religion:'基督教',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['禮堂','STEM室','圖書館','操場'],iRounds:2,iLang:'廣東話/英語',notes:'IB中學（2022年兩名45分狀元）'},
+{id:'plkcts',name:'保良局陳守仁小學',eng:'PLK Chan Shou Jen PS',type:'直資',region:'九龍',gender:'男女',fee:20500,addr:'油麻地海庭道6號',religion:'無',through:'無',places:null,applicants:null,ratio:40,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','STEM室','操場'],iRounds:2,iLang:'廣東話/英語',notes:'多元文化學習環境'},
+{id:'evangel',name:'播道書院',eng:'Evangel Academy',type:'直資',region:'新界',gender:'男女',fee:25000,addr:'將軍澳至善街7號',religion:'基督教',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','STEM室','操場'],iRounds:2,iLang:'廣東話',notes:''},
+{id:'luac',name:'基督教香港信義會宏信書院',eng:'ELCHK Lutheran Academy',type:'直資',region:'新界',gender:'男女',fee:86190,addr:'元朗馬田欖口村路25號',religion:'基督教',through:'一條龍',places:87,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:2010,principal:'—',fac:['校園花園','圖書館','STEM室','體育館'],iRounds:1,iLang:'廣東話/英語',notes:'直資最貴；國際視野培育'},
+{id:'delia',name:'地利亞（閩僑）英文小學',eng:'Delia Man Kiu English PS',type:'直資',region:'新界',gender:'男女',fee:7370,addr:'青衣長安邨第二期',religion:'無',through:'無',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','操場','電腦室'],iRounds:0,iLang:'不適用',notes:'全港最低學費直資小學'},
+{id:'hanwah',name:'漢華中學（小學部）',eng:'Hon Wah Secondary (Primary)',type:'直資',region:'港島',gender:'男女',fee:17640,addr:'柴灣柴灣道383號',religion:'無',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場','電腦室'],iRounds:1,iLang:'廣東話',notes:''},
+{id:'plklmt',name:'保良局林文燦英文小學',eng:'PLK Lam Man Tsan English PS',type:'直資',region:'九龍',gender:'男女',fee:15450,addr:'土瓜灣上鄉道24號',religion:'無',through:'無',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場'],iRounds:1,iLang:'英語',notes:'主題式學習'},
+{id:'lingnan',name:'嶺南大學香港同學會小學',eng:'Lingnan U HK Alumni Assoc PS',type:'直資',region:'九龍',gender:'男女',fee:18380,addr:'深水埗白田街33號',religion:'無',through:'無',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場'],iRounds:1,iLang:'廣東話',notes:'小班活動教學'},
+{id:'stmargaret',name:'聖瑪加利男女英文中小學',eng:"St. Margaret's Co-ed Eng",type:'直資',region:'九龍',gender:'男女',fee:53570,addr:'深水埗欽州街63號',religion:'天主教',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場','電腦室'],iRounds:1,iLang:'英語',notes:'天主教一條龍'},
+{id:'fukien',name:'福建中學附屬學校',eng:'Fukien Secondary Affiliated',type:'直資',region:'九龍',gender:'男女',fee:44000,addr:'觀塘油塘邨第二期',religion:'無',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場','語言室'],iRounds:1,iLang:'英語',notes:'重視英文能力及品德'},
+{id:'hkbu',name:'香港浸會大學附屬學校王錦輝中小學',eng:'HKBU Affiliated Wong Kam Fai',type:'直資',region:'新界',gender:'男女',fee:44800,addr:'沙田石門安睦里6號',religion:'基督教',through:'一條龍',places:150,applicants:4950,ratio:33,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場','電腦室'],iRounds:2,iLang:'廣東話/英語',notes:'近5000人申請150學額'},
+{id:'puikwan',name:'培僑書院',eng:'Pui Kwan College',type:'直資',region:'新界',gender:'男女',fee:30000,addr:'沙田大圍大圍新村路1號',religion:'無',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場','STEM室'],iRounds:1,iLang:'廣東話',notes:'設視頻面試選項'},
+{id:'gtelite',name:'優才(楊殷有娣)書院',eng:'G.T. Elite Academy',type:'直資',region:'新界',gender:'男女',fee:35310,addr:'將軍澳嶺光街10號（另設旺角洗衣街31號）',religion:'無',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場','STEM室'],iRounds:1,iLang:'廣東話',notes:'設小組遊戲；主動孩子有優勢'},
+{id:'plklht',name:'保良局陸慶濤小學',eng:'PLK Luk Hing Tao PS',type:'直資',region:'新界',gender:'男女',fee:13700,addr:'將軍澳寶林邨',religion:'無',through:'無',places:null,applicants:1600,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場'],iRounds:1,iLang:'廣東話',notes:'逾1600人報考；小組活動評估'},
+{id:'plkyy',name:'保良局香港道教聯合會圓玄小學',eng:'PLK HK Taoist Yuen Yuen PS',type:'直資',region:'新界',gender:'男女',fee:13150,addr:'屯門青山公路青海圍26號',religion:'道教',through:'無',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場'],iRounds:1,iLang:'廣東話',notes:'雙師制；普通話全英語授課'},
+{id:'wofu',name:'和富慈善基金李宗德小學',eng:'Wo Fu Li Chong Tak PS',type:'直資',region:'新界',gender:'男女',fee:19300,addr:'元朗天水圍天暉路9號',religion:'無',through:'無',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場'],iRounds:1,iLang:'廣東話',notes:'遊戲形式觀察禮儀'},
+/* ── 私立（主要學校） ── */
+{id:'isf',name:'弘立書院',eng:'ISF Academy',type:'私立',region:'港島',gender:'男女',fee:240320,addr:'薄扶林鋼綫灣道1號',religion:'無',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['IB課程','泳池','運動場','藝術中心','圖書館'],iRounds:2,iLang:'英語/普通話',notes:'雙語（英+普通話）；IB課程'},
+{id:'ykpao',name:'香港包玉剛學校',eng:'YK Pao School HK',type:'私立',region:'九龍',gender:'男女',fee:220000,addr:'油塘崇山街8號',religion:'無',through:'無',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['多媒體中心','藝術中心','體育館','操場'],iRounds:1,iLang:'英語',notes:''},
+{id:'dalton',name:'香港道爾頓學校',eng:'Dalton School Hong Kong',type:'私立',region:'港島',gender:'男女',fee:205480,addr:'灣仔',religion:'無',through:'無',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','藝術室','操場'],iRounds:1,iLang:'英語',notes:'道爾頓教育法'},
+{id:'malvern',name:'香港墨爾文國際學校',eng:'Malvern College HK',type:'私立',region:'新界',gender:'男女',fee:198860,addr:'大埔科進路3號',religion:'無',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['英式校園','體育館','泳池','農莊','STEM室'],iRounds:1,iLang:'英語',notes:'英國墨爾文公學分校'},
+{id:'han',name:'漢鼎書院',eng:'Han Academy',type:'私立',region:'港島',gender:'男女',fee:198000,addr:'香港仔黃竹坑道33-35號',religion:'無',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['藝術工作室','STEM中心','圖書館','體育館'],iRounds:1,iLang:'英語',notes:'中英普三語教學'},
+{id:'wycombe',name:'香港威雅學校',eng:'Wycombe Abbey School HK',type:'私立',region:'港島',gender:'女校',fee:188000,addr:'香港仔',religion:'無',through:'無',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','泳池','操場'],iRounds:1,iLang:'英語',notes:'英國威雅公學分校'},
+{id:'vsa',name:'滬江維多利亞學校',eng:'Victoria Shanghai Academy',type:'私立',region:'港島',gender:'男女',fee:181200,addr:'香港仔深灣道19號',religion:'無',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['游泳池','操場','藝術室','音樂室','科學室'],iRounds:1,iLang:'英語',notes:'IB課程；英普雙語'},
+{id:'renaissance',name:'啓新書院',eng:'Renaissance College HK',type:'私立',region:'新界',gender:'男女',fee:148100,addr:'馬鞍山',religion:'無',through:'一條龍',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','體育館','操場','IB課程'],iRounds:1,iLang:'英語',notes:'IB課程'},
+{id:'creative',name:'啟思小學',eng:'Creative Primary School',type:'私立',region:'九龍',gender:'男女',fee:145970,addr:'九龍塘牛津道2號A',religion:'基督教',through:'無',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['多功能中心','圖書館','音樂室','STEM室'],iRounds:1,iLang:'英語',notes:'IB框架課程'},
+{id:'cky',name:'保良局蔡繼有學校',eng:'PLK Choi Kai Yau',type:'私立',region:'九龍',gender:'男女',fee:99825,addr:'深水埗郝德傑道6號',religion:'無',through:'一條龍',places:170,applicants:4000,ratio:null,teachers:null,qual:'—',classes:36,area:null,founded:2002,principal:'劉筱玲博士',fac:['音樂廳','體育館','STEM中心','游泳池','IB課程'],iRounds:3,iLang:'廣東話+英語',notes:'小一必學一種樂器；IB文憑課程'},
+{id:'stcps',name:'聖士提反書院附屬小學',eng:'SSCPS',type:'私立',region:'港島',gender:'男女',fee:92500,addr:'赤柱黃麻角道30-32號',religion:'基督教',through:'直屬',places:null,applicants:null,ratio:20,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['海濱校園','游泳池','運動場','圖書館','農場'],iRounds:3,iLang:'英語/廣東話',notes:'小六必寄宿；約20人爭一學額'},
+{id:'dgjs',name:'拔萃女小學',eng:'DGJS',type:'私立',region:'九龍',gender:'女校',fee:86000,addr:'佐敦道1號',religion:'基督教',through:'一條龍',places:144,applicants:3000,ratio:21,teachers:58,qual:'100%碩士+',classes:24,area:null,founded:1860,principal:'明皓博士',fac:['1500座演奏廳','全天候泳池','田徑場','網球場','STEM室','農夫園地'],iRounds:2,iLang:'英語',notes:'不鼓勵過多興趣班'},
+{id:'stjoseph',name:'聖若瑟英文小學',eng:"St. Joseph's Anglo-Chinese PS",type:'私立',region:'九龍',gender:'男校',fee:56300,addr:'觀塘',religion:'天主教',through:'直屬',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','電腦室','音樂室','操場'],iRounds:2,iLang:'英語/廣東話',notes:'天主教男校'},
+{id:'pcps',name:'香港培正小學',eng:'Pui Ching Primary',type:'私立',region:'九龍',gender:'男女',fee:66400,addr:'旺角窩打老道80號',religion:'基督教',through:'直屬',places:270,applicants:null,ratio:null,teachers:null,qual:'—',classes:50,area:null,founded:1889,principal:'葉展漢先生',fac:['千人大禮堂','室內體育館','有蓋操場','圖書館','電腦室'],iRounds:2,iLang:'廣東話',notes:'85%幼稚園部直升；課外活動不加分'},
+{id:'kauyan',name:'救恩學校',eng:'Kau Yan School',type:'私立',region:'港島',gender:'男女',fee:70600,addr:'西營盤高街97B',religion:'基督教',through:'聯繫',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['禮堂','圖書館','電腦室','音樂室'],iRounds:2,iLang:'廣東話',notes:''},
+{id:'ktps',name:'九龍塘學校（小學部）',eng:'Kowloon Tong School PS',type:'私立',region:'九龍',gender:'男女',fee:69000,addr:'九龍塘金巴倫道',religion:'無',through:'無',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['草地操場','圖書館','STEM室','音樂室'],iRounds:1,iLang:'廣東話/英語',notes:''},
+{id:'munsang',name:'民生書院小學',eng:'Munsang College PS',type:'私立',region:'九龍',gender:'男女',fee:63000,addr:'九龍城東寶庭道8號',religion:'基督教',through:'直屬',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','音樂室','操場','禮堂'],iRounds:1,iLang:'廣東話',notes:''},
+{id:'scps',name:'聖嘉勒小學',eng:"St. Clare's Primary",type:'私立',region:'港島',gender:'女校',fee:51000,addr:'般咸道光景台3-6號',religion:'天主教',through:'直屬',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場','音樂室'],iRounds:1,iLang:'廣東話/英語',notes:''},
+{id:'rccps',name:'高主教書院小學部',eng:'Raimondi College PS',type:'私立',region:'港島',gender:'男女',fee:58800,addr:'灣仔司徒拔道肇輝臺1E',religion:'天主教',through:'直屬',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場','電腦室'],iRounds:2,iLang:'廣東話/英語',notes:''},
+{id:'stpaulsconvent',name:'聖保祿學校（小學部）',eng:"St. Paul's Convent School (Primary)",type:'私立',region:'港島',gender:'女校',fee:55000,addr:'銅鑼灣',religion:'天主教',through:'直屬',places:null,applicants:null,ratio:null,teachers:null,qual:'—',classes:null,area:null,founded:null,principal:'—',fac:['圖書館','禮堂','操場','音樂室'],iRounds:2,iLang:'英語/廣東話',notes:''},
+];
+
+/* ── 面試詳細資料（2022年後實體面試資料） ── */
+const IDATA={
+  spcc:{
+    criteria:[{l:'第二輪親子面試（家長+學生）',p:55},{l:'第一輪關卡遊戲（小組）',p:40},{l:'其他背景因素',p:5}],
+    steps:['第一輪：約10月初，全部申請人均獲面試機會。4–5人一組，進行5–7個遊戲關卡，時間約1小時15分鐘。家長在外等候，不得陪同入場','第二輪：約11月中至12月，約300人獲邀。家長需與子女一同到校面見，包括校長/校董面試及家長短談環節（約2–5分鐘）'],
+    yearly:[
+      {yr:2025,format:'4–5人一組，5–7個遊戲關卡，約1小時15分鐘',qs:['單腳跳過河遊戲','看中英文圖書（老師觀察，不會因應圖書提問）','音樂停止遊戲：音樂一停所有人需立即停下','尋找鑽石遊戲','自由選擇玩具（車、積木等）','老師叫名單對單問答：如圖中哪兩個獅子影子是一樣的？','在課室內觀看卡通片','將豆袋放入箱內'],note:'每間課室及組別題目稍有不同；來源：小紅書家長分享（2025年10月）'},
+      {yr:2024,format:'小組互動遊戲為主，第一輪約1小時',qs:['合作砌Lego、跟老師做動作、玩棋、記憶遊戲、豆袋遊戲','大風吹、音樂椅、迷宮遊戲、單腳跳過河遊戲','尋找鑽石遊戲','自由選擇玩具（車、積木等）','聆聽指令遊戲：音樂停止需立即停下；音樂停時要放東西在頭上','看影片考記憶：記住影片中人和車的位置，之後排序'],note:'面試以小朋友母語進行，廣東話、英文或普通話均可，不影響分數'},
+      {yr:2023,format:'小組遊戲互動為主',qs:['中文認字（兩篇短文，讓自己選字遊戲）','記憶力：看一幅畫，記住出現了哪些動物、哪些顏色的熱氣球','看書（看完放在胸前，考察專注度）','數學：下雨天，考察雨靴多少只、雨傘多少個、衣服多少'],note:'校方強調：不一定揀最叻，揀適合聖保羅的小朋友'}
+    ],
+    tips:['學費全額減免計劃，名額不設上限，不因家庭經濟而放棄申請','課外活動獎項並非必要，最多兩版A4 Portfolio','面試前15分鐘到達；每位申請人只限1位家長陪同，報到後家長需離校','面試語言不限：廣東話、英文或普通話均可，不影響分數','不少於30%學額須收取與學校無關係之申請人，無校友關係亦有機會'],
+    redflags:['過度操練令小朋友失去自然反應','家長過度代答或搶話（第二輪家長面見時尤其注意）','家長不可陪同進入面試室']
+  },
+  dbs:{
+    criteria:[{l:'第二輪個人面談（校長/校董）',p:55},{l:'第一輪小組面試',p:30},{l:'成績/背景（校友、聖公會）',p:10},{l:'其他',p:5}],
+    steps:['第一輪：2–3人一組（約15分鐘）。聆聽錄音指令（只播一次）完成任務，考專注力。活動包括物品分類、找不同、聽故事擺放物件','第二輪：個人面談（約400人獲邀，10–15分鐘）。學生單獨見校長/校董，家長後加入短談（2–5分鐘）'],
+    yearly:[
+      {yr:2025,format:'兩輪面試；第一輪10月中旬（小紅書家長分享）',qs:['語言：中英文跟讀；看圖描述（考發音+表達）','聆聽：聽故事答問題，或配對圖片','邏輯：積木拼圖；數字規律（如132, 1332, 13332... 下一個？）','指令：「跳三下+拍手」；小組建塔/畫畫','常識：喜歡什麼水果？5個蘋果吃2個剩幾個？','創意：扮演醫生「打針」；樂高挑戰；「若你是小鳥，怎麼飛？」'],note:'來源：男拔小一面試全攻略（香港安格老師，小紅書2025-09-21）'},
+      {yr:2024,format:'第一輪10月中旬，兩輪制',qs:['聆聽錄音指令（只播一次）：將物品放在正確位置','物件分類：一堆筆，按長度/顏色/類型等自行分類','記憶力：看影片或複雜圖畫，問出現過的東西在哪裏？','邏輯：四個膠片對應不同膠粒，需把四粒放在正確位置','找不同：如巴士和電車有什麼分別？'],note:'面試表現佔收生準則約85%，面試比重極高'},
+      {yr:2023,format:'兩輪，第一輪小組',qs:['聆聽故事後按指示排列物件（考聆聽理解）','5人小組合作遊戲','帶書分享：你最喜歡書中哪個角色？','「若你是小鳥，怎麼飛？」','「讀什麼書？」「為什麼選男拔？」（家長面談）'],note:'家長面談強調基督教價值觀與博雅教育理念'},
+      {yr:2022,format:'後疫情復實體，英語',qs:['英語自我介紹','圖像邏輯：找出規律，下一個是什麼？','候場觀察：行為舉止、與其他小朋友互動','「為什麼選男拔？」「如何培養紀律？」（家長面談）'],note:'關係人士（舊生子弟、聖公會教友）佔10%'}
+    ],
+    tips:['2大禁忌：①過度操練失去自然反應；②面對難題時沉默不作答','父親/兄長為拔萃男書院舊生、兄長現就讀、聖公會教友可計入關係人士','指令錄音只播一次，平日訓練孩子「聽一次即記住」的能力','自我介紹要自然+保持微笑，避免背精稿'],
+    redflags:['沉默不回應是最大禁忌（校長明確指出）','表現過度操練、回答像背稿','家長在第一輪面試時不可在場']
+  },
+  dgjs:{
+    criteria:[{l:'面試表現（語文、認知、數學、社交）',p:70},{l:'家庭背景/校友關係',p:20},{l:'其他',p:10}],
+    steps:['第一輪：所有申請人均受邀。2–3人一組，老師帶領多個評估環節（語文、認知、數學、社交），約30–45分鐘','第二輪：優秀表現者獲邀，親子面試（家長+孩子），考察家庭教育理念及家校配合程度'],
+    yearly:[
+      {yr:2025,format:'小組面試，多環節考察（小紅書家長分享）',qs:['語文（中文）：看圖選答——哪個遊樂場離女孩最近？小狐狸醫生診症時的心情？圖中有什麼不合理之處？','英語聆聽：聽故事後在工作紙選答並蓋印——如「Frankie is Miss Chan\'s _?」（Pet/Donut/Hat）','數學：4個橙加2個橙=？；$10元可以購買哪些物品？','認知：看圖配對；測試記憶力，看短片後重複動作','串珠仔：按指示用英文字母A-E與數字1-2串珠','拼圖遊戲：把圖案拼好'],note:'來源：大家感受一下香港「神校」的小一面試題（Derick 梁，小紅書）；拔萃女小學歷年面試整合（2026-01-02）'},
+      {yr:2024,format:'小組面試，英語為主',qs:['英語自我介紹及日常事物描述','中文圖文理解：看圖選答','英文聆聽故事後回答問題','數學應用題：20以內加減法','自理任務：示範收拾書包、綁鞋帶（評核手眼協調）','圖案排序：找出規律，下一個是什麼形狀？'],note:'2024年仍以英語為主；強調自理能力評核'},
+      {yr:2023,format:'英語，8人一組，約2小時',qs:['公司有甚麼可以賺得，點解？','未到書店想買書，但爸爸說哥哥可以買，你會點做？','排圖案找相模樣','如果在學校有人嗌，會點做？','如果去到餐廳見到滿座，點做？','Show and Tell：畫噴水交通工具，說地主故事'],note:'校方強調：不鼓勵過多興趣班及補習班，課外活動多少不影響收生'}
+    ],
+    tips:['重視自理能力：練習自己收拾書包、穿鞋帶、整理衣物','不鼓勵安排過多興趣班，多少課外活動不影響收生','手眼協調很重要，可練習摺紙、串珠、繪畫'],
+    redflags:['過度依賴家長幫忙（自理能力是重點評估項）','英語表達能力明顯不足']
+  },
+  pcps:{
+    criteria:[{l:'面試表現（自我介紹、生活常識、活動）',p:65},{l:'第二輪面試表現',p:30},{l:'其他',p:5}],
+    steps:['第一輪：約8月29–30日（2024）。個人或小組形式，每組約20人，4位老師。時間約15–30分鐘。需自備一本圖書及彩色筆','第二輪：入選者獲邀參加更詳細面談或小組活動'],
+    yearly:[
+      {yr:2024,format:'廣東話為主，需自備圖書及彩色筆，時間約15–30分鐘',qs:['自我介紹：叫什麼名字？有沒有英文名？今年幾歲？幼稚園名稱？最喜歡上什麼課？放學後會做什麼？','生活常識：搭乘的交通工具有哪些？過馬路有哪些注意事項？地鐵車廂內不可做的事？吃飯前和去洗手間後要做什麼？','常識：知道哪些水果？認識哪些顏色？','拼圖（老師觀察小朋友互動）','畫一幅畫介紹家庭','聽指令畫圖（期間同學會被叫到老師面前一對一面試）','打開一頁自備的圖書進行閱讀，講一個故事'],note:'來源：培正小學面試題（香港奧數圈，小紅書2024-07-31）；【培正小學二面完全指南】（Logic Box，小紅書2025-09-16）'},
+      {yr:2023,format:'廣東話，個人及小組面試',qs:['自我介紹（廣東話）','介紹家庭成員及各人職業','你最喜歡哪本圖書？說說內容','情境題：如果你見到同學哭，你會怎樣做？'],note:'「主動和自理能力好的孩子，較適合在培正就讀」— 校長語'},
+      {yr:2022,format:'後疫情復實體，廣東話',qs:['你平時在家做什麼？','你有學習什麼興趣班？','你最喜歡的食物是什麼？為什麼？','小組互動觀察：是否主動、有禮、合群'],note:'校方強調：無需刻意準備；多少課外活動不會額外加分'}
+    ],
+    tips:['自備圖書及彩色筆是必須的，選擇孩子熟悉且喜歡的書','主要觀察「有禮、合群、不怕陌生人、語文能力、自理能力」','課外活動多少不會獲額外加分，重點在孩子本身素質','Portfolio只需1頁A4雙面，不要過度包裝'],
+    redflags:['不帶圖書和彩色筆直接去面試','小朋友過度怕陌生人、面試全程沉默','家長事前過度操練，令小朋友失去自然表現']
+  },
+  spcps:{
+    criteria:[{l:'第一輪遊戲室+小組面試',p:50},{l:'語文能力（中英文）',p:30},{l:'小組活動及創意',p:20}],
+    steps:['第一輪：遊戲室面試+小組形式。遊戲室有圖書、玩具和積木，面試前約10分鐘自由活動。全程約1小時，考察語言發展、邏輯思維、專注力和基本常識','第二輪（個人面試）：個人面試，回答更深入問題，包括個人喜好、能力展示等'],
+    yearly:[
+      {yr:2025,format:'EP1遊戲室+小組面試；EP2個人面試（小紅書家長分享）',qs:['叫什麼名字？有沒有英文名？幾歲？住哪裏？讀哪家幼稚園？最喜歡上什麼課？放學後做什麼？','What is your name? Is there a meaning to it?','What do you want to be when you grow up?','老師展示物件：「這是什麼？有什麼作用？你什麼時候會用到它？」','看圖用英文或廣東話講故事；朗讀文章並回答問題','小組活動：先畫橋的設計圖，再用Lego拼擺，完成後分享設計理念'],note:'來源：【聖保羅書院小學面試】EP1、EP2（遵輯盒，小紅書2025-09-23）'},
+      {yr:2024,format:'遊戲室+小組面試，中英語混合',qs:['詢問孩子基本資料（中英文自我介紹）','生活常識及英文口語表達','小組積木/畫畫活動'],note:'面試以廣東話及英語進行'},
+      {yr:2022,format:'後疫情，恢復三環面試',qs:['英語問答：你有什麼興趣？學了多久？','廣東話：介紹家人及日常生活','小組遊戲或合作討論任務'],note:'約2400人申請，約500名受邀參加第二輪'}
+    ],
+    tips:['面試考察語文能力、聆聽和溝通技巧、協作和表達能力','訓練孩子中英文混合表達及描述物件的能力','4C框架是選生核心：Communication, Critical Thinking, Creativity, Collaboration','表達自然比背熟答案重要；麥校長強調「表現真我」'],
+    redflags:['英文能力不足，因面試包含英語環節','小組討論中完全不參與或強行主導不聽他人']
+  },
+  cky:{
+    criteria:[{l:'第一輪小朋友小組面試',p:50},{l:'第二輪親子面試',p:50}],
+    steps:['第一輪：8–10人一組，孩子單獨入教室，4–5位中外老師在場。首輪面試：9月24–27日（2025年）。面試前會有email通知，需打印文件參加','第二輪：學校先讓小朋友玩集體遊戲和畫畫，之後進行靜態個人對答；可能設家長面見環節'],
+    yearly:[
+      {yr:2025,format:'兩輪面試，首輪9月24–27日（小紅書家長分享）',qs:['一進課室看到不同顏色桌子，老師按名字分組','活動開始時跟老師做「香蕉運動操」（Banana Dance）','每位小朋友拿到一張紙，按主題「生日派對」（Birthday Party）畫畫','玩Lego等積木遊戲'],note:'來源：蔡繼有小學面試攻略（香港學而思升小指南，小紅書2025-09-22）；香港蔡繼友一面與二面（香港陪讀媽媽Sophia）'},
+      {yr:2024,format:'廣東話+英語雙語，需自備畫畫文具',qs:['中英文自我介紹（各一版，中英交替）','按指示畫畫：先畫太陽，再畫一棵大樹（按老師口頭步驟指示）','自由題畫畫：「到公園去」或「我的好朋友」，完成後用中/英文描述畫作','小組遊戲，觀察與同伴互動','你有學習樂器嗎？學了多久？'],note:'需帶：鉛筆、擦膠、12色顏色筆（學校指定）'},
+      {yr:2023,format:'雙語，加強雙語評估',qs:['廣東話：你最喜歡哪本圖書？書中的故事是什麼？','英語：What is your favourite animal? Why?','畫畫任務：「我的夢想」（自由創作，完成後須解說）','家庭面談：家長介紹教育理念及對學校的期望'],note:'校方重視雙語均衡，中英文均不可明顯偏弱'}
+    ],
+    tips:['面試前會有email通知，需打印相關文件參加面試','雙語能力必須均衡，不可只強一種語言','需帶畫畫文具：鉛筆、擦膠、12色顏色筆（學校指定）','小一必須學一種樂器，有音樂或藝術基礎有優勢'],
+    redflags:['過於主導或完全不參與集體活動都可能留下不好印象','雙語明顯失衡（只精一種語言）','不帶指定文具']
+  },
+  hkugaps:{
+    criteria:[{l:'第一輪小組面試（語文、數學、常識）',p:60},{l:'第二輪面試（如有）',p:40}],
+    steps:['第一輪：小組形式，時間約45分鐘。包括廣東話及英語活動，涵蓋語文、數學及常識等多個部分','第二輪（如有）：部分申請人獲邀參加更深入面試'],
+    yearly:[
+      {yr:2024,format:'小組面試，多環節（小紅書家長分享）',qs:['暖身遊戲：剪刀石頭布、玩具車、做動作','個別對答：用指定顏色筆寫姓名及名','中文句子（其中一句為：媽媽每天都看書）','四組中文詞語組合','英文：the fish is __ the water（填in）','英文單字：floor, four, the, me','數學：5+?=12、12-7=?','數字規律（大至細）14, 10, 9, 11, ?, 15','圖案序列：按規律找出排序圖案','講故事：用任何顏色畫一種陸地上的交通工具'],note:'來源：香港名校升小面試總整理（港校L老師，小紅書2025-05-20）；港大同學會小學面試記錄（小紅書2025年9月）'},
+      {yr:2023,format:'小組面試，多環節',qs:['用指定顏色筆寫姓名','中文句子：媽媽每天都看書','英文：the fish is __ the water','數學：8+3=11、17-5；順序讀16–20','常識：公司有甚麼可以賺得，點解？','如果在學校有人嗌，會點做？','如果去到餐廳見到滿座，點做？'],note:'7000人選500人（約14選1）'},
+      {yr:2022,format:'後疫情復實體',qs:['四組中文詞語：大家、許多、音樂','英文單字填入句子：is my sister（This）','數學：7+7=? 8+4=? 9-4=?','圖案序列找規律','常識情境問答'],note:'重視：理解能力、聆聽指示、合作、想像力'}
+    ],
+    tips:['面試題庫龐大，每位小朋友題目不盡相同，需廣泛準備','訓練孩子中英文讀寫能力，特別是句子填空、詞語配對','準備基礎數學（加減運算及數字排序）','重視聆聽指示的能力，讓孩子專注聆聽和執行'],
+    redflags:['中文或英文基礎薄弱','不懂基本數學運算','無法跟從老師指示完成任務']
+  },
+  stcps:{
+    criteria:[{l:'個人面試',p:40},{l:'小組活動觀察',p:40},{l:'家長面談',p:20}],
+    steps:['第一輪：8人一組，課室內擺有玩具供自由選擇，集體遊戲；老師觀察肌肉協調/應對/互動','個人面談：日常生活及家庭話題，含處境題考反應','第三輪：校長、副校長及主任與家長面談，以交流互動為主'],
+    yearly:[
+      {yr:2024,format:'英語/廣東話，3輪制，約20人爭一學額',qs:['自由選玩具並向老師解釋選擇原因（英語）','集體遊戲中的角色觀察（主動度、合作、溝通）','個人問答：你最喜歡學校哪個科目？（廣東話）','處境題：如果你的好朋友搶了你的玩具，你會怎樣做？','你有什麼特別的才藝或興趣？'],note:'小六生規定寄宿；家長應充分了解及接受寄宿安排'},
+      {yr:2023,format:'英語/廣東話',qs:['圖畫創作並描述（英語）','小組遊戲：積木、砌圖','Tell me about your family（英語）','廣東話：你和家人最喜歡做什麼活動？'],note:'重視：聆聽、理解、表達及組織能力；性格主動開放者更有利'},
+      {yr:2022,format:'後疫情復實體',qs:['英語自我介紹','小組看書/畫畫，老師從旁觀察','處境題（廣東話）：如果你在外面迷路了，你會怎樣做？'],note:'校方看重主動積極、開放外向的性格'}
+    ],
+    tips:['重視聆聽、理解、表達及組織能力','性格主動開放更有利；多鼓勵孩子主動發言','小六寄宿是必須的，家長應有充分心理準備和事先討論'],
+    redflags:['過於害羞、完全不與陌生人互動','無法跟從簡單英語指示']
+  },
+  isf:{
+    criteria:[{l:'雙語能力（英語+普通話）',p:30},{l:'好奇心/探究思維',p:25},{l:'家庭價值觀契合',p:25},{l:'社交能力',p:20}],
+    steps:['網上申請（每年8–9月）','第一輪：全體申請人受邀，雙語小組評估（英語+普通話各約30分鐘）','小組活動（每組10–20人），以玩樂形式評估好奇心、表達力、合作精神','入選者收邀進行第二輪：學生+家長共同與校方高層面試','12月（升小一）或2月（直入一年級）發放取錄通知'],
+    yearly:[
+      {yr:2024,format:'雙語（英語+普通話），小組活動，升小一每組約10人',qs:['自我介紹：姓名、家庭、興趣','圖片描述：指認及說出物件名稱','你在家最喜歡做什麼？','用英語及普通話各回答同一道問題','（家長第二輪）為何選擇弘立？家庭教育理念是什麼？','（家長第二輪）如何培育孩子的中英文？孩子與同伴發生衝突時你如何處理？'],note:'第二輪幾乎全靠家庭價值觀——熟讀學校「八德一智」哲學再自然融入回答'},
+      {yr:2023,format:'雙語小組評估，疫情後完全恢復實體',qs:['自我介紹（姓名、家庭、興趣）','積木建造/創意任務','你假期做了什麼？','展示分享：介紹最喜歡的玩具或書','（家長）中國文化在子女成長中扮演什麼角色？','（家長）「八德一智」對你有什麼意義？'],note:'弘立幼稚園直升申請人於第二輪重新評估中具優先'},
+      {yr:2022,format:'第一年完全恢復實體面試（2020–21為視頻提交）',qs:['辨認物件、顏色、形狀','介紹最喜歡的書','簡單普通話計數/兒歌','圖片觀察及口頭描述','（家長）為何選擇弘立？家庭雙語環境如何維持？'],note:'2022年是恢復全實體關鍵年；部分家長反映小組活動比疫前少了結構感'}
+    ],
+    tips:['如針對升小一，入讀弘立幼稚園可獲直接優先取錄優勢','英語及普通話兩者均需達到合理水平；純廣東話孩子競爭劣勢較大','第二輪幾乎完全考核家庭價值——深入研究「八德一智」哲學並自然融入回答','孩子應有真正的好奇心，而非操練答案','衣著端莊但無需過份正式；學校文化低調','家長應展示自己是教育夥伴，而非單純的消費者'],
+    redflags:['孩子看似過度操練或背誦模板答案——評估人員會刻意轉問打亂預設回答','在申請表上聲稱多於一種母語','第二輪前未了解學校「八德一智」哲學','沒有中國文化接觸背景——與學校核心不符','家長在第一輪接送時將焦慮情緒投射到孩子身上']
+  },
+  yingwa:{
+    criteria:[{l:'語文基礎（中英）',p:30},{l:'好奇心/創意/分析思維',p:25},{l:'閱讀習慣',p:20},{l:'社交禮儀',p:15},{l:'家庭教育觀（第三輪）',p:10}],
+    steps:['簡介會（6月下旬；歷史上8分鐘內爆滿）','網上申請（7月初）','第一輪：個人評估（8–9月）——教師分站；帶自備顏色筆及1本中或英文書','第一輪結果——約15%晉級（約600名）','第二輪：5人小組+校長（30–40分鐘）——遊戲、找不同、帶書分享','第二輪結果——約50%晉級','第三輪：學生+家長+校長（約10分鐘）——開放親子互動觀察','最終結果（11–12月）'],
+    yearly:[
+      {yr:2024,format:'第一輪改為個人評估（2024簡介會確認），非小組',qs:['自由繪畫（有提示主題）；寫上自己名字','朗讀英語句子：如「One little chicken is playing football」','情境題：在餐廳送錯菜如何處理？','找出帶指定部首的字；組詞（如「火」→火車、生火）','積木/方塊按顏色或形狀分類','簡單數學：奧數風格（9–?=5；數列規律）','常識：紅色與綠色小巴有什麼分別？','（第二輪）校長小組：找不同、記憶遊戲、朗讀書本任意頁'],note:'校長明言：若孩子給出模板答案會即時追問——刻意測試是否過度操練'},
+      {yr:2023,format:'第一輪個人評估（疫後恢復），三輪制維持',qs:['中文識字：閱讀50個詞彙；字卡配對遊戲','英文：閱讀50個詞彙；朗讀短句','數學：個位數加減；按形狀和數量數球','常識：四大古文明（古巴比倫、古埃及、古印度、中國）','繪畫：觀察圖片→自由創意繪畫','（第二輪）拼圖（籃球場）→問用途；找圖中隱藏動物','（第三輪家長）父親/母親哪位更常與孩子一起閱讀？'],note:'2022–23年視頻提交方式完全停用'},
+      {yr:2022,format:'第一輪恢復面對面（首次疫後實體）；家長須在校外等候',qs:['情境題：餐廳送錯菜、在街上迷路、同學打架（如何處理）','積木/磚塊分類任務','圖片配對及觀察','繪畫：觀察圖片後自由作畫','帶自備書——老師觀察閱讀習慣；或就書提問','（第二輪）5人小組：拼圖、找隱藏動物','（第三輪）家長開放問答'],note:'防疫限制下，第一輪家長須在校外等候'}
+    ],
+    tips:['閱讀是重中之重——培養真正的日常閱讀習慣（中英文）','帶孩子熟悉且真正喜歡的書；校長隨時翻任何頁提問','練習奧數風格數學（簡單數列/缺失數字）','校長明確警告勿過度操練——操練痕跡重者會收到針對性追問','第三輪有2分鐘自選環節——準備真正個人化的分享','男孩應展示耐性：不搶答、耐心輪流、細心聆聽','第一輪不接受個人Portfolio（校方政策）'],
+    redflags:['在小組環節搶先答題——校長引述缺乏耐性為常見失敗原因','遇上陌生教師略轉問題便停頓/失語——校長直接點名批評此情況','過多課外活動令閱讀時間大幅壓縮','家長似乎只看重學校名氣而非辦學理念','在第一輪提交精美Portfolio（不獲接收，顯示期望錯位）']
+  },
+  rccps:{
+    criteria:[{l:'孩子學術準備（數字/識字）',p:25},{l:'孩子社交能力（小組拼圖）',p:25},{l:'家長價值觀與天主教精神契合',p:25},{l:'天主教受洗背景（優先）',p:15},{l:'兄弟姊妹/校友關聯',p:10}],
+    steps:['網上申請（7–8月；Portfolio可選，最多2版A4）','簡介會（7月；線上或混合）','第一輪面試（9月；所有申請人）：家長+孩子同入→教師提問家長→孩子個別評估→3人小組拼圖','第一輪結果（10月）','第二輪面試（10月；入選者）','取錄通知（11月中）'],
+    yearly:[
+      {yr:2024,format:'兩輪；9月及10月面試',qs:['（家長）為何選擇高主教？對子女有何期望（除學業外）？','（家長）子女週末做什麼活動？','（家長）子女行為不當時如何處理？','（孩子）你叫什麼名字？幾月出生？家裡電話號碼？','（孩子）用英語數1–15；在數字方格中找1–20','（孩子）上週末你做了什麼？','（孩子）你在家通常做什麼？','小組活動：3名孩子合作砌拼圖；部分需在複雜圖片中找隱藏動物'],note:'學校會預先篩選Portfolio，或因應背景調整面試語言'},
+      {yr:2023,format:'同上，兩輪（9月+10月）',qs:['（家長）你認為哪些發展範疇最重要？','（家長）你如何看待學業成績？','（孩子）姓名、生日，就讀幼稚園名稱','（孩子）英語數1–15；在方格中辨認1–20','小組拼圖（3名孩子）','在圖片中找隱藏元素（動物、物件）'],note:'P6畢業生100%升讀Band 1B學校；直接升讀高主教書院'},
+      {yr:2022,format:'恢復完全實體；2022年9月17日第一輪，10月22日第二輪',qs:['（家長）對學校有何期望？如何管理孩子課外活動？','（孩子）姓名、出生月份、家裡電話','（孩子）普通話：數1–10','（孩子）你今天怎麼來到學校？爸爸在哪裡？','（孩子）你知道這間學校叫什麼名字嗎？','（孩子）英語數字方格：找出並讀出1–15','小組拼圖（同一面試室內3名孩子）'],note:'逾1,100人申請；肇輝臺道路極窄——建議早到或乘的士'}
+    ],
+    tips:['天主教受洗證書有實質加分——如適用請提交','Portfolio可選但應提交；嚴格限制2版A4正反兩面','兄弟姊妹/家長校友關聯應有文件記錄','英文數字辨認及數數至15是一貫考核項目','拼圖合作環節：教孩子邀請他人一起做，而非主導獨力完成','肇輝臺道路極為狹窄——預留30分鐘以上額外時間，建議乘搭的士'],
+    redflags:['忘記帶幼稚園K2成績表（必備文件）','Portfolio超過2版A4','孩子在小組拼圖時主導獨行，不讓同伴參與','家長對學校天主教背景或功課文化缺乏了解','最後一刻才到達——道路擠塞問題出名','孩子無法以廣東話進行基本對話']
+  },
+  kauyan:{
+    criteria:[{l:'有禮貌、可教性',p:30},{l:'學習能力/思維素質',p:25},{l:'閱讀習慣/求知慾',p:20},{l:'社交技巧、分享、合作',p:15},{l:'K2幼稚園成績表',p:10}],
+    steps:['申請提交（9月初截止）','單輪面試日（9–10月提供3個日期供家長選擇）','6–7名孩子一組，3位教師觀察約40分鐘——自由遊戲/結構性遊戲/聊天','短暫閱讀時間（教師觀察孩子閱讀書本習慣）','教師揀選候選人→入選者分批進見校長（每組約8–10分鐘）','結果於面試後約2星期公佈（11月）'],
+    yearly:[
+      {yr:2024,format:'全單輪面試（部分入選者進見校長）；不設家長面試',qs:['3名孩子一組合作砌積木/拼圖','教師以簡單廣東話及英語提問','（進見校長）「如果你有多啦A夢的百寶袋，你會拿出什麼？」','（進見校長）「如果你可以變成任何動物，你會選哪一種？為什麼？」','K2水平的簡單數學/英語辨認'],note:'校長確認：不設「正確答案」；面試氣氛如「玩耍」——多名孩子形容為「所有學校最有趣的面試」'},
+      {yr:2023,format:'同上，單輪；9月面試日期',qs:['小組遊戲及合作砌積木','K2水平的簡單廣東話/英語問答','校長創意/開放式問題'],note:'全港約2,500名申請人爭約90個學額'},
+      {yr:2022,format:'單輪；原訂10月5日，因交通問題改至10月12日',qs:['小組合作活動（砌積木、拼圖）','教師觀察孩子間的互動、分享、禮儀','K2水平的簡單中英文/數字辨認','校長創意問答'],note:'家長形容：「我孩子出來時像剛打完波——非常開心」'}
+    ],
+    tips:['完全聚焦孩子本身——此學校不設家長面試','目標是孩子有禮貌、好奇、願意分享，並真正享受學習','閱讀習慣非常重要：校長明確重視家長是否在家與孩子一起閱讀','K2成績表會被參考——確保它能反映孩子的良好表現','教孩子以自信和愉快的態度回答任何創意問題，不求「正確答案」','切勿過度操練：學校明確拒絕被操練的孩子','校長公開批評多輪面試對幼兒不人道，本校採單輪評估理念'],
+    redflags:['孩子被大量操練以致無法自然回應意外問題','在小組環節中害羞或哭泣——孩子必須能與陌生人相處','小組活動中具競爭性或自私行為（不分享玩具/材料）','家長刻意操練孩子給出「正確」學術答案——校長直接批評此做法','期待家長面試——根本不設，切勿有此期望']
+  },
+  stpaulsconvent:{
+    criteria:[{l:'第二輪面試表現',p:50},{l:'第一輪面試表現',p:40},{l:'學校關聯（兄弟姊妹/校友）',p:10}],
+    steps:['主動申請（透過admission.ekinder.com.hk）','申請包括：出生證明、相片、K2成績表、天主教受洗證明（如適用）','孩子提前提交：2份英文書本報告及2份中文書本報告（各250–300字，須含書名及作者）','第一輪面試（9–10月）：個人面試，分英文及中文兩個獨立評估節','第一輪結果——約250名入選','第二輪面試（11月）：個人或小組；由更資深評估人員進行','取錄結果（11–12月）'],
+    yearly:[
+      {yr:2024,format:'兩輪，英語為主；可選廣東話或普通話組（申請時申報）',qs:['（英語節）抽卡問答：「你最喜歡的食物是什麼？」','（英語節）「放學後你喜歡做什麼？」','（英語節）「介紹你最喜歡的書」','（英語節）朗讀提交的英文書任何一頁；有關書中人物、情節、作者的問題','（中文節）「學唐詩學到了什麼？」','（中文節）「你空閒時最喜歡做什麼？」','（中文節）廣東話/普通話常識；漢字辨認練習'],note:'書本報告提交要求相當於非正式首輪篩選——無法提交高質素報告的家庭傾向不申請'},
+      {yr:2023,format:'同上，兩輪制',qs:['（英語）「你最喜歡的食物是什麼？」/日常生活問題（抽卡）','（中文）漢字辨認；討論帶來的書本內容','「你從閱讀中學到什麼？」','常識：香港文化、日常生活情境'],note:'學校允許家長在廣東話及英語組之間選擇；評分相同。普通話組申請人額外參加普通話測試'},
+      {yr:2022,format:'疫後恢復完全實體；每次面試由兩位教師進行（含一位英語母語教師）',qs:['（英語）抽卡問答（每題約1分鐘）','（中文）唐詩知識（歷年一貫考核項目）','關於提交書本內容的問題'],note:'歷年常見問題——英語：「你最喜歡的食物？」、「放學後你喜歡做什麼？」；中文：「唐詩學到了什麼？」'}
+    ],
+    tips:['盡早準備書本報告——需真正的閱讀理解；模板式報告一眼即穿','孩子必須對提交的書本瞭如指掌；教師隨機翻任何頁並要求朗讀及解說','英語練習以自信眼神接觸回答抽卡問題；以1分鐘結構式答案作回應','中文方面，唐詩知識是歷年考核範疇——開始記誦及討論適合年齡的唐詩意思','天主教背景（受洗）在申請表上有記錄，可能有利','如申請普通話組，普通話流利程度必須是真實的','學校為女校——聚焦於儀態、自信和清晰口語表達'],
+    redflags:['書本報告明顯由家長代寫——經驗教師一眼看穿','提交孩子未真正閱讀或無法討論的書本','英語閱讀流利程度不足——這是英語授課學校，是首要考核標準','被追問時無法討論書本內容（僅能概括）','以普通話組申請但普通話能力不真實','要求兄弟姊妹/校友加分但沒有提交相關文件']
+  },
+  logos:{
+    criteria:[{l:'小組遊戲及活動觀察',p:50},{l:'親子面試（IB理念契合）',p:40},{l:'其他',p:10}],
+    steps:['第一輪：小組遊戲，老師在旁觀察孩子互動及反應','第二輪：親子面試，考察家長對IB教育理念的認識與契合程度'],
+    yearly:[
+      {yr:2024,format:'兩輪；小組遊戲+親子面試（小紅書家長分享）',qs:['老師說（Simon Says）遊戲','碰凍遊戲','Tip Toe靜音走路活動','恐龍卡分類活動','（親子輪）介紹IB一條龍理念及家庭期望'],note:'學校主打IB一條龍；家長需了解IB哲學及雙語培育方向'}
+    ],
+    tips:['深入了解IB課程理念，面試時自然融入回答','孩子應展示好奇心、主動參與、樂於探索的特質','親子環節重視家庭是否認同IB終身學習理念'],
+    redflags:['家長對IB課程理念認識不足','孩子過於安靜、不參與小組活動']
+  },
+  plkcts:{
+    criteria:[{l:'語文及數學評估',p:50},{l:'創意及邏輯思維',p:30},{l:'社交互動觀察',p:20}],
+    steps:['小組面試，涵蓋中、英、數多個評估環節','老師以活動形式評估語言能力及邏輯思維'],
+    yearly:[
+      {yr:2025,format:'小組面試，多環節評估（小紅書家長分享）',qs:['數學邏輯題：棒棒糖數量計算','中文及英文認讀評估','看圖說故事','創意題：看影片後畫一種動物'],note:'來源：小紅書家長分享（2025年）'},
+      {yr:2024,format:'同上，語文+數學+創意',qs:['中文、英文、數學各環節評估','圖案創作活動'],note:'學科評估涵蓋幼稚園K2至小一銜接程度'}
+    ],
+    tips:['準備基礎中英文識字及簡單數學（20以內加減）','孩子應能獨立完成簡單任務，展示學習準備度','創意活動不設標準答案，放鬆表現即可'],
+    redflags:['語文或數學基礎明顯不足','無法獨立完成指令任務']
+  },
+  evangel:{
+    criteria:[{l:'小組觀察（社交、合作、語言）',p:60},{l:'個人問答',p:30},{l:'其他',p:10}],
+    steps:['所有申請人均受邀面試（約3,000人爭150位）','6–8人一組，小組遊戲及個人問答環節'],
+    yearly:[
+      {yr:2025,format:'6–8人小組面試（小紅書家長分享）',qs:['音樂椅遊戲（Musical Chairs）','小組自由互動觀察','個人問答：自我介紹、喜好'],note:'約3,000人申請爭150位學額；競爭激烈'},
+      {yr:2024,format:'同上，小組為主',qs:['小組遊戲活動','個人問答環節'],note:''},
+      {yr:2023,format:'小組面試',qs:['集體遊戲觀察','個人問答'],note:''}
+    ],
+    tips:['孩子應展示合群、主動、有禮的特質','小組遊戲中積極參與但不強行主導','自我介紹準備廣東話版本'],
+    redflags:['完全不參與小組活動','過於主導令其他小朋友無法參與']
+  },
+  luac:{
+    criteria:[{l:'親子面試表現',p:60},{l:'孩子個人表現',p:30},{l:'其他',p:10}],
+    steps:['第一輪：孩子個人評估','第二輪：親子面試（家長+孩子一同出席），考察家庭教育理念'],
+    yearly:[
+      {yr:2025,format:'親子面試，約11月22日（小紅書家長分享）',qs:['（孩子）自我介紹及基本問答','（家長）教育理念及期望','（親子）互動觀察'],note:'2025年面試約於11月22日舉行'},
+      {yr:2024,format:'兩輪；孩子個人+親子面試',qs:['孩子個人問答','親子互動及家庭面談'],note:'學費全港直資最貴（$86,190/年）；國際視野培育為重'}
+    ],
+    tips:['家長需深入了解學校基督教教育理念','孩子應能以廣東話及英語進行基本溝通','親子關係自然互動比刻意準備更重要'],
+    redflags:['家長對學校辦學理念認識不足','親子互動生硬或孩子過度依賴家長']
+  },
+  hanwah:{
+    criteria:[{l:'語文能力（中英）',p:50},{l:'學習態度及社交',p:30},{l:'其他',p:20}],
+    steps:['小組或個人面試，涵蓋中英文評估環節'],
+    yearly:[
+      {yr:2024,format:'面試（小紅書家長分享）',qs:['中文問答及認讀','英文基礎評估','個人問答：自我介紹'],note:'一條龍升讀漢華中學；學費相對親民'}
+    ],
+    tips:['中英文基礎準備為主','孩子展示有禮、主動的態度'],
+    redflags:['語文能力明顯薄弱']
+  },
+  plklmt:{
+    criteria:[{l:'英語能力',p:50},{l:'學習準備度',p:30},{l:'社交互動',p:20}],
+    steps:['面試以英語為主，考察孩子語言能力及學習準備度'],
+    yearly:[
+      {yr:2024,format:'英語為主面試（小紅書家長分享）',qs:['英語自我介紹','英文問答及認讀','基礎數學評估'],note:'英語教學為主；主題式學習特色'}
+    ],
+    tips:['英語能力是核心考核項目','準備英語自我介紹及日常對話'],
+    redflags:['英語能力明顯不足']
+  },
+  lingnan:{
+    criteria:[{l:'孩子個人表現（語文、常識）',p:50},{l:'品格及社交觀察',p:30},{l:'申請問卷及背景',p:20}],
+    steps:['第一輪：約9月13日（2024），全部申請人受邀','第二輪：約10月4日或18日（2024），入選者受邀；含親子面談'],
+    yearly:[
+      {yr:2025,format:'兩輪面試（小紅書家長分享）',qs:['中文認讀及問答','英文基礎評估','個人問答：自我介紹、喜好','小組互動觀察'],note:'申請問卷內容有機會在面試中被引用，填寫時宜認真'},
+      {yr:2024,format:'兩輪；9月13日第一輪，10月4日/18日第二輪',qs:['中文及英文語文評估','常識問答','（第二輪）親子面談'],note:'小班活動教學；深水埗白田街33號'}
+    ],
+    tips:['申請問卷認真填寫，內容可能於面試時被問及','中英文基礎均需準備','孩子展示主動好學的態度'],
+    redflags:['申請問卷填寫草率','語文基礎明顯不足']
+  },
+  stmargaret:{
+    criteria:[{l:'英語能力',p:50},{l:'學習準備度及社交',p:30},{l:'其他',p:20}],
+    steps:['面試以英語為主，一條龍升讀中學部'],
+    yearly:[
+      {yr:2024,format:'英語為主面試（小紅書家長分享）',qs:['英語自我介紹','英文問答及認讀','社交互動觀察'],note:'天主教一條龍學校；深水埗欽州街63號'}
+    ],
+    tips:['英語能力是核心考核項目','天主教背景（受洗）或有優先'],
+    redflags:['英語能力明顯不足','對學校天主教背景認識不足']
+  },
+  fukien:{
+    criteria:[{l:'數學及語文評估',p:50},{l:'協調能力（2025新增）',p:30},{l:'社交及品德觀察',p:20}],
+    steps:['小組面試，涵蓋數學、語文及協調能力評估環節','家長在大廳等候，孩子單獨進行面試'],
+    yearly:[
+      {yr:2025,format:'小組面試，新增協調能力評估（小紅書家長分享）',qs:['iPad數學評估（20以內加減法）','普通話問答環節','協調能力活動（2025年新增項目）','個人問答'],note:'2025年新增協調能力評估；家長須在大廳等候'},
+      {yr:2024,format:'小組面試；iPad數學+語文',qs:['iPad數學：20以內加減法','普通話：自我介紹及日常問答','個人問答'],note:'一條龍升讀福建中學；學費$44,000/年'}
+    ],
+    tips:['熟練20以內加減法（iPad形式作答）','準備普通話自我介紹','2025年起加入協調能力評估，可透過體能活動加以準備'],
+    redflags:['數學基礎薄弱（特別是20以內加減）','普通話完全不懂']
+  },
+  hkbu:{
+    criteria:[{l:'學術評估（語文、數學）',p:40},{l:'面試表現（第一輪）',p:35},{l:'第二輪深入評估',p:25}],
+    steps:['第一輪：全部申請人均受邀（約5,000人爭120學額）','第二輪：入選者受邀，更深入的語文及思維評估'],
+    yearly:[
+      {yr:2025,format:'兩輪；英語教學為主（小紅書家長分享）',qs:['英語自我介紹及問答','語文認讀及理解','基礎數學評估','（第二輪）更深入語文及思維題'],note:'約5,000人申請爭120學額（約42:1）；競爭極激烈'},
+      {yr:2024,format:'兩輪面試',qs:['英語語文評估','數學評估','個人問答'],note:'英語授課為主；沙田石門安睦里6號'}
+    ],
+    tips:['英語能力是核心考核（英語授課學校）','準備基礎數學及英語閱讀','競爭極激烈，孩子應有紮實英語基礎'],
+    redflags:['英語能力明顯不足','數學基礎薄弱']
+  },
+  puikwan:{
+    criteria:[{l:'語文及學術評估',p:50},{l:'社交及品德觀察',p:30},{l:'其他',p:20}],
+    steps:['面試形式靈活，設視頻面試選項','考察孩子學術準備度及社交能力'],
+    yearly:[
+      {yr:2024,format:'面試（設視頻選項）（小紅書家長分享）',qs:['語文評估（中英文）','個人問答','社交互動觀察'],note:'設視頻面試選項；一條龍升讀培僑書院中學'}
+    ],
+    tips:['可選實體或視頻面試形式','中英文基礎均需準備'],
+    redflags:['語文基礎薄弱']
+  },
+  gtelite:{
+    criteria:[{l:'親子面試（家長+孩子）',p:50},{l:'小組互動觀察',p:30},{l:'其他',p:20}],
+    steps:['小組遊戲觀察環節','親子面試，考察家庭教育方向'],
+    yearly:[
+      {yr:2024,format:'親子面試+小組觀察（小紅書家長分享）',qs:['小組遊戲：考察主動性及互動','（親子）家庭教育理念及期望','（孩子）自我介紹及基本問答'],note:'一條龍升讀優才書院；將軍澳及旺角各設校舍'}
+    ],
+    tips:['主動的孩子在小組遊戲中更有優勢','親子環節家長需展示清晰的教育理念','了解學校一條龍及STEM教育方向'],
+    redflags:['孩子過於被動、不參與小組活動','家長對學校辦學理念認識不足']
+  }
+};
+
+const MF=Math.max(...S.map(s=>s.fee));
+let exp=null;
+const F={q:'',type:'',region:'',gender:'',through:'',sort:'fd'};
+
+function showSec(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='compare')renderCompare();
+  if(id==='interview')renderInterview();
+}
+function syncURL(){
+  const p=new URLSearchParams();
+  if(F.q)p.set('q',F.q);
+  if(F.type)p.set('type',F.type);
+  if(F.region)p.set('region',F.region);
+  if(F.gender)p.set('gender',F.gender);
+  if(F.through)p.set('through',F.through);
+  if(F.sort&&F.sort!=='fd')p.set('sort',F.sort);
+  if(exp)p.set('open',exp);
+  history.replaceState(null,'',p.toString()?'?'+p.toString():location.pathname);
+}
+function loadURL(){
+  const p=new URLSearchParams(location.search);
+  const sel=document.querySelectorAll('#schools .filter-row select');
+  if(p.get('q')){F.q=p.get('q');document.getElementById('srch').value=F.q;}
+  if(p.get('type')){F.type=p.get('type');sel[0].value=F.type;}
+  if(p.get('region')){F.region=p.get('region');sel[1].value=F.region;}
+  if(p.get('gender')){F.gender=p.get('gender');sel[2].value=F.gender;}
+  if(p.get('through')){F.through=p.get('through');sel[3].value=F.through;}
+  if(p.get('sort')){F.sort=p.get('sort');document.getElementById('srt').value=F.sort;}
+  renderCards();
+  if(p.get('open')){setTimeout(()=>toggle(p.get('open')),50);}
+}
+function applyFilter(){
+  const sel=document.querySelectorAll('#schools .filter-row select');
+  F.q=document.getElementById('srch').value.trim();
+  F.type=sel[0].value;F.region=sel[1].value;F.gender=sel[2].value;F.through=sel[3].value;F.sort=sel[4].value;
+  renderCards();syncURL();
+}
+function filtered(){
+  const q=F.q.toLowerCase();
+  let l=S.filter(s=>{
+    if(q&&!s.name.toLowerCase().includes(q)&&!s.eng.toLowerCase().includes(q))return false;
+    if(F.type&&s.type!==F.type)return false;
+    if(F.region&&!s.region.includes(F.region))return false;
+    if(F.gender&&s.gender!==F.gender)return false;
+    if(F.through&&s.through!==F.through)return false;
+    return true;
+  });
+  if(F.sort==='fa')l.sort((a,b)=>a.fee-b.fee);
+  else if(F.sort==='fd')l.sort((a,b)=>b.fee-a.fee);
+  else l.sort((a,b)=>(b.ratio||0)-(a.ratio||0));
+  return l;
+}
+function switchYr(ns,yr,btn){
+  const drawer=btn.closest('.iv-drawer')||btn.closest('.icol');
+  if(!drawer)return;
+  drawer.querySelectorAll('.yr-tab').forEach(t=>t.classList.remove('on'));
+  drawer.querySelectorAll('.yr-panel').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  const panel=document.getElementById('yp-'+ns+'-'+yr);
+  if(panel)panel.classList.add('on');
+}
+function buildIVDrawer(id,ns){
+  const d=IDATA[id];
+  if(!d)return'';
+  const maxp=Math.max(...d.criteria.map(c=>c.p));
+  const critHtml=d.criteria.map(c=>`<div class="crit-row"><div class="crit-lbl">${c.l}</div><div class="crit-bar-w"><div class="crit-bar" style="width:${Math.round(c.p/maxp*100)}%"></div></div><div class="crit-pct">${c.p}%</div></div>`).join('');
+  const tabs=d.yearly.map((y,i)=>`<button class="yr-tab${i===0?' on':''}" onclick="switchYr('${ns}',${y.yr},this)">${y.yr}年</button>`).join('');
+  const panels=d.yearly.map((y,i)=>`<div class="yr-panel${i===0?' on':''}" id="yp-${ns}-${y.yr}">
+    <div class="iv-note">📋 ${y.format}</div>
+    <div class="iv-lbl">面試題目 / 任務</div>
+    ${y.qs.map(q=>`<div class="iv-q"><div class="iv-dot"></div><div>${q}</div></div>`).join('')}
+    <div class="iv-note" style="margin-top:6px;">💡 ${y.note}</div>
+  </div>`).join('');
+  const tipsHtml=d.tips.map(t=>`<div class="iv-tip">${t}</div>`).join('');
+  const redHtml=d.redflags.map(r=>`<div class="iv-red">⚠ ${r}</div>`).join('');
+  return`<div class="iv-drawer">
+    <div class="iv-drawer-head">歷年面試記錄（2022年後）</div>
+    ${critHtml}
+    <div class="iv-lbl" style="margin-top:8px;">按年份查看</div>
+    <div class="yr-tabs">${tabs}</div>
+    ${panels}
+    <div class="iv-lbl" style="margin-top:10px;">備考貼士</div>${tipsHtml}
+    <div class="iv-lbl">注意事項</div>${redHtml}
+  </div>`;
+}
+function renderCards(){
+  const l=filtered();
+  document.getElementById('sc').textContent=l.length+'間';
+  document.getElementById('rc').textContent='共'+l.length+'所';
+  document.getElementById('cg').innerHTML=l.map(s=>`
+    <div class="school-card" id="card-${s.id}" onclick="toggle('${s.id}')">
+      <div class="card-stripe ${s.type==='直資'?'s-dss':'s-pri'}"></div>
+      <div class="card-name">${s.name}</div>
+      <div class="card-eng">${s.eng}${s.founded?' · 創校'+s.founded:''}</div>
+      <div class="badges">
+        <span class="badge ${s.type==='直資'?'b-dss':'b-pri'}">${s.type}</span>
+        <span class="badge ${s.gender==='男校'?'b-boy':s.gender==='女校'?'b-girl':'b-coed'}">${s.gender}</span>
+        ${s.religion&&s.religion!=='無'?`<span class="badge b-rel">${s.religion}</span>`:''}
+        ${s.through?`<span class="badge b-thru">${s.through}</span>`:''}
+      </div>
+      <div class="card-fee">$${s.fee.toLocaleString()}<span> 全年</span></div>
+      <div class="card-addr">📍 ${s.addr}</div>
+      ${s.ratio?`<div class="card-ratio">競爭比例 ${s.ratio}:1</div>`:''}
+      <div class="card-detail" id="det-${s.id}">
+        <div class="det-grid">
+          ${s.places?`<div class="det-stat"><div class="det-label">小一學額</div><div class="det-val">${s.places}</div></div>`:''}
+          ${s.applicants?`<div class="det-stat"><div class="det-label">年報考人數</div><div class="det-val">~${s.applicants.toLocaleString()}</div></div>`:''}
+          ${s.ratio?`<div class="det-stat"><div class="det-label">競爭比例</div><div class="det-val">${s.ratio}:1</div></div>`:''}
+          ${s.teachers?`<div class="det-stat"><div class="det-label">全校教師</div><div class="det-val">${s.teachers}人</div></div>`:''}
+          ${s.qual&&s.qual!=='—'?`<div class="det-stat"><div class="det-label">師資學歷</div><div class="det-val" style="font-size:11px;">${s.qual}</div></div>`:''}
+          ${s.classes?`<div class="det-stat"><div class="det-label">全校班數</div><div class="det-val">${s.classes}班</div></div>`:''}
+          ${s.area?`<div class="det-stat"><div class="det-label">校園面積</div><div class="det-val">${s.area.toLocaleString()}㎡</div></div>`:''}
+          ${s.principal&&s.principal!=='—'?`<div class="det-stat"><div class="det-label">校長</div><div class="det-val" style="font-size:11px;">${s.principal}</div></div>`:''}
+        </div>
+        ${s.fac.length?`<div style="margin-bottom:9px;"><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-light);margin-bottom:5px;">學校設施</div><div class="fac-list">${s.fac.map(f=>`<span>${f}</span>`).join('')}</div></div>`:''}
+        <div class="ipreview">面試：${s.iRounds>0?s.iRounds+'輪面試':'免面試'} · 語言：${s.iLang}</div>
+        ${s.notes?`<div class="card-note">💡 ${s.notes}</div>`:''}
+        ${buildIVDrawer(s.id,'c'+s.id)}
+        ${IDATA[s.id]?`<div class="card-cta"><button onclick="event.stopPropagation();goI('${s.id}')">查看完整面試攻略 →</button></div>`:''}
+      </div>
+    </div>`).join('');
+}
+function toggle(id){
+  const d=document.getElementById('det-'+id);
+  const c=document.getElementById('card-'+id);
+  if(exp&&exp!==id){document.getElementById('det-'+exp).classList.remove('show');document.getElementById('card-'+exp).classList.remove('expanded');}
+  d.classList.toggle('show');c.classList.toggle('expanded');
+  exp=d.classList.contains('show')?id:null;
+  syncURL();
+}
+function goI(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('interview').classList.add('active');
+  document.querySelectorAll('.nav-tab')[2].classList.add('active');
+  if(!document.getElementById('ilist').innerHTML)renderInterview();
+  setTimeout(()=>{const el=document.getElementById('i-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},100);
+}
+function renderCompare(){
+  const ids=['spcc','dbs','dgjs','hkugaps','pcps','cky','spcps','isf','vsa','malvern','stcps','luac','creative'];
+  const top=S.filter(s=>ids.includes(s.id));
+  document.getElementById('ctbody').innerHTML=top.map(s=>{
+    const w=Math.round(s.fee/MF*100);
+    return`<tr>
+      <td class="school-nm">${s.name}</td>
+      <td><span class="badge ${s.type==='直資'?'b-dss':'b-pri'}">${s.type}</span></td>
+      <td class="fee-nm">$${s.fee.toLocaleString()}</td>
+      <td><div class="bar-w"><div class="cbar" style="width:${w}px;background:${s.type==='直資'?'var(--teal)':'var(--gold)'}"></div></div></td>
+      <td>${s.places||'—'}</td>
+      <td>${s.applicants?'~'+s.applicants.toLocaleString():'—'}</td>
+      <td>${s.ratio?s.ratio+':1':'—'}</td>
+      <td>${s.teachers||'—'}</td>
+      <td>${s.qual}</td>
+      <td>${s.classes?s.classes+'班':'—'}</td>
+      <td>${s.area?s.area.toLocaleString():'—'}</td>
+      <td>${s.through||'—'}</td>
+      <td style="font-size:11px;">${s.fac.slice(0,3).join('、')}</td>
+    </tr>`;
+  }).join('');
+}
+const IVList=[
+  {id:'spcc',sub:'直資 · $82,300/年 · 27:1競爭 · 150學額',rank:1},
+  {id:'dbs',sub:'直資 · $58,190/年 · ~4,000人報考爭150位',rank:2},
+  {id:'dgjs',sub:'私立 · $86,000/年 · ~3,000人報考爭144位',rank:3},
+  {id:'pcps',sub:'私立 · $66,400/年 · 85%幼稚園部直升',rank:4},
+  {id:'spcps',sub:'直資 · $32,000/年 · ~2,400人報考',rank:5},
+  {id:'cky',sub:'私立 · $99,825/年 · 一條龍至IB文憑 · 170學額',rank:6},
+  {id:'hkugaps',sub:'直資 · $37,880/年 · 約6,000人申請',rank:7},
+  {id:'stcps',sub:'私立 · $92,500/年 · 約20人爭一學額 · 小六必寄宿',rank:8},
+  {id:'isf',sub:'私立 · $240,320/年 · 雙語（英語+普通話）· 一條龍至IB',rank:9},
+  {id:'yingwa',sub:'直資 · $19,000/年 · 三輪面試 · 約4,000人報考',rank:10},
+  {id:'rccps',sub:'私立 · $58,800/年 · 天主教 · 逾1,100人申請',rank:11},
+  {id:'kauyan',sub:'私立 · $70,600/年 · 單輪面試 · 約2,500人爭90位',rank:12},
+  {id:'stpaulsconvent',sub:'私立 · $55,000/年 · 天主教女校 · 書本報告入場券',rank:13},
+  {id:'logos',sub:'直資 · $28,600/年 · IB一條龍 · 小組遊戲+親子面試',rank:14},
+  {id:'plkcts',sub:'直資 · $20,500/年 · 多元文化 · 語文+數學+創意評估',rank:15},
+  {id:'evangel',sub:'直資 · $25,000/年 · 約3,000人爭150位 · 小組遊戲',rank:16},
+  {id:'luac',sub:'直資 · $86,190/年 · 全港最貴直資 · 親子面試',rank:17},
+  {id:'lingnan',sub:'直資 · $18,380/年 · 兩輪面試 · 申請問卷重要',rank:18},
+  {id:'fukien',sub:'直資 · $44,000/年 · iPad數學 · 普通話 · 2025新增協調能力',rank:19},
+  {id:'hkbu',sub:'直資 · $44,800/年 · ~5,000人爭120位 · 英語授課',rank:20},
+  {id:'stmargaret',sub:'直資 · $53,570/年 · 天主教一條龍 · 英語為主',rank:21},
+  {id:'hanwah',sub:'直資 · $17,640/年 · 一條龍 · 中英文評估',rank:22},
+  {id:'plklmt',sub:'直資 · $15,450/年 · 英語教學 · 主題式學習',rank:23},
+  {id:'puikwan',sub:'直資 · $30,000/年 · 設視頻面試選項 · 一條龍',rank:24},
+  {id:'gtelite',sub:'直資 · $35,310/年 · 一條龍 · 親子面試+小組遊戲',rank:25},
+];
+function renderInterview(){
+  document.getElementById('ilist').innerHTML=IVList.map(iv=>{
+    const d=IDATA[iv.id];if(!d)return'';
+    const school=S.find(x=>x.id===iv.id);
+    const maxp=Math.max(...d.criteria.map(c=>c.p));
+    const rb='rb'+iv.rank;
+    const tabs=d.yearly.map((y,i)=>`<button class="yr-tab${i===0?' on':''}" onclick="switchYr('i${iv.id}',${y.yr},this)">${y.yr}年</button>`).join('');
+    const panels=d.yearly.map((y,i)=>`<div class="yr-panel${i===0?' on':''}" id="yp-i${iv.id}-${y.yr}">
+      <div class="tipbox">${y.format}</div>
+      ${y.qs.map(q=>`<div class="qrow"><span class="qtag ql">題目</span><span style="font-size:12px;color:var(--ink);line-height:1.5;">${q}</span></div>`).join('')}
+      <div class="tipbox acc" style="margin-top:6px;">${y.note}</div>
+    </div>`).join('');
+    return`<div class="icard" id="i-${iv.id}">
+      <div class="iheader">
+        <div class="rbadge ${rb}">${iv.rank}</div>
+        <div style="flex:1">
+          <div class="ischool-name">${school.name}</div>
+          <div class="isub">${iv.sub}</div>
+          <div class="imeta">
+            <span class="badge b-dss">面試${school.iRounds}輪</span>
+            <span class="badge b-rel">語言：${school.iLang}</span>
+          </div>
+        </div>
+      </div>
+      <div class="ibody">
+        <div class="icol">
+          <h4>收生準則比重</h4>
+          ${d.criteria.map(c=>`<div class="srow"><div class="slabel">${c.l}</div><div class="sbar-w"><div class="sbar" style="width:${Math.round(c.p/maxp*100)}%"></div></div><div class="spct">${c.p}%</div></div>`).join('')}
+          <h4 style="margin-top:13px;">面試流程</h4>
+          ${d.steps.map((st,i)=>`<div class="step-r"><div class="step-c">${i+1}</div><div class="step-t">${st}</div></div>`).join('')}
+        </div>
+        <div class="icol">
+          <h4>歷屆面試記錄（按年份）</h4>
+          <div class="yr-tabs">${tabs}</div>
+          ${panels}
+          <h4 style="margin-top:13px;">備考貼士</h4>
+          ${d.tips.map(t=>`<div class="tipbox">${t}</div>`).join('')}
+          <h4 style="margin-top:8px;">注意事項</h4>
+          ${d.redflags.map(r=>`<div class="tipbox acc">⚠ ${r}</div>`).join('')}
+          <button class="mock-gen-btn" onclick="openMockModal('${iv.id}','${school.name.replace(/'/g,"\\'")}')">✨ 生成 AI 模擬試題</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+loadURL();
+</script>
+
+<!-- Mock Interview Modal -->
+<div id="mock-modal" onclick="if(event.target===this)closeMockModal()">
+  <div id="mock-box">
+    <div id="mock-head">
+      <h3 id="mock-title">AI 模擬試題</h3>
+      <button id="mock-close" onclick="closeMockModal()">✕</button>
+    </div>
+    <div id="mock-body">
+      <div id="mock-loading" style="display:none">
+        <div class="spin"></div>
+        <div>正在根據歷年面試資料生成模擬試題…</div>
+        <div style="font-size:11px;color:var(--ink-light);margin-top:6px;">由 Gemini AI 生成，約需 5–10 秒</div>
+      </div>
+      <div id="mock-content"></div>
+    </div>
+    <div id="mock-footer">
+      <button onclick="copyMockQuestions()">📋 複製試題</button>
+      <button class="btn-regen" id="mock-regen-btn" onclick="generateMockInterview()">🔄 重新生成</button>
+    </div>
+  </div>
+</div>
+
+<!-- Watermark overlay -->
+<div id="wm-overlay"></div>
+
+<script>
+/* ── AI Mock Interview ── */
+const GEMINI_KEY='AIzaSyBwKeC8UsmoTUZwRzu5E0d8wmumLR1K9L8';
+const GEMINI_URL=`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${GEMINI_KEY}`;
+let _mockSchoolId=null,_mockSchoolName='',_mockRawText='';
+
+function openMockModal(schoolId,schoolName){
+  _mockSchoolId=schoolId;
+  _mockSchoolName=schoolName;
+  document.getElementById('mock-title').textContent='✨ '+schoolName+' — AI 模擬試題';
+  document.getElementById('mock-content').innerHTML='';
+  document.getElementById('mock-modal').classList.add('open');
+  document.getElementById('mock-regen-btn').disabled=false;
+  generateMockInterview();
+}
+
+function closeMockModal(){
+  document.getElementById('mock-modal').classList.remove('open');
+}
+
+async function generateMockInterview(){
+  const d=IDATA[_mockSchoolId];
+  if(!d)return;
+  const loading=document.getElementById('mock-loading');
+  const content=document.getElementById('mock-content');
+  const regenBtn=document.getElementById('mock-regen-btn');
+  loading.style.display='block';
+  content.innerHTML='';
+  regenBtn.disabled=true;
+
+  // Build context from IDATA
+  const historyLines=d.yearly.map(y=>
+    `【${y.yr}年】格式：${y.format}\n面試題目：${y.qs.join('；')}\n備注：${y.note}`
+  ).join('\n\n');
+  const criteria=d.criteria.map(c=>`${c.l}（${c.p}%）`).join('、');
+  const tips=d.tips.join('；');
+
+  const prompt=`你是一位香港小學升學面試專家。請根據以下「${_mockSchoolName}」的歷年真實面試資料，為家長生成一份模擬面試練習題目。
+
+【學校收生準則】
+${criteria}
+
+【歷年面試記錄】
+${historyLines}
+
+【備考貼士】
+${tips}
+
+請生成以下內容（全部使用繁體中文，符合香港小朋友（5–6歲）程度）：
+
+1. **個人問題**（5題）：模擬老師會問孩子的自我介紹及日常問題
+2. **認知／邏輯題**（4題）：參考該校風格，包括數學、語文或圖案邏輯
+3. **情境題**（3題）：考察孩子應變能力及品德
+4. **小組活動指引**（1個活動）：適合該校風格的模擬小組遊戲
+5. **家長面試問題**（3題）：模擬老師會問家長的問題
+
+每題後面加上一行「💡 練習提示：」說明家長如何幫孩子練習。格式要清晰易讀。`;
+
+  try{
+    const res=await fetch(GEMINI_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.8,maxOutputTokens:2048}})
+    });
+    const json=await res.json();
+    if(json.error){throw new Error(json.error.message);}
+    _mockRawText=json.candidates[0].content.parts[0].text;
+    loading.style.display='none';
+    content.innerHTML=renderMockText(_mockRawText);
+  }catch(e){
+    loading.style.display='none';
+    content.innerHTML=`<div class="tipbox acc">⚠ 生成失敗：${e.message}<br><small>請檢查網絡連接後重試</small></div>`;
+  }finally{
+    regenBtn.disabled=false;
+  }
+}
+
+function renderMockText(text){
+  // Convert markdown-style text to styled HTML
+  return text
+    .split('\n')
+    .filter(l=>l.trim())
+    .map(line=>{
+      if(/^\*\*.*\*\*/.test(line)||/^#+\s/.test(line)||/^\d+\.\s\*\*/.test(line)){
+        const clean=line.replace(/^#+\s/,'').replace(/\*\*/g,'');
+        return`<div class="mock-section">${clean}</div>`;
+      }
+      if(/^💡/.test(line)){
+        return`<div class="mock-q-hint">${line}</div>`;
+      }
+      if(/^[\-\*]\s/.test(line)){
+        return`<div class="mock-q-text" style="padding-left:12px;">• ${line.slice(2)}</div>`;
+      }
+      if(/^\d+[\.、）)]\s/.test(line)){
+        const m=line.match(/^(\d+)[\.、）)]\s(.*)/);
+        if(m)return`<div class="mock-q-block"><div class="mock-q-num">題目 ${m[1]}</div><div class="mock-q-text">${m[2]}</div></div>`;
+      }
+      return`<div class="mock-q-text" style="margin-bottom:4px;">${line}</div>`;
+    }).join('');
+}
+
+function copyMockQuestions(){
+  if(!_mockRawText){return;}
+  navigator.clipboard.writeText(`${_mockSchoolName} — AI 模擬試題\n\n${_mockRawText}`)
+    .then(()=>{
+      const btn=event.target;
+      btn.textContent='✅ 已複製';
+      setTimeout(()=>btn.textContent='📋 複製試題',2000);
+    });
+}
+</script>
+
+<script>
+(function initProtection(){
+  // 1. Disable text selection via JS (belt-and-suspenders with CSS)
+  document.addEventListener('selectstart', e => e.preventDefault());
+
+  // 2. Block copy / cut
+  document.addEventListener('copy',  e => { e.preventDefault(); });
+  document.addEventListener('cut',   e => { e.preventDefault(); });
+
+  // 3. Disable right-click context menu
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  // 4. Block keyboard shortcuts: Ctrl/Cmd + C/A/U/S/P, PrintScreen
+  document.addEventListener('keydown', e => {
+    const ctrl = e.ctrlKey || e.metaKey;
+    if(ctrl && ['c','a','u','s','p'].includes(e.key.toLowerCase())) e.preventDefault();
+    if(e.key === 'PrintScreen') e.preventDefault();
+    // F12 devtools
+    if(e.key === 'F12') e.preventDefault();
+  });
+
+  // 5. iOS long-press callout (prevents copy menu on tap-hold)
+  document.body.style.webkitTouchCallout = 'none';
+
+  // 6. Screenshot deterrence: blur entire page when tab loses visibility
+  // (user switches to screenshot tool or notification shade)
+  const mainWrap = document.querySelector('body > *:not(#wm-overlay)') || document.body;
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden){
+      document.body.classList.add('protect-blur');
+    } else {
+      // Small delay so blur is still visible if screenshot was taken at the moment of switch-back
+      setTimeout(() => document.body.classList.remove('protect-blur'), 800);
+    }
+  });
+
+  // 7. iOS: blur on focus loss (covers Control Centre swipe-up)
+  window.addEventListener('blur', () => document.body.classList.add('protect-blur'));
+  window.addEventListener('focus', () => setTimeout(() => document.body.classList.remove('protect-blur'), 800));
+})();
+</script>
+</body>
+</html>
