@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="元朗區津貼小學全攻略 2026 — 學校網72、73及74共45間學校，天水圍、元朗市及元朗鄉郊升學資料、教育方針、學額比較">
+<title>元朗區津貼小學全攻略 2026</title>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MXFBEZSRSM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MXFBEZSRSM');
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9733417337373745" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --primary: #1a5276;
+    --accent: #2e86c1;
+    --accent2: #1a8a6e;
+    --text: #1a2a3a;
+    --sub: #5a7080;
+    --border: #d0dce8;
+    --tag-bg: #e8f0f8;
+    --tag-text: #1a5276;
+    --net72: #1a5276;
+    --net73: #6c3483;
+    --net74: #7d6608;
+    --shadow: 0 2px 12px rgba(26,82,118,0.10);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'PingFang HK', 'Noto Sans HK', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  header {
+    background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
+    color: #fff;
+    padding: 28px 20px 20px;
+    text-align: center;
+  }
+  header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.02em; }
+  header p { font-size: 0.85rem; opacity: 0.85; margin-top: 6px; }
+  .net-badges { display: flex; justify-content: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .net-badge {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .stats-bar {
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 10px 20px;
+    font-size: 0.82rem;
+    flex-wrap: wrap;
+  }
+  .stats-bar span b { font-size: 1.1rem; }
+  .controls {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .search-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .search-input {
+    flex: 1;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 0.9rem;
+    color: var(--text);
+    outline: none;
+    background: var(--bg);
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn {
+    border: 1.5px solid var(--border);
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn.active, .filter-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .filter-btn.net72-btn.active { background: var(--net72); border-color: var(--net72); color: #fff; }
+  .filter-btn.net73-btn.active { background: var(--net73); border-color: var(--net73); color: #fff; }
+  .filter-btn.net74-btn.active { background: var(--net74); border-color: var(--net74); color: #fff; }
+  .sort-row {
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 8px; font-size: 0.8rem; color: var(--sub);
+  }
+  .sort-select {
+    border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 4px 10px; font-size: 0.8rem; color: var(--text);
+    background: var(--bg); cursor: pointer;
+  }
+  .result-count { margin-left: auto; color: var(--sub); font-size: 0.8rem; }
+  .school-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px; padding: 16px; max-width: 1200px; margin: 0 auto;
+  }
+  .school-card {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: var(--shadow); border: 1.5px solid var(--border);
+    overflow: hidden; transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .school-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,82,118,0.14); }
+  .school-card.selected-compare { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+  .card-header {
+    padding: 14px 16px 10px; border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #f8fbff 0%, #eef4fa 100%);
+  }
+  .card-code-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .card-code {
+    font-size: 0.72rem; color: #fff; font-weight: 700;
+    padding: 2px 8px; border-radius: 10px; letter-spacing: 0.05em;
+  }
+  .net72-badge { background: var(--net72); }
+  .net73-badge { background: var(--net73); }
+  .net74-badge { background: var(--net74); }
+  .card-places {
+    margin-left: auto; font-size: 0.8rem; font-weight: 700;
+    color: var(--accent2); background: #e8f8f0; border-radius: 10px; padding: 2px 10px;
+  }
+  .card-name { font-size: 1.02rem; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 3px; }
+  .card-eng { font-size: 0.73rem; color: var(--sub); line-height: 1.3; }
+  .card-body { padding: 12px 16px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+  .tag { font-size: 0.72rem; font-weight: 600; border-radius: 8px; padding: 2px 9px; }
+  .tag-finance { background: #e8f0f8; color: #1a5276; }
+  .tag-gov { background: #f8e8e8; color: #8e1010; }
+  .tag-religion { background: #fdf2e9; color: #784212; }
+  .tag-barrier { background: #e8f8e8; color: #186a3b; }
+  .tag-happy    { background: #e8f8e8; color: #186a3b; }
+  .tag-balanced { background: #fef9e7; color: #7d6608; }
+  .tag-academic { background: #fde8e8; color: #8e1010; }
+  .card-info-row {
+    display: flex; align-items: flex-start; gap: 6px;
+    font-size: 0.78rem; color: var(--sub); margin-bottom: 5px; line-height: 1.4;
+  }
+  .card-info-row .icon { flex-shrink: 0; width: 16px; text-align: center; }
+  .places-bar-wrap { margin: 8px 0 10px; }
+  .places-bar-label { font-size: 0.75rem; color: var(--sub); margin-bottom: 3px; display: flex; justify-content: space-between; }
+  .places-bar-bg { background: var(--border); border-radius: 6px; height: 8px; overflow: hidden; }
+  .places-bar-fill { background: linear-gradient(90deg, var(--accent), var(--accent2)); height: 100%; border-radius: 6px; }
+  .card-footer { padding: 10px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+  .btn-compare {
+    flex: 1; border: 1.5px solid var(--accent); background: transparent; color: var(--accent);
+    border-radius: 8px; padding: 7px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-compare:hover, .btn-compare.active { background: var(--accent); color: #fff; }
+  .btn-detail {
+    flex: 1; border: none; background: var(--primary); color: #fff;
+    border-radius: 8px; padding: 7px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background 0.15s;
+  }
+  .btn-detail:hover { background: var(--accent); }
+  .compare-bar {
+    display: none; position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--primary); color: #fff; padding: 12px 16px;
+    z-index: 200; align-items: center; gap: 10px;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.15); flex-wrap: wrap;
+  }
+  .compare-bar.show { display: flex; }
+  .compare-names { flex: 1; font-size: 0.82rem; min-width: 150px; }
+  .compare-names span { background: rgba(255,255,255,0.15); border-radius: 6px; padding: 2px 8px; margin-right: 5px; display: inline-block; margin-bottom: 3px; font-size: 0.78rem; }
+  .btn-do-compare { background: #fff; color: var(--primary); border: none; border-radius: 8px; padding: 8px 16px; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+  .btn-clear-compare { background: rgba(255,255,255,0.2); color: #fff; border: none; border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; cursor: pointer; }
+  .modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(10,20,40,0.6); z-index: 300;
+    align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal.open { display: flex; }
+  .modal-box {
+    background: var(--card); border-radius: var(--radius); width: 100%;
+    max-width: 680px; max-height: 88vh; overflow-y: auto;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+  }
+  .modal-head {
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; background: var(--card); z-index: 1;
+  }
+  .modal-head h3 { font-size: 1rem; color: var(--primary); font-weight: 700; }
+  .modal-close { background: none; border: none; font-size: 1.3rem; color: var(--sub); cursor: pointer; padding: 4px 8px; }
+  .modal-body { padding: 20px; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+  .compare-table th { background: var(--primary); color: #fff; padding: 10px 12px; text-align: left; font-weight: 600; }
+  .compare-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .compare-table tr:nth-child(even) td { background: var(--bg); }
+  .compare-table .row-label { color: var(--sub); font-weight: 600; }
+  .detail-section { margin-bottom: 16px; }
+  .detail-section h4 {
+    font-size: 0.82rem; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 4px;
+  }
+  .detail-row { display: flex; gap: 10px; margin-bottom: 6px; font-size: 0.87rem; }
+  .detail-label { color: var(--sub); min-width: 80px; flex-shrink: 0; }
+  .detail-value { color: var(--text); font-weight: 500; }
+  .admission-box {
+    background: linear-gradient(135deg, #eef4fa, #e8f4ee);
+    border: 1px solid #c5d8eb; border-radius: 10px; padding: 14px 16px;
+    font-size: 0.83rem; color: var(--text); line-height: 1.7;
+  }
+  .admission-box h5 { font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+  .admission-box ul { padding-left: 16px; }
+  .admission-box li { margin-bottom: 4px; }
+  .empty { text-align: center; color: var(--sub); padding: 60px 20px; font-size: 0.95rem; }
+  .profile-snippet {
+    background: var(--bg); border-radius: 8px; padding: 8px 10px;
+    font-size: 0.76rem; color: var(--sub); margin-top: 8px; line-height: 1.5;
+  }
+  .profile-snippet b { color: var(--text); }
+  .profile-box { border-radius: 10px; padding: 14px 16px; font-size: 0.83rem; line-height: 1.7; margin-bottom: 4px; }
+  .profile-box.happy    { background: #edfbee; border: 1px solid #a9dbb0; }
+  .profile-box.balanced { background: #fefce8; border: 1px solid #d4c56a; }
+  .profile-box.academic { background: #fdf0f0; border: 1px solid #e8b4b4; }
+  .profile-box h5 { font-weight: 700; margin-bottom: 8px; font-size: 0.88rem; }
+  .profile-box.happy    h5 { color: #186a3b; }
+  .profile-box.balanced h5 { color: #7d6608; }
+  .profile-box.academic h5 { color: #8e1010; }
+  .profile-row { display: flex; gap: 8px; margin-bottom: 5px; }
+  .profile-label { min-width: 60px; flex-shrink: 0; font-weight: 600; color: var(--sub); font-size: 0.8rem; }
+  .profile-val { font-size: 0.82rem; color: var(--text); }
+  #wm-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
+  #wm-overlay::before, #wm-overlay::after {
+    content: '元朗區津貼小學全攻略 · 版權所有';
+    position: absolute; font-size: 1rem; color: rgba(26,82,118,0.055);
+    font-weight: 700; white-space: nowrap; transform: rotate(-30deg);
+    top: 30%; left: -10%; right: -10%; letter-spacing: 0.2em;
+  }
+  #wm-overlay::after { top: 65%; }
+  .protect-blur * { filter: blur(8px) !important; transition: filter 0.2s; }
+  footer { text-align: center; padding: 24px 16px 110px; color: var(--sub); font-size: 0.78rem; line-height: 1.8; }
+  footer a { color: var(--accent); text-decoration: none; }
+  .view-tabs { display: flex; background: var(--card); border-bottom: 2px solid var(--border); }
+  .view-tab {
+    flex: 1; padding: 10px; border: none; background: none;
+    font-size: 0.88rem; font-weight: 600; color: var(--sub);
+    cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s;
+  }
+  .view-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: var(--bg); }
+  #map-view { display: none; }
+  #map-view.active { display: block; }
+  #map-container { height: calc(100vh - 220px); min-height: 380px; width: 100%; }
+  .map-toolbar {
+    display: flex; gap: 8px; padding: 10px 14px; background: var(--card);
+    border-bottom: 1px solid var(--border); align-items: center; flex-wrap: wrap;
+  }
+  .map-toolbar-label { font-size: 0.78rem; color: var(--sub); }
+  .map-btn {
+    border: 1.5px solid var(--border); background: var(--tag-bg); color: var(--tag-text);
+    border-radius: 20px; padding: 5px 13px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+  .map-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .map-btn.locate-btn { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+  .map-legend { display: flex; gap: 14px; margin-left: auto; align-items: center; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--sub); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .legend-dot.happy    { background: #27ae60; }
+  .legend-dot.balanced { background: #e67e22; }
+  .legend-dot.academic { background: #c0392b; }
+  .leaflet-popup-content { margin: 10px 14px; min-width: 190px; }
+  .popup-name { font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; line-height: 1.3; }
+  .popup-eng  { font-size: 0.7rem; color: var(--sub); margin-bottom: 7px; }
+  .popup-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 7px; }
+  .popup-tag  { font-size: 0.68rem; font-weight: 600; border-radius: 6px; padding: 1px 7px; }
+  .popup-row  { font-size: 0.75rem; color: var(--sub); margin-bottom: 3px; }
+  .popup-row b { color: var(--text); }
+  .popup-btn  { display: block; width: 100%; margin-top: 8px; border: none; background: var(--primary); color: #fff; border-radius: 7px; padding: 6px; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-align: center; }
+  .ad-slot { width: 100%; text-align: center; padding: 10px 0; background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); color: var(--sub); font-size: 0.72rem; }
+  .ad-slot ins { display: block; margin: 0 auto; }
+  @media (max-width: 640px) {
+    #map-container { height: calc(100vh - 200px); min-height: 320px; }
+    .map-toolbar { padding: 8px 10px; gap: 6px; }
+    .map-legend { gap: 8px; }
+    .view-tab { font-size: 0.82rem; padding: 9px 6px; }
+    header { padding: 20px 14px 14px; }
+    header h1 { font-size: 1.15rem; }
+    header p  { font-size: 0.78rem; }
+    .net-badges { gap: 6px; }
+    .net-badge  { font-size: 0.72rem; padding: 3px 10px; }
+    .stats-bar { gap: 10px; font-size: 0.74rem; padding: 8px 12px; }
+    .controls { padding: 10px 12px; }
+    .search-input { font-size: 0.85rem; padding: 8px 12px; }
+    .filter-row { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px; gap: 5px; }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .filter-btn { flex-shrink: 0; font-size: 0.76rem; padding: 4px 11px; white-space: nowrap; }
+    .sort-row { font-size: 0.76rem; }
+    .sort-select { font-size: 0.76rem; }
+    .school-grid { grid-template-columns: 1fr; gap: 10px; padding: 10px; }
+    .card-name { font-size: 0.95rem; }
+    .card-eng  { font-size: 0.68rem; }
+    .modal { padding: 0; align-items: flex-end; }
+    .modal-box { max-height: 92vh; border-radius: var(--radius) var(--radius) 0 0; width: 100%; max-width: 100%; }
+    .modal-box[style*="820px"] { max-width: 100%; }
+    .compare-table { font-size: 0.74rem; }
+    .compare-table th, .compare-table td { padding: 7px 8px; }
+    .compare-bar { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+    footer { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
+    .profile-snippet { font-size: 0.72rem; }
+    .profile-box { font-size: 0.79rem; }
+  }
+  @media (max-width: 380px) { header h1 { font-size: 1rem; } .card-code { font-size: 0.66rem; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>元朗區津貼小學全攻略 2026</h1>
+  <p>2026年度小一入學統一派位 · 學校網72、73及74</p>
+  <div class="net-badges">
+    <div class="net-badge">網72 天水圍 — 24間</div>
+    <div class="net-badge">網73 元朗市 — 9間</div>
+    <div class="net-badge">網74 元朗鄉郊 — 12間</div>
+    <div class="net-badge">共45間學校</div>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <span>資助 <b>42</b> 間 · 官立 <b>3</b> 間</span>
+  <span>2026年度總暫定學額 <b id="total-places">—</b> 個</span>
+</div>
+
+<div class="view-tabs">
+  <button class="view-tab active" id="tab-grid" onclick="switchView('grid')">🗂 卡片列表</button>
+  <button class="view-tab" id="tab-map"  onclick="switchView('map')">🗺 地圖查看</button>
+</div>
+
+<div id="map-view">
+  <div class="map-toolbar">
+    <span class="map-toolbar-label">顯示：</span>
+    <button class="map-btn" id="mapf-all"  onclick="setMapFilter('all',this)">全部</button>
+    <button class="map-btn" id="mapf-72"   onclick="setMapFilter('net72',this)">網72</button>
+    <button class="map-btn" id="mapf-73"   onclick="setMapFilter('net73',this)">網73</button>
+    <button class="map-btn" id="mapf-74"   onclick="setMapFilter('net74',this)">網74</button>
+    <button class="map-btn" id="mapf-hap"  onclick="setMapFilter('happy',this)">😊 快樂</button>
+    <button class="map-btn" id="mapf-bal"  onclick="setMapFilter('balanced',this)">⚖️ 均衡</button>
+    <button class="map-btn" id="mapf-aca"  onclick="setMapFilter('academic',this)">📚 學術</button>
+    <button class="map-btn locate-btn" onclick="locateMe()">📍 找附近學校</button>
+    <div class="map-legend">
+      <div class="legend-item"><div class="legend-dot happy"></div>快樂</div>
+      <div class="legend-item"><div class="legend-dot balanced"></div>均衡</div>
+      <div class="legend-item"><div class="legend-dot academic"></div>學術</div>
+    </div>
+  </div>
+  <div id="map-container"></div>
+</div>
+
+<div class="ad-slot" id="ad-top">
+  <!-- AdSense 批准後貼上廣告代碼
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9733417337373745" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  -->
+  <span>— 廣告 —</span>
+</div>
+
+<div class="controls">
+  <div class="search-row">
+    <input class="search-input" type="text" id="searchInput" placeholder="搜尋學校名稱（中文或英文）…" oninput="applyFilters()">
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn active" data-filter="net" data-val="all" onclick="setFilter('net','all',this)">全部學校網</button>
+    <button class="filter-btn net72-btn" data-filter="net" data-val="72" onclick="setFilter('net','72',this)">網72 天水圍</button>
+    <button class="filter-btn net73-btn" data-filter="net" data-val="73" onclick="setFilter('net','73',this)">網73 元朗市</button>
+    <button class="filter-btn net74-btn" data-filter="net" data-val="74" onclick="setFilter('net','74',this)">網74 元朗鄉郊</button>
+    <button class="filter-btn" data-filter="religion" data-val="all" onclick="setFilter('religion','all',this)">全部</button>
+    <button class="filter-btn" data-filter="religion" data-val="基督教" onclick="setFilter('religion','基督教',this)">基督教</button>
+    <button class="filter-btn" data-filter="religion" data-val="天主教" onclick="setFilter('religion','天主教',this)">天主教</button>
+    <button class="filter-btn" data-filter="religion" data-val="佛教" onclick="setFilter('religion','佛教',this)">佛教</button>
+    <button class="filter-btn" data-filter="religion" data-val="none" onclick="setFilter('religion','none',this)">非宗教</button>
+  </div>
+  <div class="filter-row" style="margin-top:6px">
+    <button class="filter-btn active" data-filter="type" data-val="all" onclick="setFilter('type','all',this)">全部類型</button>
+    <button class="filter-btn" data-filter="type" data-val="happy" onclick="setFilter('type','happy',this)" style="color:#186a3b;border-color:#a9dbb0">😊 快樂學習</button>
+    <button class="filter-btn" data-filter="type" data-val="balanced" onclick="setFilter('type','balanced',this)" style="color:#7d6608;border-color:#d4c56a">⚖️ 均衡發展</button>
+    <button class="filter-btn" data-filter="type" data-val="academic" onclick="setFilter('type','academic',this)" style="color:#8e1010;border-color:#e8b4b4">📚 學術型</button>
+  </div>
+  <div class="sort-row">
+    <span>排序：</span>
+    <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+      <option value="code">編號</option>
+      <option value="places_desc">學額（多→少）</option>
+      <option value="places_asc">學額（少→多）</option>
+      <option value="name">名稱</option>
+    </select>
+    <span class="result-count" id="resultCount"></span>
+  </div>
+</div>
+
+<div class="school-grid" id="schoolGrid"></div>
+<div class="empty" id="emptyState" style="display:none">找不到符合條件的學校</div>
+
+<div class="compare-bar" id="compareBar">
+  <div class="compare-names" id="compareNames"></div>
+  <button class="btn-do-compare" onclick="openCompare()">比較學校</button>
+  <button class="btn-clear-compare" onclick="clearCompare()">清除</button>
+</div>
+
+<div class="modal" id="detailModal" onclick="if(event.target===this)closeDetail()">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="detailTitle">學校詳情</h3>
+      <button class="modal-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="modal-body" id="detailBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="compareModal" onclick="if(event.target===this)closeCompare()">
+  <div class="modal-box" style="max-width:820px">
+    <div class="modal-head">
+      <h3>學校比較</h3>
+      <button class="modal-close" onclick="closeCompare()">✕</button>
+    </div>
+    <div class="modal-body" id="compareBody"></div>
+  </div>
+</div>
+
+<div id="wm-overlay"></div>
+
+<div class="ad-slot" id="ad-bottom">
+  <!-- AdSense 批准後貼上廣告代碼
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9733417337373745" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  -->
+  <span>— 廣告 —</span>
+</div>
+
+<footer>
+  資料來源：香港教育局 2026年度小一入學統一派位選校名單<br>
+  （<a href="https://www.edb.gov.hk" target="_blank">www.edb.gov.hk</a> · 學校網72、73及74）<br>
+  暫定學額僅供參考，以教育局官網公佈為準<br>
+  © 2026 元朗區津貼小學全攻略
+</footer>
+
+<script>
+const S = [
+  // ── Net 72 天水圍 ────────────────────────────────────────────────────────
+  {id:'lstlkk',   code:7201,net:72,name:'樂善堂梁銶琚學校',              eng:"LST Leung Kau Kui Primary School",                          finance:'資助',religion:'',     places:52,addr:'新界元朗天水圍第四期天瑞邨',      tel:'2448 6022',barrier:true, lat:22.4537363,lng:113.9988471},
+  {id:'lstlkkb',  code:7202,net:72,name:'樂善堂梁銶琚學校（分校）',      eng:"LST Leung Kau Kui Primary School (Branch)",                 finance:'資助',religion:'',     places:53,addr:'新界元朗天水圍101區天恩邨',       tel:'2445 6880',barrier:true, lat:22.4637810,lng:113.9962291},
+  {id:'cpyan',    code:7203,net:72,name:'基督教培恩小學',                 eng:"Christian Pui Yan Primary School",                          finance:'資助',religion:'基督教',places:82,addr:'新界元朗天水圍天業路2號',           tel:'2342 0555',barrier:true, lat:22.4650769,lng:114.0051835},
+  {id:'qesps',    code:7204,net:72,name:'伊利沙伯中學舊生會小學',        eng:"QES Old Students' Assn Primary School",                     finance:'資助',religion:'',     places:53,addr:'新界元朗天水圍天耀邨第一期',       tel:'2448 0883',barrier:true, lat:22.4487727,lng:114.0042808},
+  {id:'qespsb',   code:7205,net:72,name:'伊利沙伯中學舊生會小學分校',    eng:"QES Old Students' Assn Branch Primary School",              finance:'資助',religion:'',     places:44,addr:'新界元朗天水圍三區第四期',         tel:'2447 8686',barrier:true, lat:22.4473611,lng:114.0028402},
+  {id:'ylptyp',   code:7206,net:72,name:'元朗公立中學校友會鄧英業小學',  eng:"YL Public Middle School Alumni Assn Tang Ying Yip PS",      finance:'資助',religion:'',     places:58,addr:'新界元朗天水圍天瑞路86號',         tel:'2617 8200',barrier:true, lat:22.4681287,lng:114.0017673},
+  {id:'tswcath',  code:7207,net:72,name:'天水圍天主教小學',              eng:"Tin Shui Wai Catholic Primary School",                      finance:'資助',religion:'天主教',places:50,addr:'新界元朗天水圍天柏路28號',           tel:'2617 8212',barrier:true, lat:22.4670000,lng:114.0022000},
+  {id:'tswgov',   code:7208,net:72,name:'天水圍官立小學',                eng:"Tin Shui Wai Government Primary School",                    finance:'官立',religion:'',     places:53,addr:'新界元朗天水圍天瑞路10號',         tel:'2447 4288',barrier:true, lat:22.4584536,lng:113.9986453},
+  {id:'ylpokok',  code:7209,net:72,name:'元朗寶覺小學',                  eng:"Yuen Long Po Kok Primary School",                           finance:'資助',religion:'佛教',  places:39,addr:'新界元朗洪水橋丹桂村路55號',        tel:'2476 2258',barrier:true, lat:22.4590000,lng:113.9835000},
+  {id:'twghsydc', code:7210,net:72,name:'東華三院姚達之紀念小學（元朗）',eng:"TWGHS Yiu Dak Chi Memorial PS (Yuen Long)",                 finance:'資助',religion:'',     places:92,addr:'新界天水圍天瑞邨第一期屋邨小學',    tel:'2445 1264',barrier:true, lat:22.4576402,lng:113.9964767},
+  {id:'twghslth', code:7211,net:72,name:'東華三院李東海小學',            eng:"TWGHS Leo Tung-hai Lee Primary School",                     finance:'資助',religion:'',     places:97,addr:'新界元朗天水圍天壇街19號',         tel:'2446 1188',barrier:true, lat:22.4598887,lng:113.9950951},
+  {id:'lionshts', code:7212,net:72,name:'獅子會何德心小學',              eng:"Lions Clubs International Ho Tak Sum Primary School",       finance:'資助',religion:'',     places:54,addr:'新界元朗天水圍三區四期天盛苑',      tel:'2617 9682',barrier:true, lat:22.4472891,lng:114.0010404},
+  {id:'tswmeth',  code:7213,net:72,name:'天水圍循道衞理小學',            eng:"Tin Shui Wai Methodist Primary School",                     finance:'資助',religion:'基督教',places:53,addr:'新界元朗天水圍三十一區第一期天頌苑', tel:'2448 0373',barrier:true, lat:22.4610000,lng:114.0030000},
+  {id:'hkfyglsk', code:7214,net:72,name:'香港青年協會李兆基小學',        eng:"HKFYG Lee Shau Kee Primary School",                         finance:'資助',religion:'',     places:57,addr:'新界元朗天水圍天榮路11號',          tel:'2448 1011',barrier:true, lat:22.4612130,lng:114.0014043},
+  {id:'ptmss',    code:7215,net:72,name:'香港普通話研習社科技創意小學',   eng:"Xianggang Putonghua Yanxishe PS of Science and Creativity", finance:'資助',religion:'',     places:79,addr:'新界元朗天水圍天秀路25號天富苑',   tel:'2470 8080',barrier:true, lat:22.4639265,lng:113.9986400},
+  {id:'ymcaps',   code:7216,net:72,name:'中華基督教青年會小學',          eng:"Chinese YMCA Primary School",                               finance:'資助',religion:'基督教',places:50,addr:'新界元朗天水圍天富苑第四期',          tel:'2445 0580',barrier:true, lat:22.4641601,lng:114.0005652},
+  {id:'casyyeh',  code:7217,net:72,name:'宣道會葉紹蔭紀念小學',         eng:"Christian Alliance S Y Yeh Memorial Primary School",        finance:'資助',religion:'基督教',places:42,addr:'新界元朗天水圍天澤邨',              tel:'3152 2973',barrier:true, lat:22.4500000,lng:114.0030000},
+  {id:'stfawmt',  code:7218,net:72,name:'順德聯誼總會伍冕端小學',       eng:"Shun Tak Fraternal Assn Wu Mien Tuen Primary School",       finance:'資助',religion:'',     places:52,addr:'新界天水圍天恒邨',                tel:'3157 0630',barrier:true, lat:22.4712036,lng:114.0004788},
+  {id:'sphrc',    code:7219,net:72,name:'十八鄉鄉事委員會公益社小學',   eng:"Shap Pat Heung Rural Committee Kung Yik She PS",            finance:'資助',religion:'',     places:50,addr:'新界元朗天水圍天城路22號',          tel:'2448 6623',barrier:true, lat:22.4605000,lng:114.0055000},
+  {id:'cpcyd',    code:7220,net:72,name:'金巴崙長老會耀道小學',         eng:"Cumberland Presbyterian Church Yao Dao Primary School",     finance:'資助',religion:'基督教',places:72,addr:'新界元朗天水圍天富苑',              tel:'2617 7926',barrier:true, lat:22.4634760,lng:114.0002452},
+  {id:'skhtswla', code:7221,net:72,name:'聖公會天水圍靈愛小學',         eng:"SKH Tin Shui Wai Ling Oi Primary School",                   finance:'資助',religion:'基督教',places:83,addr:'新界元朗天水圍天瑞路82號',          tel:'2446 1633',barrier:true, lat:22.4677782,lng:114.0012299},
+  {id:'cypy',     code:7222,net:72,name:'潮陽百欣小學',                  eng:"Chiu Yang Por Yen Primary School",                          finance:'資助',religion:'',     places:79,addr:'新界元朗天水圍104區天華路55號',    tel:'2445 1666',barrier:true, lat:22.4530000,lng:114.0048000},
+  {id:'cyphk',    code:7223,net:72,name:'香港潮陽小學',                  eng:"Chiu Yang Primary School of Hong Kong",                     finance:'資助',religion:'',     places:51,addr:'新界元朗天水圍天耀邨第三期',        tel:'2446 3018',barrier:true, lat:22.4515705,lng:114.0048424},
+  {id:'ssyhm',    code:7224,net:72,name:'嗇色園主辦可銘學校',            eng:"Ho Ming Primary School (Sponsored by Sik Sik Yuen)",        finance:'資助',religion:'儒釋道',places:67,addr:'新界元朗天水圍天柏路2號',            tel:'2445 0101',barrier:true, lat:22.4537759,lng:114.0063437},
+  // ── Net 73 元朗市 ────────────────────────────────────────────────────────
+  {id:'yllpetk',  code:7301,net:73,name:'元朗朗屏邨東莞學校',            eng:"YL Long Ping Estate Tung Koon Primary School",              finance:'資助',religion:'',     places:50,addr:'新界元朗朗屏邨第一期',             tel:'2476 2433',barrier:true, lat:22.4440000,lng:114.0280000},
+  {id:'adfpohl',  code:7302,net:73,name:'博愛醫院歷屆總理聯誼會梁省德學校',eng:"AD&FD of POHL Leung Sing Tak School",                     finance:'資助',religion:'',     places:47,addr:'新界元朗朗屏邨第三期',             tel:'2474 5566',barrier:true, lat:22.4450000,lng:114.0300000},
+  {id:'kwongming',code:7303,net:73,name:'光明學校',                       eng:"Kwong Ming School",                                         finance:'資助',religion:'',     places:40,addr:'新界元朗水邊圍邨',               tel:'2476 2616',barrier:true, lat:22.4440000,lng:114.0225000},
+  {id:'skhla',    code:7304,net:73,name:'聖公會靈愛小學',                 eng:"SKH Ling Oi Primary School",                                finance:'資助',religion:'基督教',places:23,addr:'新界元朗媽廟路15號',               tel:'2477 4109',barrier:true, lat:22.4430000,lng:114.0235000},
+  {id:'ylma',     code:7305,net:73,name:'元朗商會小學',                   eng:"Yuen Long Merchants Association Primary School",             finance:'資助',religion:'',     places:43,addr:'新界元朗青山公路244號',           tel:'2476 2268',barrier:true, lat:22.4450000,lng:114.0200000},
+  {id:'ylpms',    code:7306,net:73,name:'元朗公立中學校友會小學',        eng:"YL Public Middle School Alumni Assn Primary School",        finance:'資助',religion:'',     places:41,addr:'新界元朗公園北路2號',             tel:'2475 0328',barrier:true, lat:22.4453000,lng:114.0272000},
+  {id:'yllpewc',  code:7307,net:73,name:'元朗朗屏邨惠州學校',            eng:"YL Long Ping Estate Wai Chow School",                       finance:'資助',religion:'',     places:71,addr:'新界元朗朗屏邨第二期',             tel:'2476 3903',barrier:true, lat:22.4430000,lng:114.0285000},
+  {id:'budcwk',   code:7308,net:73,name:'佛教陳榮根紀念學校',            eng:"Buddhist Chan Wing Kan Memorial School",                    finance:'資助',religion:'佛教',  places:63,addr:'新界元朗馬田欖口村路23號',          tel:'2475 3663',barrier:true, lat:22.4320000,lng:114.0220000},
+  {id:'sylgov',   code:7309,net:73,name:'南元朗官立小學',                 eng:"South Yuen Long Government Primary School",                 finance:'官立',religion:'',     places:54,addr:'新界元朗欖口村路21號',             tel:'2478 1230',barrier:true, lat:22.4320000,lng:114.0215000},
+  // ── Net 74 元朗鄉郊 ─────────────────────────────────────────────────────
+  {id:'chungsing',code:7401,net:74,name:'鐘聲學校',                       eng:"Chung Sing School",                                         finance:'資助',religion:'',     places:70,addr:'新界元朗舊墟路29號',               tel:'2476 2505',barrier:true, lat:22.4450000,lng:114.0195000},
+  {id:'ktmy',     code:7402,net:74,name:'錦田公立蒙養學校',              eng:"Kam Tin Mung Yeung Public School",                          finance:'資助',religion:'',     places:8, addr:'新界元朗錦田',                     tel:'2476 2414',barrier:false,lat:22.4340000,lng:114.0830000},
+  {id:'kwongyl',  code:7403,net:74,name:'光明英來學校',                   eng:"Kwong Ming Ying Loi School",                                finance:'資助',religion:'',     places:39,addr:'新界元朗元政路12號',               tel:'2476 2610',barrier:true, lat:22.4460000,lng:114.0200000},
+  {id:'cccckps',  code:7404,net:74,name:'中華基督教會元朗真光小學',      eng:"CCC Chun Kwong Primary School",                             finance:'資助',religion:'基督教',places:30,addr:'新界元朗鐘聲徑',                 tel:'2476 2696',barrier:true, lat:22.4439375,lng:114.0263790},
+  {id:'phcps',    code:7405,net:74,name:'八鄉中心小學',                   eng:"Pat Heung Central Primary School",                          finance:'資助',religion:'',     places:37,addr:'新界元朗八鄉錦田蓮花地199號',       tel:'2488 1520',barrier:false,lat:22.4330000,lng:114.0840000},
+  {id:'tunyu',    code:7406,net:74,name:'惇裕學校',                       eng:"Tun Yu School",                                             finance:'資助',religion:'',     places:43,addr:'新界元朗新田',                   tel:'2471 1915',barrier:false,lat:22.4960000,lng:114.0510000},
+  {id:'hkmlcwcs', code:7407,net:74,name:'港澳信義會黃陳淑英紀念學校',    eng:"HKMLC Wong Chan Sook Ying Memorial School",                 finance:'資助',religion:'基督教',places:23,addr:'新界元朗錦綉花園',               tel:'2471 8502',barrier:true, lat:22.4690000,lng:114.0580000},
+  {id:'tungtak',  code:7408,net:74,name:'通德學校',                       eng:"Tung Tak School",                                           finance:'資助',religion:'',     places:9, addr:'新界錦田城門新村',                 tel:'2476 1101',barrier:false,lat:22.4330000,lng:114.0850000},
+  {id:'cmacck',   code:7409,net:74,name:'基督教宣道會徐澤林紀念小學',    eng:"C. & M. A. Chui Chak Lam Memorial School",                  finance:'資助',religion:'基督教',places:56,addr:'新界元朗建德街',                 tel:'2381 3904',barrier:true, lat:22.4411163,lng:114.0318408},
+  {id:'skhjoseph',code:7410,net:74,name:'聖公會聖約瑟小學',              eng:"SKH St Joseph's Primary School",                            finance:'資助',religion:'基督教',places:24,addr:'新界元朗錦田波地路12號',            tel:'2476 4962',barrier:true, lat:22.4350000,lng:114.0830000},
+  {id:'ylgov74',  code:7411,net:74,name:'元朗官立小學',                   eng:"Yuen Long Government Primary School",                       finance:'官立',religion:'',     places:61,addr:'新界元朗坳頭',                   tel:'2476 1160',barrier:true, lat:22.4510000,lng:114.0340000},
+  {id:'budwy',    code:7412,net:74,name:'佛教榮茵學校',                   eng:"Buddhist Wing Yan School",                                  finance:'資助',religion:'佛教',  places:39,addr:'新界元朗鳳攸南街6號',             tel:'2475 0433',barrier:true, lat:22.4412278,lng:114.0337167},
+];
+
+const PROFILES = {
+  lstlkk:   {type:'happy',    placement:'升中成績穩定，多名學生獲派首選中學',                  philosophy:'樂善堂辦學，五育均衡，「身心靈」三位一體，重視學生快樂成長',      homework:'輕至中等，設功課輔導節',           teachers:'全校50人 · 學位100% · 碩士28% · 資深56%'},
+  lstlkkb:  {type:'happy',    placement:'與樂善堂梁銶琚（主校）同系，升中銜接順暢',           philosophy:'樂善堂辦學，與主校共享資源，天恩邨社區，親師合作',               homework:'輕至中等',                         teachers:'全校48人 · 學位100% · 碩士25% · 資深52%'},
+  cpyan:    {type:'balanced', placement:'多名學生獲英中取錄',                                  philosophy:'基督教，STEM教育重點，推普浸潤，全日制課程豐富',                  homework:'中等',                             teachers:'全校72人 · 學位100% · 碩士35% · 資深52%'},
+  qesps:    {type:'academic', placement:'約40%升讀英中，伊中舊生會聯繫中學',                  philosophy:'嚴謹學術培訓，書香校風，品德教育，伊中傳承精神',                  homework:'中至高',                           teachers:'全校50人 · 學位100% · 碩士38% · 資深48%'},
+  qespsb:   {type:'academic', placement:'同系分校，升中表現與主校相若',                        philosophy:'伊中舊生會辦學，同主校課程理念，班級人數適中',                   homework:'中至高',                           teachers:'全校45人 · 學位100% · 碩士30% · 資深44%'},
+  ylptyp:   {type:'balanced', placement:'區內一般派位，活動豐富',                              philosophy:'元朗公立中學校友會辦，全人發展，重視品德與學業並重',              homework:'中等',                             teachers:'全校55人 · 學位100% · 碩士32% · 資深50%'},
+  tswcath:  {type:'happy',    placement:'區內一般派位，升中成績穩定',                          philosophy:'天主教全人教育，重視靈性、德智體群美，以愛育人',                  homework:'輕至中等，以活動代替操練',           teachers:'全校46人 · 學位100% · 碩士27% · 資深55%'},
+  tswgov:   {type:'balanced', placement:'官立學校，升中表現穩定',                              philosophy:'官立學校，五育均衡，鼓勵自主學習，適合各類型學生',                homework:'中等，每年兩測兩考',               teachers:'全校48人 · 學位98% · 碩士22% · 資深62%'},
+  ylpokok:  {type:'happy',    placement:'區內一般派位，佛教特色鮮明',                          philosophy:'佛教辦學，慈悲喜捨，洪水橋社區，重視品德培育',                   homework:'輕至中等',                         teachers:'全校38人 · 學位100% · 碩士25% · 資深48%'},
+  twghsydc: {type:'balanced', placement:'東華三院聯繫中學，升中選擇多',                       philosophy:'東華三院辦學，大型學校，全人發展，五育均衡，STEM課程',            homework:'中等，設補習班及功課輔導',          teachers:'全校80人 · 學位100% · 碩士30% · 資深58%'},
+  twghslth: {type:'academic', placement:'約35% Band 1，東華三院聯繫升中，成績見長',           philosophy:'東華三院辦學，學術主導，英語教學強化，多元才藝',                  homework:'中至高，設精英班',                 teachers:'全校88人 · 學位100% · 碩士28% · 資深55%'},
+  lionshts: {type:'happy',    placement:'區內一般派位，獅子會社區精神',                        philosophy:'獅子會辦學，服務學習精神，關愛共融，德育為先',                   homework:'輕至中等',                         teachers:'全校50人 · 學位100% · 碩士32% · 資深47%'},
+  tswmeth:  {type:'happy',    placement:'區內一般派位，循道衛理信仰傳承',                      philosophy:'循道衛理辦學，全人教育，信望愛，靈德智群體美六育並重',            homework:'輕至中等，以品格培育為核心',        teachers:'全校50人 · 學位100% · 碩士29% · 資深54%'},
+  hkfyglsk: {type:'balanced', placement:'青年協會聯繫，升中成績良好',                         philosophy:'香港青年協會辦學，多元才藝，生命教育，領袖培訓',                  homework:'中等，課外活動豐富',               teachers:'全校52人 · 學位100% · 碩士33% · 資深45%'},
+  ptmss:    {type:'balanced', placement:'普通話特色，升中成績穩定',                            philosophy:'普通話浸潤教學特色，STEAM，創意科技，屢獲獎項',                  homework:'中等，普通話朗誦見稱',             teachers:'全校70人 · 學位100% · 碩士32% · 資深49%'},
+  ymcaps:   {type:'happy',    placement:'區內一般派位，YMCA精神傳承',                         philosophy:'YMCA辦學，靈体群智四育並重，正向教育，品格培育',                 homework:'輕至中等',                         teachers:'全校48人 · 學位100% · 碩士28% · 資深50%'},
+  casyyeh:  {type:'happy',    placement:'宣道會聯繫，班額較小，升學有序',                     philosophy:'宣道會辦學，師生比例理想，信仰培育，全人關懷',                   homework:'輕，重視身心健康',                 teachers:'全校42人 · 學位100% · 碩士30% · 資深44%'},
+  stfawmt:  {type:'balanced', placement:'順德聯誼會聯繫中學，升學選擇多',                     philosophy:'順德聯誼總會辦學，傳統紀律，重視品德與學術，天水圍新社區',        homework:'中等，設課後輔導',                 teachers:'全校48人 · 學位100% · 碩士26% · 資深41%'},
+  sphrc:    {type:'happy',    placement:'區內一般派位，鄉事特色',                              philosophy:'十八鄉鄉事委員會辦學，社區根基深厚，快樂校園，體藝並重',          homework:'輕至中等',                         teachers:'全校46人 · 學位100% · 碩士22% · 資深54%'},
+  cpcyd:    {type:'balanced', placement:'區內一般派位，宗教音樂教育見稱',                      philosophy:'長老會辦學，信仰培育，音樂藝術特色，均衡發展',                   homework:'中等',                             teachers:'全校65人 · 學位100% · 碩士38% · 資深54%'},
+  skhtswla: {type:'happy',    placement:'聖公會聯繫，閱讀文化強，升中成績穩定',               philosophy:'聖公會辦學，閱讀文化，全人教育，大型學校資源豐富',               homework:'輕至中等，重視閱讀習慣培養',        teachers:'全校74人 · 學位99% · 碩士27% · 資深61%'},
+  cypy:     {type:'balanced', placement:'升中成績良好，潮陽旅港辦學',                         philosophy:'潮陽百欣，弘揚中華文化，正向教育，STEAM課程融合',                homework:'中等',                             teachers:'全校69人 · 學位100% · 碩士30% · 資深45%'},
+  cyphk:    {type:'balanced', placement:'區內一般派位，潮陽系姊妹校',                         philosophy:'潮陽旅港辦學，承傳中華文化，均衡發展，社區服務',                 homework:'中等',                             teachers:'全校48人 · 學位100% · 碩士27% · 資深50%'},
+  ssyhm:    {type:'happy',    placement:'嗇色園辦學，區內一般派位',                           philosophy:'儒釋道三教並重，以「仁愛」為本，60+課外活動，藝術特色',           homework:'輕至中等，重視身心靈健康',          teachers:'全校62人 · 學位100% · 碩士36% · 資深60%'},
+  yllpetk:  {type:'happy',    placement:'區內一般派位，東莞商社聯繫',                         philosophy:'元朗東莞學校，弘揚中華文化，關愛社區，輕鬆校園氛圍',             homework:'輕至中等',                         teachers:'全校46人 · 學位100% · 碩士24% · 資深56%'},
+  adfpohl:  {type:'balanced', placement:'博愛醫院聯繫，升中選擇多',                           philosophy:'博愛醫院辦學，以「仁愛」為本，全人發展，均衡學習',               homework:'中等',                             teachers:'全校44人 · 學位100% · 碩士28% · 資深52%'},
+  kwongming:{type:'happy',    placement:'區內一般派位，小型親切校園',                         philosophy:'中型學校，師生關係緊密，五育均衡，重視個人發展',                 homework:'輕至中等',                         teachers:'全校38人 · 學位100% · 碩士22% · 資深48%'},
+  skhla:    {type:'happy',    placement:'聖公會聯繫，學額少，師生比優',                       philosophy:'聖公會辦學，小班教學（23學額），個別化關注，品格培育',            homework:'輕，重視閱讀與藝術',               teachers:'全校28人 · 學位100% · 碩士25% · 資深58%'},
+  ylma:     {type:'balanced', placement:'元朗商會辦，區內一般派位',                           philosophy:'商會辦學，傳統規模，學術穩健，元朗市中心位置便利',               homework:'中等',                             teachers:'全校40人 · 學位100% · 碩士26% · 資深55%'},
+  ylpms:    {type:'balanced', placement:'元朗公立中學校友會辦，升中順暢',                     philosophy:'元朗公立中學校友會辦，均衡發展，重視品德與學術',                 homework:'中等',                             teachers:'全校38人 · 學位100% · 碩士24% · 資深52%'},
+  yllpewc:  {type:'happy',    placement:'惠州旅港辦，活動豐富，升中穩定',                     philosophy:'惠州旅港辦學，社區文化傳承，多元活動，快樂學習',                 homework:'輕至中等',                         teachers:'全校60人 · 學位100% · 碩士28% · 資深54%'},
+  budcwk:   {type:'happy',    placement:'佛教辦學，區內一般派位',                             philosophy:'佛教辦學，慈悲為懷，重視品德、關懷及全人教育',                  homework:'輕至中等',                         teachers:'全校56人 · 學位100% · 碩士30% · 資深48%'},
+  sylgov:   {type:'balanced', placement:'官立小學，升中成績穩定',                             philosophy:'官立學校，課程扎實，師資穩定，五育均衡，適合各類型學生',          homework:'中等',                             teachers:'全校48人 · 學位100% · 碩士20% · 資深65%'},
+  chungsing:{type:'happy',    placement:'元朗舊墟大型學校，升中成績良好',                     philosophy:'歷史悠久，元朗舊墟社區，社區根基深厚，德智體群美均衡',            homework:'中等，活動豐富',                   teachers:'全校62人 · 學位100% · 碩士28% · 資深58%'},
+  ktmy:     {type:'happy',    placement:'錦田小型鄉村學校，師生關係極密切',                   philosophy:'錦田鄉村學校，超小班教學(8學額)，個別化教學，傳統人情味',          homework:'輕，個別輔導',                     teachers:'全校12人 · 學位100% · 碩士17% · 資深75%'},
+  kwongyl:  {type:'balanced', placement:'元朗市中心近郊，升中成績穩定',                       philosophy:'均衡發展，元政路社區，傳統辦學，重視兩文三語',                   homework:'中等',                             teachers:'全校36人 · 學位100% · 碩士22% · 資深52%'},
+  cccckps:  {type:'balanced', placement:'中華基督教會聯繫，升中有序',                         philosophy:'基督教辦學，真光傳承，德智體群美靈六育，元朗鄉郊特色',           homework:'中等',                             teachers:'全校30人 · 學位100% · 碩士27% · 資深48%'},
+  phcps:    {type:'happy',    placement:'八鄉鄉村小學，師生溫情濃厚',                         philosophy:'八鄉鄉郊，小班教學，個人關注，傳統鄉村文化，童真校園',            homework:'輕，戶外體驗活動多',               teachers:'全校34人 · 學位100% · 碩士18% · 資深62%'},
+  tunyu:    {type:'happy',    placement:'新田社區，區內一般派位',                             philosophy:'惇裕堂辦學，重視品德，關懷社區，均衡成長，新田鄉村特色',          homework:'輕至中等',                         teachers:'全校38人 · 學位100% · 碩士20% · 資深55%'},
+  hkmlcwcs: {type:'happy',    placement:'信義會聯繫，錦綉花園社區，班額小',                   philosophy:'港澳信義會辦學，基督教，錦綉花園社區，全人關懷，以愛施教',        homework:'輕，重視兒童身心靈健康',            teachers:'全校25人 · 學位100% · 碩士24% · 資深60%'},
+  tungtak:  {type:'happy',    placement:'錦田超小型學校，極親切個人化',                       philosophy:'錦田城門新村，超小班教學(9學額)，師生情誼深厚，鄉村社區根基',     homework:'輕，個人化學習',                   teachers:'全校14人 · 學位100% · 碩士14% · 資深71%'},
+  cmacck:   {type:'balanced', placement:'宣道會辦，元朗市區近郊，升中穩定',                   philosophy:'基督教宣道會辦學，信仰培育，均衡發展，校風純樸守紀',             homework:'中等',                             teachers:'全校50人 · 學位100% · 碩士32% · 資深46%'},
+  skhjoseph:{type:'balanced', placement:'聖公會聖約瑟，錦田社區，升中有序',                  philosophy:'聖公會辦學，聖約瑟精神，品格培育，兩文三語，錦田地區',           homework:'中等',                             teachers:'全校24人 · 學位100% · 碩士29% · 資深58%'},
+  ylgov74:  {type:'balanced', placement:'元朗官立，坳頭社區，升中成績穩定',                   philosophy:'官立學校，五育均衡，師資穩定，課程扎實，適合各類型學生',          homework:'中等',                             teachers:'全校56人 · 學位98% · 碩士22% · 資深60%'},
+  budwy:    {type:'happy',    placement:'元朗市區佛教學校，升中成績一般',                     philosophy:'佛教辦學，慈悲喜捨，元朗市區近郊，重視品德與情緒教育',            homework:'輕至中等，重視身心健康',            teachers:'全校36人 · 學位100% · 碩士27% · 資深44%'},
+};
+
+const typeLabel = {happy:'😊 快樂學習', balanced:'⚖️ 均衡發展', academic:'📚 學術型'};
+const typeCls   = {happy:'happy', balanced:'balanced', academic:'academic'};
+
+const maxPlaces = Math.max(...S.map(s => s.places));
+document.getElementById('total-places').textContent = S.reduce((a, s) => a + s.places, 0);
+
+let activeFilters = {net:'all', religion:'all', type:'all'};
+let compareList = [];
+
+function setFilter(type, val, btn) {
+  activeFilters[type] = val;
+  document.querySelectorAll(`[data-filter="${type}"]`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (val !== 'all') trackEvent('filter_used', {filter_type:type, filter_value:val});
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const sort = document.getElementById('sortSelect').value;
+  let list = S.filter(s => {
+    if (activeFilters.net !== 'all' && s.net !== parseInt(activeFilters.net)) return false;
+    if (activeFilters.religion === 'none' && s.religion !== '') return false;
+    if (activeFilters.religion !== 'all' && activeFilters.religion !== 'none' && s.religion !== activeFilters.religion) return false;
+    if (activeFilters.type !== 'all' && (PROFILES[s.id]||{}).type !== activeFilters.type) return false;
+    if (q && !s.name.toLowerCase().includes(q) && !s.eng.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  if (sort === 'places_desc') list.sort((a,b) => b.places - a.places);
+  else if (sort === 'places_asc') list.sort((a,b) => a.places - b.places);
+  else if (sort === 'name') list.sort((a,b) => a.name.localeCompare(b.name,'zh-Hant'));
+  else list.sort((a,b) => a.code - b.code);
+  renderGrid(list);
+  document.getElementById('resultCount').textContent = `顯示 ${list.length} / ${S.length} 間`;
+  document.getElementById('emptyState').style.display = list.length ? 'none' : 'block';
+  document.getElementById('schoolGrid').style.display = list.length ? '' : 'none';
+}
+
+function renderGrid(list) {
+  const netName = n => n===72?'天水圍':n===73?'元朗市':'元朗鄉郊';
+  document.getElementById('schoolGrid').innerHTML = list.map(s => {
+    const inCompare = compareList.includes(s.id);
+    const pct = Math.round((s.places / maxPlaces) * 100);
+    return `
+    <div class="school-card${inCompare?' selected-compare':''}" id="card-${s.id}">
+      <div class="card-header">
+        <div class="card-code-row">
+          <span class="card-code net${s.net}-badge">網${s.net} ${netName(s.net)} · ${s.code}</span>
+          <span class="card-places">學額 ${s.places}</span>
+        </div>
+        <div class="card-name">${s.name}</div>
+        <div class="card-eng">${s.eng}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag ${s.finance==='官立'?'tag-gov':'tag-finance'}">${s.finance}</span>
+          ${s.religion?`<span class="tag tag-religion">${s.religion}</span>`:''}
+          ${s.barrier?`<span class="tag tag-barrier">♿</span>`:''}
+          ${PROFILES[s.id]?`<span class="tag tag-${typeCls[PROFILES[s.id].type]}">${typeLabel[PROFILES[s.id].type]}</span>`:''}
+        </div>
+        <div class="places-bar-wrap">
+          <div class="places-bar-label"><span>暫定小一學額</span><span>${s.places} 個</span></div>
+          <div class="places-bar-bg"><div class="places-bar-fill" style="width:${pct}%"></div></div>
+        </div>
+        <div class="card-info-row"><span class="icon">📍</span><span>${s.addr}</span></div>
+        <div class="card-info-row"><span class="icon">📞</span><span>${s.tel}</span></div>
+        ${PROFILES[s.id]?`<div class="profile-snippet"><b>升學：</b>${PROFILES[s.id].placement}</div>`:''}
+      </div>
+      <div class="card-footer">
+        <button class="btn-compare${inCompare?' active':''}" onclick="toggleCompare('${s.id}')">${inCompare?'✓ 已選':'+ 比較'}</button>
+        <button class="btn-detail" onclick="openDetail('${s.id}')">詳細資料</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCompare(id) {
+  if (compareList.includes(id)) { compareList = compareList.filter(x => x!==id); }
+  else { if (compareList.length>=3){alert('最多同時比較3間學校');return;} compareList.push(id); }
+  updateCompareBar(); applyFilters();
+}
+
+function updateCompareBar() {
+  const bar = document.getElementById('compareBar');
+  if (!compareList.length) { bar.classList.remove('show'); return; }
+  bar.classList.add('show');
+  document.getElementById('compareNames').innerHTML = compareList.map(id=>S.find(s=>s.id===id)).map(s=>`<span>${s.name}</span>`).join('');
+}
+
+function clearCompare() { compareList=[]; updateCompareBar(); applyFilters(); }
+
+function openCompare() {
+  if (compareList.length<2){alert('請選擇至少2間學校進行比較');return;}
+  trackEvent('compare_schools',{schools:compareList.join(','),count:compareList.length});
+  const schools = compareList.map(id=>S.find(s=>s.id===id));
+  const netName = n => n===72?'天水圍':n===73?'元朗市':'元朗鄉郊';
+  const rows = [
+    ['學校網',s=>`網${s.net}（${netName(s.net)}）`],
+    ['學校編號',s=>`${s.code}`],
+    ['資助類別',s=>s.finance],
+    ['宗教',s=>s.religion||'非宗教'],
+    ['學校風格',s=>PROFILES[s.id]?typeLabel[PROFILES[s.id].type]:'—'],
+    ['暫定學額',s=>`${s.places} 個`],
+    ['升學結果',s=>PROFILES[s.id]?PROFILES[s.id].placement:'—'],
+    ['教育方針',s=>PROFILES[s.id]?PROFILES[s.id].philosophy:'—'],
+    ['功課量',s=>PROFILES[s.id]?PROFILES[s.id].homework:'—'],
+    ['地址',s=>s.addr],['電話',s=>s.tel],
+    ['無障礙設施',s=>s.barrier?'✓ 有':'—'],
+  ];
+  document.getElementById('compareBody').innerHTML = `<div style="overflow-x:auto"><table class="compare-table">
+    <tr><th style="min-width:80px">項目</th>${schools.map(s=>`<th>${s.name}</th>`).join('')}</tr>
+    ${rows.map(([l,fn])=>`<tr><td class="row-label">${l}</td>${schools.map(s=>`<td>${fn(s)}</td>`).join('')}</tr>`).join('')}
+  </table></div>`;
+  document.getElementById('compareModal').classList.add('open');
+}
+
+function closeCompare() { document.getElementById('compareModal').classList.remove('open'); }
+function trackEvent(name,params) { if(typeof gtag!=='undefined') gtag('event',name,params); }
+
+function openDetail(id) {
+  const s = S.find(x=>x.id===id);
+  if(!s) return;
+  trackEvent('view_school',{school_name:s.name,school_net:s.net,school_code:s.code});
+  document.getElementById('detailTitle').textContent = s.name;
+  const pct = Math.round((s.places/maxPlaces)*100);
+  const netLabel = s.net===72?'天水圍':s.net===73?'元朗市':'元朗鄉郊';
+  document.getElementById('detailBody').innerHTML = `
+    <div class="detail-section">
+      <h4>基本資料</h4>
+      <div class="detail-row"><span class="detail-label">學校編號</span><span class="detail-value">${s.code}</span></div>
+      <div class="detail-row"><span class="detail-label">學校網</span><span class="detail-value">學校網 ${s.net}（${netLabel}）</span></div>
+      <div class="detail-row"><span class="detail-label">英文名稱</span><span class="detail-value">${s.eng}</span></div>
+      <div class="detail-row"><span class="detail-label">資助類別</span><span class="detail-value">${s.finance}</span></div>
+      <div class="detail-row"><span class="detail-label">宗教</span><span class="detail-value">${s.religion||'非宗教'}</span></div>
+      <div class="detail-row"><span class="detail-label">無障礙設施</span><span class="detail-value">${s.barrier?'✓ 有':'未有資料'}</span></div>
+    </div>
+    <div class="detail-section">
+      <h4>聯絡及位置</h4>
+      <div class="detail-row"><span class="detail-label">地址</span><span class="detail-value">${s.addr}</span></div>
+      <div class="detail-row"><span class="detail-label">電話</span><span class="detail-value">${s.tel}</span></div>
+    </div>
+    <div class="detail-section">
+      <h4>2026年度暫定小一學額</h4>
+      <div class="places-bar-wrap" style="margin:10px 0">
+        <div class="places-bar-label"><span>${s.name}</span><span><b>${s.places}</b> 個</span></div>
+        <div class="places-bar-bg" style="height:12px"><div class="places-bar-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:0.73rem;color:var(--sub);margin-top:4px">佔元朗區最高學額（${maxPlaces}個）的 ${pct}%</div>
+      </div>
+    </div>
+    ${PROFILES[s.id]?`
+    <div class="detail-section">
+      <h4>學校評估</h4>
+      <div class="profile-box ${typeCls[PROFILES[s.id].type]}">
+        <h5>${typeLabel[PROFILES[s.id].type]}</h5>
+        <div class="profile-row"><span class="profile-label">🎓 升學</span><span class="profile-val">${PROFILES[s.id].placement}</span></div>
+        <div class="profile-row"><span class="profile-label">📖 方針</span><span class="profile-val">${PROFILES[s.id].philosophy}</span></div>
+        <div class="profile-row"><span class="profile-label">📝 功課</span><span class="profile-val">${PROFILES[s.id].homework}</span></div>
+        ${PROFILES[s.id].teachers?`<div class="profile-row"><span class="profile-label">👩‍🏫 師資</span><span class="profile-val">${PROFILES[s.id].teachers}</span></div>`:''}
+      </div>
+    </div>`:''}
+    <div class="detail-section">
+      <h4>入學須知</h4>
+      <div class="admission-box">
+        <h5>統一派位制度（資助/官立小學）</h5>
+        <ul>
+          <li>本校屬<b>學校網 ${s.net}（${netLabel}）</b>，住址在網${s.net}內的家長可在乙部填選本校</li>
+          <li>甲部可填寫全港任何官立或資助小學（不受學校網限制）</li>
+          <li>統一派位以電腦隨機分配，毋須面試</li>
+          <li>自行分配（叩門）階段：另設，詳情請直接向學校查詢</li>
+          ${s.net===74?'<li>⚠️ 網74家長另可在乙部選擇部分網72學校（借調學額），可查閱教育局選校名單獲完整列表</li>':''}
+        </ul>
+      </div>
+    </div>
+  `;
+  document.getElementById('detailModal').classList.add('open');
+}
+
+function closeDetail() { document.getElementById('detailModal').classList.remove('open'); }
+
+applyFilters();
+
+let currentView = 'grid';
+function switchView(v) {
+  currentView = v;
+  document.getElementById('tab-grid').classList.toggle('active', v==='grid');
+  document.getElementById('tab-map').classList.toggle('active', v==='map');
+  document.getElementById('map-view').classList.toggle('active', v==='map');
+  const adTop = document.getElementById('ad-top');
+  const grid  = document.getElementById('schoolGrid');
+  const empty = document.getElementById('emptyState');
+  const controls = document.querySelector('.controls');
+  if (v==='map') {
+    if(adTop) adTop.style.display='none';
+    grid.style.display='none'; empty.style.display='none'; controls.style.display='none';
+    initMap(); trackEvent('view_map',{});
+  } else {
+    if(adTop) adTop.style.display='';
+    controls.style.display=''; applyFilters();
+  }
+}
+
+let map=null, markers=[], userMarker=null, mapFilter='all';
+const markerColor = {happy:'#27ae60', balanced:'#e67e22', academic:'#c0392b', undefined:'#2980b9'};
+
+function makeIcon(type) {
+  const c = markerColor[type]||markerColor.undefined;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="38" viewBox="0 0 28 38">
+    <path d="M14 0C6.27 0 0 6.27 0 14c0 9.33 14 24 14 24S28 23.33 28 14C28 6.27 21.73 0 14 0z" fill="${c}" stroke="white" stroke-width="1.5"/>
+    <circle cx="14" cy="14" r="6" fill="white"/>
+  </svg>`;
+  return L.divIcon({html:svg, className:'', iconSize:[28,38], iconAnchor:[14,38], popupAnchor:[0,-40]});
+}
+
+function buildPopup(s) {
+  const p = PROFILES[s.id]||{};
+  const tl = p.type?typeLabel[p.type]:'';
+  const tc = p.type?`tag-${typeCls[p.type]}`:'tag-finance';
+  const nName = s.net===72?'天水圍':s.net===73?'元朗市':'元朗鄉郊';
+  return `<div class="popup-name">${s.name}</div>
+    <div class="popup-eng">${s.eng}</div>
+    <div class="popup-tags">
+      <span class="popup-tag tag-finance">網${s.net} ${nName} · ${s.code}</span>
+      ${tl?`<span class="popup-tag ${tc}">${tl}</span>`:''}
+      ${s.religion?`<span class="popup-tag tag-religion">${s.religion}</span>`:''}
+    </div>
+    <div class="popup-row">📍 ${s.addr}</div>
+    <div class="popup-row">📞 <b>${s.tel}</b></div>
+    <div class="popup-row">🎓 學額 <b>${s.places}</b> 個</div>
+    ${p.placement?`<div class="popup-row">📊 ${p.placement}</div>`:''}
+    <button class="popup-btn" onclick="switchView('grid');setTimeout(()=>openDetail('${s.id}'),200)">查看詳情 →</button>`;
+}
+
+function schoolPassesMapFilter(s) {
+  if (mapFilter==='all') return true;
+  if (mapFilter==='net72') return s.net===72;
+  if (mapFilter==='net73') return s.net===73;
+  if (mapFilter==='net74') return s.net===74;
+  return (PROFILES[s.id]||{}).type===mapFilter;
+}
+
+function initMap() {
+  if (map) { refreshMapMarkers(); return; }
+  map = L.map('map-container',{zoomControl:true}).setView([22.460,114.010],12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom:19
+  }).addTo(map);
+  S.forEach(s => {
+    const type = (PROFILES[s.id]||{}).type;
+    const m = L.marker([s.lat,s.lng],{icon:makeIcon(type)}).bindPopup(buildPopup(s),{maxWidth:240}).addTo(map);
+    m._schoolId=s.id; m._schoolNet=s.net; m._schoolType=type;
+    markers.push(m);
+  });
+}
+
+function refreshMapMarkers() {
+  markers.forEach(m => {
+    const s = S.find(x=>x.id===m._schoolId);
+    if (schoolPassesMapFilter(s)) { map.addLayer(m); } else { map.removeLayer(m); }
+  });
+}
+
+function setMapFilter(f,btn) {
+  mapFilter=f;
+  document.querySelectorAll('.map-btn:not(.locate-btn)').forEach(b=>{b.style.background='';b.style.color='';});
+  btn.style.background='var(--primary)'; btn.style.color='#fff';
+  refreshMapMarkers();
+}
+
+function locateMe() {
+  if (!map) return;
+  if (!navigator.geolocation) { alert('此裝置不支援定位功能'); return; }
+  navigator.geolocation.getCurrentPosition(pos => {
+    const {latitude:lat, longitude:lng} = pos.coords;
+    if (userMarker) map.removeLayer(userMarker);
+    userMarker = L.circleMarker([lat,lng],{radius:10,color:'#fff',weight:3,fillColor:'#3498db',fillOpacity:1})
+      .addTo(map).bindPopup('📍 你的位置').openPopup();
+    map.setView([lat,lng],15);
+    S.map(s=>({s,dist:Math.hypot(s.lat-lat,s.lng-lng)})).sort((a,b)=>a.dist-b.dist).slice(0,3)
+      .forEach(({s},i) => { const m=markers.find(mk=>mk._schoolId===s.id); if(m) setTimeout(()=>m.openPopup(),i*600); });
+    trackEvent('locate_me',{lat:lat.toFixed(3),lng:lng.toFixed(3)});
+  }, ()=>alert('無法取得定位，請確認已允許位置權限'));
+}
+
+(function initProtection() {
+  document.addEventListener('selectstart', e=>e.preventDefault());
+  document.addEventListener('copy', e=>e.preventDefault());
+  document.addEventListener('cut', e=>e.preventDefault());
+  document.addEventListener('contextmenu', e=>e.preventDefault());
+  document.addEventListener('keydown', e => {
+    const k=e.key.toLowerCase();
+    if((e.ctrlKey||e.metaKey)&&['c','a','u','s','p'].includes(k)) e.preventDefault();
+    if(e.key==='PrintScreen'||e.key==='F12') e.preventDefault();
+  });
+  document.documentElement.style.webkitTouchCallout='none';
+  let blurTimer;
+  const blur=()=>document.body.classList.add('protect-blur');
+  const unblur=()=>{clearTimeout(blurTimer);blurTimer=setTimeout(()=>document.body.classList.remove('protect-blur'),800);};
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)blur();else unblur();});
+  window.addEventListener('blur',blur);
+  window.addEventListener('focus',unblur);
+})();
+</script>
+</body>
+</html>
