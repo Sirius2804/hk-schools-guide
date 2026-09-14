@@ -141,8 +141,8 @@ def fix_file(path, idx):
         sid = entry.group(1)
         mn = re.search(r"name:'([^']*)'", chunk)
         me = re.search(r'eng:"([^"]*)"', chunk) or re.search(r"eng:'([^']*)'", chunk)
-        mlat = re.search(r"lat:([\d.]+)", chunk)
-        mlng = re.search(r"lng:([\d.]+)", chunk)
+        mlat = re.search(r"lat:\s*([\d.]+)", chunk)
+        mlng = re.search(r"lng:\s*([\d.]+)", chunk)
         if not (mn and mlat and mlng):
             continue
 
@@ -162,8 +162,8 @@ def fix_file(path, idx):
             stats["same"] += 1
             continue
 
-        fixed = chunk.replace(f"lat:{mlat.group(1)}", f"lat:{lat}") \
-                     .replace(f"lng:{mlng.group(1)}", f"lng:{lng}")
+        fixed = re.sub(r"lat:\s*[\d.]+", f"lat:{lat}", chunk)
+        fixed = re.sub(r"lng:\s*[\d.]+", f"lng:{lng}", fixed)
         new_block = new_block.replace(chunk, fixed)
         stats["fixed"] += 1
         print(f"    ↻ {zh}  偏差 {dist:,.0f}m → 已修正")
