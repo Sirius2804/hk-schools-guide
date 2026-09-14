@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>資助小學名單 · 葵青區 · 香港小學資料庫</title>
-<meta name="description" content="葵青區資助小學名單全名單，資料來源：香港教育局。">
+<title>葵青區小學全覽（含地圖） · 香港小學資料庫</title>
+<meta name="description" content="葵青區小學全覽（含地圖），包含地圖定位及附近學校搜尋。資料來源：香港教育局。">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root{--ink:#1a1714;--ink-mid:#4a4540;--ink-light:#8a847e;--cream:#faf8f4;--paper:#f0ece4;--accent:#c4462a;--accent-light:#f5e8e4;--gold:#b8882a;--gold-light:#f5f0e4;--teal:#1e6b6b;--teal-light:#e4f0f0;--border:rgba(26,23,20,0.12);--r:4px;--rl:10px;}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -18,15 +19,28 @@ h1,h2,h3{font-family:'Noto Serif TC',serif;}
 .mstats{display:flex;gap:1.5rem;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap;}
 .mval{font-size:18px;font-weight:700;font-family:'Noto Serif TC',serif;}
 .mlbl{font-size:10px;color:rgba(250,248,244,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
-.nav-bar{background:var(--paper);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;gap:1rem;position:sticky;top:0;z-index:90;}
+.nav-bar{background:var(--paper);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;gap:1rem;position:sticky;top:0;z-index:100;}
 .nav-links{display:flex;overflow-x:auto;gap:0;}
 .nav-link{display:block;padding:12px 14px;font-size:12px;font-weight:500;color:var(--ink-light);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;}
 .nav-link:hover{color:var(--ink);}
 .nav-link.active{color:var(--accent);border-bottom-color:var(--accent);}
 .nav-home{font-size:12px;color:var(--ink-light);text-decoration:none;white-space:nowrap;padding:12px 0;}
 .nav-home:hover{color:var(--ink);}
-.content{max-width:1000px;padding:1.75rem 1.5rem;}
-.sect-head{display:flex;align-items:baseline;gap:10px;margin-bottom:1.25rem;}
+/* View toggle */
+.view-bar{background:var(--paper);border-bottom:1px solid var(--border);padding:10px 1.5rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.view-btn{font-size:12px;padding:7px 14px;border:1px solid var(--border);border-radius:var(--r);background:white;color:var(--ink-mid);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .15s;}
+.view-btn.active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+.view-btn:hover:not(.active){background:var(--paper);}
+.locate-btn{font-size:12px;padding:7px 14px;border:1px solid var(--teal);border-radius:var(--r);background:var(--teal-light);color:var(--teal);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;margin-left:auto;}
+.locate-btn:hover{background:var(--teal);color:white;}
+/* Map */
+#map-view{display:none;}
+#map-view.show{display:block;}
+#map{width:100%;height:calc(100vh - 160px);min-height:400px;}
+/* List */
+#list-view.hide{display:none;}
+.content{max-width:1100px;padding:1.75rem 1.5rem;}
+.sect-head{display:flex;align-items:baseline;gap:10px;margin-bottom:1.25rem;margin-top:1.5rem;}
 .sect-head h2{font-size:16px;font-weight:700;}
 .badge-count{font-size:11px;color:var(--ink-light);background:var(--paper);border:1px solid var(--border);border-radius:20px;padding:2px 10px;}
 .school-table{width:100%;border-collapse:collapse;font-size:12px;}
@@ -39,7 +53,6 @@ h1,h2,h3{font-family:'Noto Serif TC',serif;}
 .bd{background:var(--teal-light);color:var(--teal);}
 .ba{background:#e8f0f5;color:#1a4a6b;}
 .bp{background:var(--gold-light);color:var(--gold);}
-.tag{display:inline-block;font-size:10px;padding:1px 6px;background:var(--paper);border:1px solid var(--border);border-radius:3px;margin:1px;}
 a.web{color:var(--teal);text-decoration:none;font-size:11px;}
 a.web:hover{text-decoration:underline;}
 .fac{font-size:11px;color:var(--ink-mid);}
@@ -47,32 +60,68 @@ footer{padding:1.5rem;text-align:center;font-size:11px;color:var(--ink-light);bo
 footer a{color:var(--teal);text-decoration:none;}
 .type-dss{border-left:3px solid var(--teal);}
 .type-aided{border-left:3px solid var(--gold);}
+.type-gov{border-left:3px solid var(--ink-light);}
 .type-pri{border-left:3px solid var(--accent);}
-.section-divider{background:var(--paper);padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-light);border-bottom:1px solid var(--border);border-top:2px solid var(--border);}
+/* Nearby badge */
+.nearby-tag{display:inline-block;font-size:10px;padding:1px 7px;background:#e8f5e8;color:#1a6b2a;border-radius:10px;font-weight:600;margin-left:4px;}
+/* Leaflet popup overrides */
+.leaflet-popup-content{margin:10px 14px;min-width:180px;}
+.popup-name{font-family:'Noto Serif TC',serif;font-weight:700;font-size:13px;margin-bottom:4px;}
+.popup-type{font-size:10px;padding:2px 6px;border-radius:3px;font-weight:500;}
+.popup-addr{font-size:11px;color:#666;margin-top:4px;}
+.popup-web{display:inline-block;margin-top:6px;font-size:11px;color:#1e6b6b;}
+/* Location marker pulse */
+@keyframes pulse{0%{transform:scale(1);opacity:1}100%{transform:scale(2.5);opacity:0}}
 </style>
 </head>
 <body>
 <div class="masthead">
-  <div class="eyebrow">Hong Kong Primary Schools · Kwai Tsing</div>
-  <h1>葵青區資助小學名單</h1>
-  <div class="masthead-sub">共 29 間資助小學（葵涌、青衣、荃灣大窩口） · 資料來源：香港教育局（2025/26學年）</div>
-  <div class="mstats"><div><div class="mval">29</div><div class="mlbl">資助小學</div></div><div><div class="mval">64/65</div><div class="mlbl">校網編號</div></div><div><div class="mval">$0</div><div class="mlbl">學費</div></div><div><div class="mval">29</div><div class="mlbl">區內資助小學</div></div></div>
+  <div class="eyebrow">Hong Kong Primary Schools · Kwai Tsing District</div>
+  <h1>葵青區小學全覽（含地圖）</h1>
+  <div class="masthead-sub">共 30 間小學（直資、資助）· 涵蓋葵涌、青衣 · 支援地圖定位及附近學校搜尋 · 資料來源：香港教育局（2025/26學年）</div>
+  <div class="mstats"><div><div class="mval">29</div><div class="mlbl">資助小學</div></div><div><div class="mval">1</div><div class="mlbl">直資小學</div></div><div><div class="mval">64/65</div><div class="mlbl">校網編號</div></div><div><div class="mval">青衣/葵涌</div><div class="mlbl">涵蓋地區</div></div></div>
 </div>
 <nav class="nav-bar">
   <a class="nav-home" href="index.html">← 返回總覽</a>
-  <div class="nav-links"><a class="nav-link active" href="kwai-tsing-aided.html">資助小學</a><a class="nav-link " href="kwai-tsing-dss.html">直資小學</a></div>
+  <div class="nav-links"><a class="nav-link " href="tsuen-wan-aided.html">荃灣區（全部）</a><a class="nav-link active" href="kwai-tsing-aided.html">葵青區（全部）</a></div>
 </nav>
-<div class="content">
-
-<div class="sect-head" style="margin-top:1.5rem">
-  <h2>資助小學</h2>
-  <span class="badge-count">29間</span>
+<div class="view-bar">
+  <button class="view-btn active" id="btn-list" onclick="showList()">☰ 列表模式</button>
+  <button class="view-btn" id="btn-map" onclick="showMap()">🗺 地圖模式</button>
+  <button class="locate-btn" id="locbtn" onclick="locateMe()">📍 我的位置 · 尋找附近學校</button>
 </div>
+<div id="nearby-panel" style="display:none;border-bottom:1px solid var(--border)"></div>
+<div id="map-view"><div id="map"></div></div>
+<div id="list-view">
+  <div class="content">
 
+<div class="sect-head">
+  <h2>直資小學</h2>
+  <span class="badge-count">1間</span>
+</div>
 <div style="overflow-x:auto">
 <table class="school-table">
 <thead><tr><th>學校名稱</th><th>地區</th><th>地址</th><th>宗教</th><th>性別</th><th>類別</th><th>網站</th><th>備注</th></tr></thead>
-<tbody><tr class="type-aided">
+<tbody><tr class="type-dss" data-id="delia-kwt">
+  <td><div class="sn">地利亞（閩僑）英文小學</div><div class="en">Delia (Man Kiu) English Primary School</div></td>
+  <td>青衣</td>
+  <td>長安邨第二期</td>
+  <td>無</td>
+  <td>男女</td>
+  <td><span class="b bd">直資</span></td>
+  <td><a class="web" href="http://www.deliamk.edu.hk" target="_blank">官網 ↗</a></td>
+  <td class="fac">毋需面試 · $7,370/年</td>
+</tr></tbody>
+</table>
+</div>
+<div class="sect-head">
+  <h2>資助小學</h2>
+  <span class="badge-count">29間</span>
+</div>
+<div style="overflow-x:auto">
+<table class="school-table">
+<thead><tr><th>學校名稱</th><th>地區</th><th>地址</th><th>宗教</th><th>性別</th><th>類別</th><th>網站</th><th>備注</th></tr></thead>
+<tbody><tr class="type-aided" data-id="kwtas">
   <td><div class="sn">亞斯理衛理小學</div><div class="en">Asbury Methodist Primary School</div></td>
   <td>葵涌</td>
   <td>荔景邨第二校舍</td>
@@ -82,8 +131,8 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.asbury.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
-  <td><div class="sn">佛教林炳炎紀念學校</div><div class="en">Budd Lam Bing Yim Mem Sch</div></td>
+<tr class="type-aided" data-id="kwtblby">
+  <td><div class="sn">佛教林炳炎紀念學校</div><div class="en">Buddhist Lam Bing Yim Mem School</div></td>
   <td>荃灣</td>
   <td>大廈街33號</td>
   <td>佛教</td>
@@ -92,8 +141,8 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.blbyms.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
-  <td><div class="sn">佛教林金殿紀念小學</div><div class="en">Buddhist Lim Kim Tian Memorial Primary School</div></td>
+<tr class="type-aided" data-id="kwtlkt">
+  <td><div class="sn">佛教林金殿紀念小學</div><div class="en">Buddhist Lim Kim Tian Memorial PS</div></td>
   <td>葵涌</td>
   <td>葵芳邨第五期</td>
   <td>佛教</td>
@@ -102,7 +151,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.lkt.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtcy2">
   <td><div class="sn">中華基督教會全完第二小學</div><div class="en">CCC Chuen Yuen Second Primary School</div></td>
   <td>荃灣</td>
   <td>大窩口上角街3號</td>
@@ -112,7 +161,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.chuenyuen2.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtkc">
   <td><div class="sn">中華基督教會基真小學</div><div class="en">CCC Kei Chun Primary School</div></td>
   <td>葵涌</td>
   <td>華荔徑11號</td>
@@ -122,7 +171,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.keichun.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtcho">
   <td><div class="sn">祖堯天主教小學</div><div class="en">Cho Yiu Catholic Primary School</div></td>
   <td>葵涌</td>
   <td>敬祖路10號祖堯邨</td>
@@ -132,7 +181,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.choyiu.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtclmc">
   <td><div class="sn">中華傳道會呂明才小學</div><div class="en">CNEC Lui Ming Choi Primary School</div></td>
   <td>青衣</td>
   <td>長發邨</td>
@@ -142,7 +191,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.cneclmc.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwttt">
   <td><div class="sn">中華傳道會許大同學校</div><div class="en">CNEC Ta Tung School</div></td>
   <td>葵涌</td>
   <td>葵興邨第一座校舍</td>
@@ -152,8 +201,8 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://cnectt.squarespace.com" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
-  <td><div class="sn">基督教香港信義會葵盛信義學校</div><div class="en">ELCHK Kwai Shing Lutheran Primary School</div></td>
+<tr class="type-aided" data-id="kwtksl">
+  <td><div class="sn">基督教香港信義會葵盛信義學校</div><div class="en">ELCHK Kwai Shing Lutheran PS</div></td>
   <td>葵涌</td>
   <td>葵盛邨屋邨學校第六座</td>
   <td>基督教</td>
@@ -162,7 +211,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.kslps.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtplkcy">
   <td><div class="sn">保良局陳溢小學</div><div class="en">PLK Chan Yat Primary School</div></td>
   <td>青衣</td>
   <td>長康邨第二小學</td>
@@ -172,8 +221,8 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.plkcy.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
-  <td><div class="sn">保良局世德小學</div><div class="en">Po Leung Kuk Castar Primary School</div></td>
+<tr class="type-aided" data-id="kwtcastar">
+  <td><div class="sn">保良局世德小學</div><div class="en">PLK Castar Primary School</div></td>
   <td>青衣</td>
   <td>青綠街23號</td>
   <td>無</td>
@@ -182,7 +231,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.plkcastar.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwttycy">
   <td><div class="sn">聖公會青衣主恩小學</div><div class="en">SKH Tsing Yi Chu Yan Primary School</div></td>
   <td>青衣</td>
   <td>長宏邨</td>
@@ -192,7 +241,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.tycy.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtylm">
   <td><div class="sn">聖公會仁立紀念小學</div><div class="en">SKH Yan Laap Memorial Primary School</div></td>
   <td>葵涌</td>
   <td>上角街13號</td>
@@ -202,8 +251,8 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.ylm.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
-  <td><div class="sn">慈幼葉漢千禧小學</div><div class="en">Salesian Yip Hon Millennium Primary School</div></td>
+<tr class="type-aided" data-id="kwtsyh">
+  <td><div class="sn">慈幼葉漢千禧小學</div><div class="en">Salesian Yip Hon Millennium PS</div></td>
   <td>葵涌</td>
   <td>石排街9號</td>
   <td>天主教</td>
@@ -212,7 +261,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.syh.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtsyhps">
   <td><div class="sn">慈幼葉漢小學</div><div class="en">Salesian Yip Hon Primary School</div></td>
   <td>葵涌</td>
   <td>安蔭邨</td>
@@ -222,7 +271,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.syhps.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtslc">
   <td><div class="sn">石籬天主教小學</div><div class="en">Shek Lei Catholic Primary School</div></td>
   <td>葵涌</td>
   <td>石排街11號</td>
@@ -232,8 +281,8 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.sheklei.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
-  <td><div class="sn">石籬聖若望天主教小學</div><div class="en">Shek Lei St. John's Catholic Primary School</div></td>
+<tr class="type-aided" data-id="kwtslsj">
+  <td><div class="sn">石籬聖若望天主教小學</div><div class="en">Shek Lei St. John's Catholic PS</div></td>
   <td>葵涌</td>
   <td>大白田街99號</td>
   <td>天主教</td>
@@ -242,7 +291,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.slsj.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtchuoi">
   <td><div class="sn">聖公會主愛小學</div><div class="en">SKH Chu Oi Primary School</div></td>
   <td>葵涌</td>
   <td>童子街45號</td>
@@ -252,7 +301,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.chuoi.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtchuyan">
   <td><div class="sn">聖公會主恩小學</div><div class="en">SKH Chu Yan Primary School</div></td>
   <td>葵涌</td>
   <td>葵盛邨第二號校舍</td>
@@ -262,7 +311,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.chuyan.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwthcw">
   <td><div class="sn">聖公會何澤芸小學</div><div class="en">SKH Ho Chak Wan Primary School</div></td>
   <td>青衣</td>
   <td>長亨邨</td>
@@ -272,8 +321,8 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.skhhcw.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
-  <td><div class="sn">聖公會青衣邨何澤芸小學</div><div class="en">SKH Tsing Yi Est Ho Chak Wan Primary School</div></td>
+<tr class="type-aided" data-id="kwttyehcw">
+  <td><div class="sn">聖公會青衣邨何澤芸小學</div><div class="en">SKH Tsing Yi Est Ho Chak Wan PS</div></td>
   <td>青衣</td>
   <td>青綠街3號</td>
   <td>基督教</td>
@@ -282,7 +331,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.tyehcw.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtyanlaap">
   <td><div class="sn">聖公會仁立小學</div><div class="en">SKH Yan Laap Primary School</div></td>
   <td>葵涌</td>
   <td>葵盛圍399號</td>
@@ -292,8 +341,8 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.yanlaap.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
-  <td><div class="sn">柏立基教育學院校友會盧光輝紀念學校</div><div class="en">SRBCEPSA Lu Kwong Fai Memorial School</div></td>
+<tr class="type-aided" data-id="kwtlkf">
+  <td><div class="sn">柏立基校友會盧光輝紀念學校</div><div class="en">SRBCEPSA Lu Kwong Fai Mem School</div></td>
   <td>葵涌</td>
   <td>葵盛圍221號</td>
   <td>無</td>
@@ -302,7 +351,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.lynms.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwttwgh">
   <td><div class="sn">東華三院高可寧紀念小學</div><div class="en">TWGHS Ko Ho Ning Mem Primary School</div></td>
   <td>葵涌</td>
   <td>麗瑤邨</td>
@@ -312,8 +361,8 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.twghkhnmp.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
-  <td><div class="sn">青衣商會小學</div><div class="en">Tsing Yi Trade Association Primary School</div></td>
+<tr class="type-aided" data-id="kwttyta">
+  <td><div class="sn">青衣商會小學</div><div class="en">Tsing Yi Trade Assn Primary School</div></td>
   <td>青衣</td>
   <td>長康路12號</td>
   <td>無</td>
@@ -322,8 +371,8 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.tytaps.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
-  <td><div class="sn">荃灣商會學校</div><div class="en">Tsuen Wan Trade Association Primary School</div></td>
+<tr class="type-aided" data-id="kwttwtaps">
+  <td><div class="sn">荃灣商會學校</div><div class="en">Tsuen Wan Trade Assn Primary School</div></td>
   <td>青衣</td>
   <td>青衣邨第一期</td>
   <td>無</td>
@@ -332,7 +381,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.twtaps.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwttwghwss">
   <td><div class="sn">東華三院黃士心小學</div><div class="en">TWGH Wong See Sum Primary School</div></td>
   <td>青衣</td>
   <td>長安邨</td>
@@ -342,7 +391,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://www.twghwssp.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwttwghcys">
   <td><div class="sn">東華三院周演森小學</div><div class="en">TWGHS Chow Yin Sum Primary School</div></td>
   <td>青衣</td>
   <td>青芊街8號</td>
@@ -352,7 +401,7 @@ footer a{color:var(--teal);text-decoration:none;}
   <td><a class="web" href="http://twghscysps.edu.hk" target="_blank">官網 ↗</a></td>
   <td class="fac"></td>
 </tr>
-<tr class="type-aided">
+<tr class="type-aided" data-id="kwtychcthw">
   <td><div class="sn">仁濟醫院趙曾學韞小學</div><div class="en">YCH Chiu Tsang Hok Wan Primary School</div></td>
   <td>青衣</td>
   <td>青衣邨第二期</td>
@@ -364,9 +413,167 @@ footer a{color:var(--teal);text-decoration:none;}
 </tr></tbody>
 </table>
 </div>
+  </div>
 </div>
 <footer>
-  資料來源：<a href="https://www.edb.gov.hk" target="_blank">香港教育局</a> · 資料僅供參考，如欲進一步了解學校詳情，請直接向學校查詢。
+  資料來源：<a href="https://www.edb.gov.hk" target="_blank">香港教育局</a> ·
+  地圖：<a href="https://openstreetmap.org" target="_blank">OpenStreetMap</a> ·
+  資料僅供參考，如欲進一步了解學校詳情，請直接向學校查詢。
 </footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+var SCHOOLS = [{"id": "delia-kwt", "name": "地利亞（閩僑）英文小學", "eng": "Delia (Man Kiu) English Primary School", "area": "青衣", "addr": "長安邨第二期", "type": "直資", "religion": "無", "gender": "男女", "web": "http://www.deliamk.edu.hk", "notes": "毋需面試 · $7,370/年", "lat": 22.3588, "lng": 114.1024}, {"id": "kwtas", "name": "亞斯理衛理小學", "eng": "Asbury Methodist Primary School", "area": "葵涌", "addr": "荔景邨第二校舍", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.asbury.edu.hk", "notes": "", "lat": 22.353, "lng": 114.1337}, {"id": "kwtblby", "name": "佛教林炳炎紀念學校", "eng": "Buddhist Lam Bing Yim Mem School", "area": "荃灣", "addr": "大廈街33號", "type": "資助", "religion": "佛教", "gender": "男女", "web": "http://www.blbyms.edu.hk", "notes": "", "lat": 22.3736, "lng": 114.1096}, {"id": "kwtlkt", "name": "佛教林金殿紀念小學", "eng": "Buddhist Lim Kim Tian Memorial PS", "area": "葵涌", "addr": "葵芳邨第五期", "type": "資助", "religion": "佛教", "gender": "男女", "web": "http://www.lkt.edu.hk", "notes": "", "lat": 22.3578, "lng": 114.1304}, {"id": "kwtcy2", "name": "中華基督教會全完第二小學", "eng": "CCC Chuen Yuen Second Primary School", "area": "荃灣", "addr": "大窩口上角街3號", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.chuenyuen2.edu.hk", "notes": "", "lat": 22.3678, "lng": 114.1282}, {"id": "kwtkc", "name": "中華基督教會基真小學", "eng": "CCC Kei Chun Primary School", "area": "葵涌", "addr": "華荔徑11號", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.keichun.edu.hk", "notes": "", "lat": 22.3543, "lng": 114.1335}, {"id": "kwtcho", "name": "祖堯天主教小學", "eng": "Cho Yiu Catholic Primary School", "area": "葵涌", "addr": "敬祖路10號祖堯邨", "type": "資助", "religion": "天主教", "gender": "男女", "web": "http://www.choyiu.edu.hk", "notes": "", "lat": 22.3468, "lng": 114.1395}, {"id": "kwtclmc", "name": "中華傳道會呂明才小學", "eng": "CNEC Lui Ming Choi Primary School", "area": "青衣", "addr": "長發邨", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.cneclmc.edu.hk", "notes": "", "lat": 22.349, "lng": 114.0919}, {"id": "kwttt", "name": "中華傳道會許大同學校", "eng": "CNEC Ta Tung School", "area": "葵涌", "addr": "葵興邨第一座校舍", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://cnectt.squarespace.com", "notes": "", "lat": 22.3609, "lng": 114.1257}, {"id": "kwtksl", "name": "基督教香港信義會葵盛信義學校", "eng": "ELCHK Kwai Shing Lutheran PS", "area": "葵涌", "addr": "葵盛邨屋邨學校第六座", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.kslps.edu.hk", "notes": "", "lat": 22.3659, "lng": 114.135}, {"id": "kwtplkcy", "name": "保良局陳溢小學", "eng": "PLK Chan Yat Primary School", "area": "青衣", "addr": "長康邨第二小學", "type": "資助", "religion": "無", "gender": "男女", "web": "http://www.plkcy.edu.hk", "notes": "", "lat": 22.3559, "lng": 114.1064}, {"id": "kwtcastar", "name": "保良局世德小學", "eng": "PLK Castar Primary School", "area": "青衣", "addr": "青綠街23號", "type": "資助", "religion": "無", "gender": "男女", "web": "http://www.plkcastar.edu.hk", "notes": "", "lat": 22.3621, "lng": 114.1102}, {"id": "kwttycy", "name": "聖公會青衣主恩小學", "eng": "SKH Tsing Yi Chu Yan Primary School", "area": "青衣", "addr": "長宏邨", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.tycy.edu.hk", "notes": "", "lat": 22.3527, "lng": 114.1043}, {"id": "kwtylm", "name": "聖公會仁立紀念小學", "eng": "SKH Yan Laap Memorial Primary School", "area": "葵涌", "addr": "上角街13號", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.ylm.edu.hk", "notes": "", "lat": 22.3663, "lng": 114.129}, {"id": "kwtsyh", "name": "慈幼葉漢千禧小學", "eng": "Salesian Yip Hon Millennium PS", "area": "葵涌", "addr": "石排街9號", "type": "資助", "religion": "天主教", "gender": "男女", "web": "http://www.syh.edu.hk", "notes": "", "lat": 22.363, "lng": 114.1366}, {"id": "kwtsyhps", "name": "慈幼葉漢小學", "eng": "Salesian Yip Hon Primary School", "area": "葵涌", "addr": "安蔭邨", "type": "資助", "religion": "天主教", "gender": "男女", "web": "http://www.syhps.edu.hk", "notes": "", "lat": 22.359, "lng": 114.129}, {"id": "kwtslc", "name": "石籬天主教小學", "eng": "Shek Lei Catholic Primary School", "area": "葵涌", "addr": "石排街11號", "type": "資助", "religion": "天主教", "gender": "男女", "web": "http://www.sheklei.edu.hk", "notes": "", "lat": 22.3632, "lng": 114.1371}, {"id": "kwtslsj", "name": "石籬聖若望天主教小學", "eng": "Shek Lei St. John's Catholic PS", "area": "葵涌", "addr": "大白田街99號", "type": "資助", "religion": "天主教", "gender": "男女", "web": "http://www.slsj.edu.hk", "notes": "", "lat": 22.3672, "lng": 114.1379}, {"id": "kwtchuoi", "name": "聖公會主愛小學", "eng": "SKH Chu Oi Primary School", "area": "葵涌", "addr": "童子街45號", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.chuoi.edu.hk", "notes": "", "lat": 22.365, "lng": 114.1345}, {"id": "kwtchuyan", "name": "聖公會主恩小學", "eng": "SKH Chu Yan Primary School", "area": "葵涌", "addr": "葵盛邨第二號校舍", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.chuyan.edu.hk", "notes": "", "lat": 22.3651, "lng": 114.1356}, {"id": "kwthcw", "name": "聖公會何澤芸小學", "eng": "SKH Ho Chak Wan Primary School", "area": "青衣", "addr": "長亨邨", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.skhhcw.edu.hk", "notes": "", "lat": 22.3495, "lng": 114.1009}, {"id": "kwttyehcw", "name": "聖公會青衣邨何澤芸小學", "eng": "SKH Tsing Yi Est Ho Chak Wan PS", "area": "青衣", "addr": "青綠街3號", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.tyehcw.edu.hk", "notes": "", "lat": 22.3617, "lng": 114.1102}, {"id": "kwtyanlaap", "name": "聖公會仁立小學", "eng": "SKH Yan Laap Primary School", "area": "葵涌", "addr": "葵盛圍399號", "type": "資助", "religion": "基督教", "gender": "男女", "web": "http://www.yanlaap.edu.hk", "notes": "", "lat": 22.3663, "lng": 114.135}, {"id": "kwtlkf", "name": "柏立基校友會盧光輝紀念學校", "eng": "SRBCEPSA Lu Kwong Fai Mem School", "area": "葵涌", "addr": "葵盛圍221號", "type": "資助", "religion": "無", "gender": "男女", "web": "http://www.lynms.edu.hk", "notes": "", "lat": 22.3659, "lng": 114.1342}, {"id": "kwttwgh", "name": "東華三院高可寧紀念小學", "eng": "TWGHS Ko Ho Ning Mem Primary School", "area": "葵涌", "addr": "麗瑤邨", "type": "資助", "religion": "無", "gender": "男女", "web": "http://www.twghkhnmp.edu.hk", "notes": "", "lat": 22.351, "lng": 114.1342}, {"id": "kwttyta", "name": "青衣商會小學", "eng": "Tsing Yi Trade Assn Primary School", "area": "青衣", "addr": "長康路12號", "type": "資助", "religion": "無", "gender": "男女", "web": "http://www.tytaps.edu.hk", "notes": "", "lat": 22.3561, "lng": 114.1063}, {"id": "kwttwtaps", "name": "荃灣商會學校", "eng": "Tsuen Wan Trade Assn Primary School", "area": "青衣", "addr": "青衣邨第一期", "type": "資助", "religion": "無", "gender": "男女", "web": "http://www.twtaps.edu.hk", "notes": "", "lat": 22.3581, "lng": 114.1063}, {"id": "kwttwghwss", "name": "東華三院黃士心小學", "eng": "TWGH Wong See Sum Primary School", "area": "青衣", "addr": "長安邨", "type": "資助", "religion": "無", "gender": "男女", "web": "http://www.twghwssp.edu.hk", "notes": "", "lat": 22.3588, "lng": 114.1054}, {"id": "kwttwghcys", "name": "東華三院周演森小學", "eng": "TWGHS Chow Yin Sum Primary School", "area": "青衣", "addr": "青芊街8號", "type": "資助", "religion": "無", "gender": "男女", "web": "http://twghscysps.edu.hk", "notes": "", "lat": 22.3606, "lng": 114.1098}, {"id": "kwtychcthw", "name": "仁濟醫院趙曾學韞小學", "eng": "YCH Chiu Tsang Hok Wan Primary School", "area": "青衣", "addr": "青衣邨第二期", "type": "資助", "religion": "無", "gender": "男女", "web": "http://www.ychcthwps.edu.hk", "notes": "", "lat": 22.3578, "lng": 114.1055}];
+
+// ── MAP SETUP ─────────────────────────────────────────────────────────────
+var map, userMarker, userCircle;
+var allMarkers = [];
+
+function initMap() {
+  if (map) return;
+  map = L.map('map').setView([22.37, 114.11], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+    maxZoom: 19
+  }).addTo(map);
+
+  // Add school markers
+  SCHOOLS.forEach(function(s) {
+    if (!s.lat || !s.lng) return;
+    var color = s.type === '直資' ? '#1e6b6b' : s.type === '私立' ? '#c4462a' : s.type === '官立' ? '#4a4540' : '#b8882a';
+    var icon = L.divIcon({
+      className: '',
+      html: '<div style="width:14px;height:14px;border-radius:50%;background:'+color+';border:2.5px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4)"></div>',
+      iconSize: [14,14], iconAnchor: [7,7], popupAnchor: [0,-10]
+    });
+    var typeBadge = '<span class="popup-type" style="background:'+(color+'22')+';color:'+color+'">'+s.type+'</span>';
+    var popup = '<div class="popup-name">'+s.name+'</div>'
+      + typeBadge
+      + '<div class="popup-addr">📍 '+s.addr+'</div>'
+      + (s.web ? '<a class="popup-web" href="'+s.web+'" target="_blank">官網 ↗</a>' : '');
+    var m = L.marker([s.lat, s.lng], {icon: icon}).addTo(map).bindPopup(popup);
+    allMarkers.push({marker: m, school: s});
+  });
+}
+
+function locateMe() {
+  var btn = document.getElementById('locbtn');
+  btn.textContent = '📡 定位中…';
+  btn.disabled = true;
+  if (!navigator.geolocation) { alert('瀏覽器不支援定位'); btn.textContent='📍 我的位置'; btn.disabled=false; return; }
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    var lat = pos.coords.latitude, lng = pos.coords.longitude;
+    if (!map) initMap();
+    showMap();
+    // Remove old user marker
+    if (userMarker) { map.removeLayer(userMarker); map.removeLayer(userCircle); }
+    // Draw 1km radius circle
+    userCircle = L.circle([lat, lng], {radius: 1000, color:'#185FA5', fillColor:'#185FA5', fillOpacity:0.08, weight:2}).addTo(map);
+    // Pulsing user dot
+    var userIcon = L.divIcon({
+      className:'',
+      html:'<div style="position:relative;width:18px;height:18px">'
+        +'<div style="position:absolute;inset:0;border-radius:50%;background:#185FA5;opacity:.3;animation:pulse 1.5s infinite"></div>'
+        +'<div style="position:absolute;inset:3px;border-radius:50%;background:#185FA5;border:2px solid white;box-shadow:0 0 6px rgba(24,95,165,.6)"></div>'
+        +'</div>',
+      iconSize:[18,18], iconAnchor:[9,9]
+    });
+    userMarker = L.marker([lat,lng],{icon:userIcon}).addTo(map).bindPopup('📍 你的位置').openPopup();
+    map.setView([lat,lng], 15);
+    // Find nearby schools (within ~1.5km)
+    var nearby = [];
+    allMarkers.forEach(function(m) {
+      var d = map.distance([lat,lng],[m.school.lat,m.school.lng]);
+      if (d < 1500) nearby.push({school:m.school, dist:Math.round(d), marker:m.marker});
+    });
+    nearby.sort(function(a,b){return a.dist-b.dist});
+    // Highlight nearby in list
+    document.querySelectorAll('.nearby-tag').forEach(function(el){el.remove()});
+    nearby.forEach(function(n){
+      var rows = document.querySelectorAll('[data-id="'+n.school.id+'"]');
+      rows.forEach(function(r){
+        var cell = r.querySelector('.sn');
+        if (cell && !cell.querySelector('.nearby-tag')) {
+          cell.insertAdjacentHTML('afterend','<span class="nearby-tag">📍 '+n.dist+'m</span>');
+        }
+      });
+    });
+    // Show nearby panel
+    var panel = document.getElementById('nearby-panel');
+    if (nearby.length === 0) {
+      panel.innerHTML = '<div style="padding:12px 1.5rem;font-size:13px;color:var(--ink-light)">附近1.5公里內沒有找到學校。</div>';
+    } else {
+      panel.innerHTML = '<div style="padding:10px 1.5rem;background:var(--compare-light,#E6F1FB);border-bottom:1px solid var(--border)">'
+        +'<strong style="font-size:13px">📍 附近 '+nearby.length+' 間學校（1.5公里內）</strong></div>'
+        +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">'
+        +'<thead><tr style="background:var(--ink);color:var(--cream)"><th style="padding:8px 12px;text-align:left">學校</th><th style="padding:8px 12px;text-align:left">類別</th><th style="padding:8px 12px;text-align:left">距離</th><th style="padding:8px 12px;text-align:left">地址</th></tr></thead><tbody>'
+        + nearby.map(function(n){
+            return '<tr style="border-bottom:1px solid var(--border);cursor:pointer" onclick="jumpToMarker('+n.school.lat+','+n.school.lng+')">'
+              +'<td style="padding:8px 12px;font-family:'Noto Serif TC',serif;font-weight:600">'+n.school.name+'</td>'
+              +'<td style="padding:8px 12px">'+n.school.type+'</td>'
+              +'<td style="padding:8px 12px;color:var(--teal);font-weight:600">'+n.dist+'m</td>'
+              +'<td style="padding:8px 12px;font-size:11px;color:var(--ink-light)">'+n.school.addr+'</td>'
+              +'</tr>';
+          }).join('')
+        +'</tbody></table></div>';
+    }
+    panel.style.display = 'block';
+    btn.textContent = '📍 重新定位';
+    btn.disabled = false;
+  }, function(err) {
+    alert('定位失敗：' + err.message);
+    btn.textContent = '📍 我的位置';
+    btn.disabled = false;
+  }, {enableHighAccuracy: true, timeout: 10000});
+}
+
+function jumpToMarker(lat, lng) {
+  map.setView([lat, lng], 17);
+  allMarkers.forEach(function(m){
+    if (m.school.lat === lat && m.school.lng === lng) m.marker.openPopup();
+  });
+}
+
+function showMap() {
+  document.getElementById('map-view').classList.add('show');
+  document.getElementById('list-view').classList.add('hide');
+  document.getElementById('btn-map').classList.add('active');
+  document.getElementById('btn-list').classList.remove('active');
+  if (!map) initMap();
+  setTimeout(function(){ map.invalidateSize(); }, 100);
+}
+
+function showList() {
+  document.getElementById('map-view').classList.remove('show');
+  document.getElementById('list-view').classList.remove('hide');
+  document.getElementById('btn-list').classList.add('active');
+  document.getElementById('btn-map').classList.remove('active');
+}
+
+// Init map centered on district when map tab first opened
+var _mapInited = false;
+var origInitMap = initMap;
+initMap = function() {
+  if (_mapInited) return;
+  _mapInited = true;
+  map = L.map('map').setView([22.358, 114.115], 14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+    maxZoom: 19
+  }).addTo(map);
+  SCHOOLS.forEach(function(s) {
+    if (!s.lat || !s.lng) return;
+    var color = s.type==='直資'?'#1e6b6b':s.type==='私立'?'#c4462a':s.type==='官立'?'#4a4540':'#b8882a';
+    var icon = L.divIcon({
+      className:'',
+      html:'<div style="width:14px;height:14px;border-radius:50%;background:'+color+';border:2.5px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4)"></div>',
+      iconSize:[14,14], iconAnchor:[7,7], popupAnchor:[0,-10]
+    });
+    var typeBadge='<span class="popup-type" style="background:'+(color+'22')+';color:'+color+'">'+s.type+'</span>';
+    var popup='<div class="popup-name">'+s.name+'</div>'+typeBadge+'<div class="popup-addr">📍 '+s.addr+'</div>'+(s.web?'<a class="popup-web" href="'+s.web+'" target="_blank">官網 ↗</a>':'');
+    var m=L.marker([s.lat,s.lng],{icon:icon}).addTo(map).bindPopup(popup);
+    allMarkers.push({marker:m,school:s});
+  });
+};
+</script>
 </body>
 </html>
