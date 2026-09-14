@@ -4,7 +4,7 @@
 fix_coords.py — 用教育局官方數據修正學校座標
 
 用法：
-    python3 fix_coords.py                    # 修正當前資料夾所有 *-aided.html
+    python3 fix_coords.py                    # 修正所有 *-aided.html 及 dss-private-schools.html
     python3 fix_coords.py tsuen-wan-aided.html kwai-tsing-aided.html
     python3 fix_coords.py --dry-run          # 只報告，不改檔案
 
@@ -184,7 +184,8 @@ def fix_file(path, idx):
 def main():
     idx = build_index(load_rows())
     files = args or sorted(f for f in os.listdir(".")
-                           if f.endswith("-aided.html"))
+                           if f.endswith("-aided.html")
+                           or f == "dss-private-schools.html")
     if not files:
         sys.exit("✗ 找不到任何 *-aided.html")
     print(f"\n• 處理 {len(files)} 個檔案\n")
