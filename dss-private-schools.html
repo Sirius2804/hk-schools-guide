@@ -348,7 +348,7 @@
 
 <div class="stats-bar">
   <span>直資 <b>12</b> 間 · 私立 <b>17</b> 間</span>
-  <span>學費由 <b>$7,370</b> 至 <b>$240,320</b> / 年</span>
+  <span>學費中位數 <b id="total-places">—</b> / 年</span>
 </div>
 
 <div class="view-tabs">
@@ -493,7 +493,7 @@ const S = [
   {id:'malvern2',code:34,net:2,name:'香港墨爾文國際學校（小學部）', eng:"Malvern College Hong Kong",                          finance:'私立',religion:'無',    places:198860,gender:'男女',through:'一條龍',link:'墨爾文中學部',  addr:'新界大埔科進路3號',                  tel:'3898 4700',barrier:true, lat:22.4408,lng:114.1704},
   {id:'stclare', code:35,net:2,name:'聖嘉勒小學',                   eng:"St. Clare's Primary School",                         finance:'私立',religion:'天主教',places:51000,gender:'女校',through:'直屬',  link:'聖嘉勒女書院',  addr:'香港西半山般咸道光景台3-6號',        tel:'2547 1988',barrier:true, lat:22.2823,lng:114.1394},
   {id:'krs',     code:36,net:2,name:'九龍禮賢學校',                 eng:"Kowloon Rhenish School",                             finance:'私立',religion:'基督教',places:59900,gender:'男女',through:'無',    link:'',              addr:'九龍又一村石竹路2A',                 tel:'2380 0451',barrier:true, lat:22.3355,lng:114.1685},
-  {id:'apskt',   code:37,net:2,name:'九龍塘宣道小學',               eng:"Alliance Primary School, Kowloon Tong",              finance:'私立',religion:'基督教',places:62350,gender:'男女',through:'無',    link:'',              addr:'九龍九龍塘蘭開夏道2號',              tel:'2337 7造'.replace('造',''),barrier:true, lat:22.3380,lng:114.1795},
+  {id:'apskt',   code:37,net:2,name:'九龍塘宣道小學',               eng:"Alliance Primary School, Kowloon Tong",              finance:'私立',religion:'基督教',places:62350,gender:'男女',through:'無',    link:'',              addr:'九龍九龍塘蘭開夏道2號',              tel:'2337 7355',barrier:true, lat:22.3380,lng:114.1795},
 ];
 
 const PROFILES = {
@@ -532,7 +532,9 @@ const typeLabel = {happy:'😊 快樂學習', balanced:'⚖️ 均衡發展', ac
 const typeCls   = {happy:'happy', balanced:'balanced', academic:'academic'};
 
 const maxPlaces = Math.max(...S.map(s => s.places));
-document.getElementById('total-places').textContent = S.reduce((a, s) => a + s.places, 0);
+(function(){var el=document.getElementById('total-places'); if(!el) return;
+  var f=S.map(s=>s.places).sort((a,b)=>a-b), m=f.length%2?f[(f.length-1)/2]:Math.round((f[f.length/2-1]+f[f.length/2])/2);
+  el.textContent='$'+m.toLocaleString();})();
 
 let activeFilters = {net:'all', religion:'all', type:'all'};
 let compareList = [];
