@@ -809,5 +809,237 @@ function locateMe() {
   window.addEventListener('focus',unblur);
 })();
 </script>
+<!-- ═══════════════════════════════════════════════════════════════
+     進階流量統計模組 v1.0
+     以包裝方式掛鉤現有函數，不改動原有邏輯
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  if (typeof gtag === 'undefined') return;
+
+  var PAGE = document.title.replace(/\s*\|.*$/,'').trim();
+  var t0 = Date.now();
+
+  // ── 狀態 ──────────────────────────────────────────────────────
+  var st = {
+    viewMs:      {grid:0, map:0},   // 各分頁累積停留（毫秒）
+    viewSwitches:0,
+    curView:     'grid',
+    curViewAt:   Date.now(),
+    schoolsSeen: {},                // 每間學校詳情停留時間
+    detailOpenAt:null,
+    detailId:    null,
+    compareCount:0,                 // 開啟比較次數
+    comparedSet: {},                // 比較過的學校
+    filterUses:  0,
+    searches:    0,
+    lastSearch:  '',
+    maxScroll:   0,
+    locates:     0,
+    outbound:    0,
+    sent:        false
+  };
+
+  function ev(name, params){
+    try { gtag('event', name, params || {}); } catch(e){}
+  }
+
+  // ── 1. 分頁停留時間 ───────────────────────────────────────────
+  function flushView(){
+    var d = Date.now() - st.curViewAt;
+    if (d > 0 && st.viewMs[st.curView] !== undefined) st.viewMs[st.curView] += d;
+    st.curViewAt = Date.now();
+    return d > 0 ? d : 0;          // 今次停留（非累積）
+  }
+
+  if (typeof switchView === 'function'){
+    var _switchView = switchView;
+    window.switchView = function(v){
+      if (v !== st.curView){
+        var d = flushView();
+        ev('view_dwell', {
+          view_name: st.curView,
+          dwell_seconds: Math.round(d/1000),                          // 今次
+          cumulative_seconds: Math.round(st.viewMs[st.curView]/1000), // 累積
+          page_name: PAGE
+        });
+        st.curView = v;
+        st.viewSwitches++;
+      }
+      return _switchView.apply(this, arguments);
+    };
+  }
+
+  // 分頁隱藏／回到前景時也要結算，否則背景時間會被誤計
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) { flushView(); sendSummary('hidden'); }
+    else st.curViewAt = Date.now();
+  });
+
+  // ── 2. 學校詳情停留時間 ───────────────────────────────────────
+  if (typeof openDetail === 'function'){
+    var _openDetail = openDetail;
+    window.openDetail = function(id){
+      closeDetailTiming();
+      st.detailId = id; st.detailOpenAt = Date.now();
+      return _openDetail.apply(this, arguments);
+    };
+  }
+  function closeDetailTiming(){
+    if (!st.detailOpenAt || !st.detailId) return;
+    var sec = Math.round((Date.now() - st.detailOpenAt)/1000);
+    var s = (typeof S !== 'undefined') ? S.find(function(x){return x.id===st.detailId}) : null;
+    st.schoolsSeen[st.detailId] = (st.schoolsSeen[st.detailId]||0) + sec;
+    if (sec >= 3){   // 3秒以上才算真正閱讀
+      ev('school_read', {
+        school_id: st.detailId,
+        school_name: s ? s.name : st.detailId,
+        read_seconds: sec,
+        page_name: PAGE
+      });
+    }
+    st.detailOpenAt = null; st.detailId = null;
+  }
+  if (typeof closeDetail === 'function'){
+    var _closeDetail = closeDetail;
+    window.closeDetail = function(){ closeDetailTiming(); return _closeDetail.apply(this, arguments); };
+  }
+
+  // ── 3. 比較行為 ───────────────────────────────────────────────
+  if (typeof openCompare === 'function'){
+    var _openCompare = openCompare;
+    window.openCompare = function(){
+      st.compareCount++;
+      if (typeof compareList !== 'undefined'){
+        compareList.forEach(function(id){ st.comparedSet[id] = true; });
+      }
+      return _openCompare.apply(this, arguments);
+    };
+  }
+  if (typeof toggleCompare === 'function'){
+    var _toggleCompare = toggleCompare;
+    window.toggleCompare = function(id){
+      var before = (typeof compareList !== 'undefined') ? compareList.length : 0;
+      var r = _toggleCompare.apply(this, arguments);
+      var after  = (typeof compareList !== 'undefined') ? compareList.length : 0;
+      ev('compare_toggle', {
+        action: after > before ? 'add' : 'remove',
+        school_id: id,
+        list_size: after,
+        page_name: PAGE
+      });
+      return r;
+    };
+  }
+
+  // ── 4. 篩選 / 排序 ────────────────────────────────────────────
+  if (typeof setFilter === 'function'){
+    var _setFilter = setFilter;
+    window.setFilter = function(type, val){ st.filterUses++; return _setFilter.apply(this, arguments); };
+  }
+  if (typeof setMapFilter === 'function'){
+    var _setMapFilter = setMapFilter;
+    window.setMapFilter = function(f){
+      ev('map_filter', {filter_value: String(f), page_name: PAGE});
+      return _setMapFilter.apply(this, arguments);
+    };
+  }
+  var sortEl = document.getElementById('sortSelect');
+  if (sortEl) sortEl.addEventListener('change', function(){
+    ev('sort_used', {sort_value: this.value, page_name: PAGE});
+  });
+
+  // ── 5. 搜尋（停止輸入 1.2 秒後才送，避免逐個字送出）──────────
+  var searchEl = document.getElementById('searchInput');
+  if (searchEl){
+    var timer = null;
+    searchEl.addEventListener('input', function(){
+      var q = this.value.trim();
+      clearTimeout(timer);
+      if (q.length < 2) return;
+      timer = setTimeout(function(){
+        if (q === st.lastSearch) return;
+        st.lastSearch = q; st.searches++;
+        var n = document.getElementById('resultCount');
+        ev('search', {
+          search_term: q.slice(0,80),
+          results_text: n ? n.textContent : '',
+          page_name: PAGE
+        });
+      }, 1200);
+    });
+  }
+
+  // ── 6. 定位 ───────────────────────────────────────────────────
+  if (typeof locateMe === 'function'){
+    var _locateMe = locateMe;
+    window.locateMe = function(){ st.locates++; return _locateMe.apply(this, arguments); };
+  }
+
+  // ── 7. 捲動深度（25/50/75/100%）────────────────────────────────
+  var marks = {25:false, 50:false, 75:false, 100:false};
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    if (h <= 0) return;
+    var p = Math.round(window.scrollY / h * 100);
+    if (p > st.maxScroll) st.maxScroll = p;
+    [25,50,75,100].forEach(function(m){
+      if (!marks[m] && p >= m){ marks[m] = true; ev('scroll_depth', {percent: m, page_name: PAGE}); }
+    });
+  }, {passive:true});
+
+  // ── 8. 外連點擊（學校官網等）──────────────────────────────────
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="http"]');
+    if (!a) return;
+    if (a.hostname === location.hostname) return;
+    st.outbound++;
+    ev('outbound_click', {link_domain: a.hostname, link_url: a.href.slice(0,100), page_name: PAGE});
+  }, true);
+
+  // ── 9. 離開時送出整體摘要 ─────────────────────────────────────
+  function sendSummary(reason){
+    if (st.sent) return;
+    st.sent = true;
+    flushView();
+    closeDetailTiming();
+
+    var gridS = Math.round(st.viewMs.grid/1000);
+    var mapS  = Math.round(st.viewMs.map/1000);
+    var top   = Object.keys(st.schoolsSeen).sort(function(a,b){
+                  return st.schoolsSeen[b]-st.schoolsSeen[a]; })[0] || '';
+    var topName = '';
+    if (top && typeof S !== 'undefined'){
+      var s = S.find(function(x){return x.id===top});
+      topName = s ? s.name : top;
+    }
+
+    ev('session_summary', {
+      page_name:        PAGE,
+      total_seconds:    Math.round((Date.now()-t0)/1000),
+      grid_seconds:     gridS,
+      map_seconds:      mapS,
+      preferred_view:   mapS > gridS ? 'map' : 'grid',
+      view_switches:    st.viewSwitches,
+      schools_viewed:   Object.keys(st.schoolsSeen).length,
+      top_school:       topName,
+      did_compare:      st.compareCount > 0 ? 'yes' : 'no',
+      compare_opens:    st.compareCount,
+      schools_compared: Object.keys(st.comparedSet).length,
+      filters_used:     st.filterUses,
+      searches:         st.searches,
+      used_locate:      st.locates > 0 ? 'yes' : 'no',
+      max_scroll:       st.maxScroll,
+      outbound_clicks:  st.outbound,
+      end_reason:       reason
+    });
+  }
+  window.addEventListener('pagehide', function(){ sendSummary('pagehide'); });
+
+  // ── 10. 30 秒仍在頁面 = 有效訪問（過濾誤點）───────────────────
+  setTimeout(function(){ ev('engaged_visit', {page_name: PAGE}); }, 30000);
+})();
+</script>
+
 </body>
 </html>
