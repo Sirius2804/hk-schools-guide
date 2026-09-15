@@ -21,7 +21,9 @@ def verify(path):
     name = os.path.basename(path)
     print(f"\n{'='*60}\n{name}\n{'='*60}")
     h = io.open(path, encoding='utf-8').read()
-    js = re.findall(r'<script>(.*?)</script>', h, re.S)[-1]
+    blocks = re.findall(r'<script>(.*?)</script>', h, re.S)
+    js = next(b for b in blocks if 'const S = [' in b)          # app logic
+    ana = next((b for b in blocks if '進階流量統計模組' in h and 'session_summary' in b), None)
 
     # 1. orphan getElementById refs
     ids = set(re.findall(r"getElementById\('([^']+)'\)", js))
@@ -32,8 +34,14 @@ def verify(path):
     # 2. syntax
     io.open('_t.js','w',encoding='utf-8').write(js)
     r = subprocess.run(['node','--check','_t.js'],capture_output=True,text=True)
-    print(f"syntax              : {'✓ OK' if r.returncode==0 else '✗ '+r.stderr.strip()[:200]}")
+    print(f"app syntax          : {'✓ OK' if r.returncode==0 else '✗ '+r.stderr.strip()[:200]}")
     if r.returncode: return
+    if ana:
+        io.open('_a.js','w',encoding='utf-8').write(ana)
+        ra = subprocess.run(['node','--check','_a.js'],capture_output=True,text=True)
+        print(f"analytics syntax    : {'✓ OK' if ra.returncode==0 else '✗ '+ra.stderr.strip()[:200]}")
+    else:
+        print("analytics syntax    : (not present)")
 
     # 3. data integrity
     S = re.search(r'const S = \[.*?\n\];', h, re.S).group()
